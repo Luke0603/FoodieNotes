@@ -21,6 +21,7 @@
 		E44C0D95230A9A710099FC82 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C0D94230A9A710099FC82 /* LoginViewController.swift */; };
 		E44C0D97230BA5370099FC82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E44C0D96230BA5370099FC82 /* GoogleService-Info.plist */; };
 		E44C0D99230BDE860099FC82 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C0D98230BDE860099FC82 /* User.swift */; };
+		E44C0D9B230C052D0099FC82 /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C0D9A230C052D0099FC82 /* IndexViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		E44C0D94230A9A710099FC82 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E44C0D96230BA5370099FC82 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E44C0D98230BDE860099FC82 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E44C0D9A230C052D0099FC82 /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			children = (
 				E44C0D63230A8ADD0099FC82 /* ViewController.swift */,
 				E44C0D94230A9A710099FC82 /* LoginViewController.swift */,
+				E44C0D9A230C052D0099FC82 /* IndexViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				E44C0D64230A8ADD0099FC82 /* ViewController.swift in Sources */,
 				E44C0D99230BDE860099FC82 /* User.swift in Sources */,
 				E44C0D62230A8ADD0099FC82 /* AppDelegate.swift in Sources */,
+				E44C0D9B230C052D0099FC82 /* IndexViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

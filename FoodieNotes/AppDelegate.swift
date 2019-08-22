@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let initialViewController = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+        let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! UITabBarController
         
         self.window?.rootViewController = initialViewController
         
