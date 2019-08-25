@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct User {
+class User {
     
     let ref: DatabaseReference?
     var userType : String //0->店家, 1->一般用戶
