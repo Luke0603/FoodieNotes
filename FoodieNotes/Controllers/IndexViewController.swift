@@ -21,10 +21,9 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         indexTableView.delegate = self
         indexTableView.dataSource = self
-        //        indexTableView.estimatedRowHeight = 100
+        indexTableView.estimatedRowHeight = 200
         indexTableView.rowHeight = UITableView.automaticDimension
-        indexTableView.allowsMultipleSelectionDuringEditing = false
-        
+        indexTableView.contentInsetAdjustmentBehavior = .never
         //        model = getModel()
         // Do any additional setup after loading the view.
     }
@@ -55,13 +54,18 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         var cell: UITableViewCell = UITableViewCell()
         
+        //        if let liveCell = indexTableView.dequeueReusableCell(withIdentifier: "LiveTableCell") as? LiveTableViewCell {
+        //            cell = liveCell
+        //        }
+        
         if indexPath.item == 0 {
             if let liveCell = indexTableView.dequeueReusableCell(withIdentifier: "LiveTableCell") as? LiveTableViewCell {
                 cell = liveCell
             }
         } else {
             if let postCell = indexTableView.dequeueReusableCell(withIdentifier: "PostTableCell") as? PostTableViewCell {
-                postCell.contentLB.text = "快樂的一刻 勝過永恆的難過 黑夜過後就有日出和日落 兩個人走不會寂寞 每一刻都會珍惜 都會把握 慶幸有你愛我 慶幸有你愛我 慶幸有你愛我 慶幸有你愛我 慶幸有你愛我 慶幸有你愛我"
+//                postCell.contentLB.text = "快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我"
+                postCell.contentLB.text = "快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我"
                 postCell.likeCountLB.text = "100000000"
                 postCell.messageCountLB.text = "10000"
                 cell = postCell
@@ -77,19 +81,28 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
     }
+    //
+    //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    //
+    //        return 100
+    //    }
+    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //
+    //        return UITableView.automaticDimension
+    //    }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        let imageRatio: CGFloat
-        
-        if indexPath.item == 0 {
-            imageRatio = CGFloat(100)
-        } else {
-            imageRatio = CGFloat(550)
-        }
-        
-        return imageRatio
-    }
+    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //
+    //        let imageRatio: CGFloat
+    //
+    //        if indexPath.item == 0 {
+    //            imageRatio = CGFloat(100)
+    //        } else {
+    //            imageRatio = CGFloat(550)
+    //        }
+    //
+    //        return imageRatio
+    //    }
     
     /*
      // MARK: - Navigation
@@ -103,14 +116,14 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     
 }
 
-extension UIImage {
-    func getImageRatio() -> CGFloat {
-        
-        let imageRatio = CGFloat(80 / 80)
-        
-        return imageRatio
-    }
-}
+//extension UIImage {
+//    func getImageRatio() -> CGFloat {
+//        
+//        let imageRatio = CGFloat(80 / 80)
+//        
+//        return imageRatio
+//    }
+//}
 
 extension IndexViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     

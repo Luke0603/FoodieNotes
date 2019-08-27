@@ -1,7 +1,7 @@
 import UIKit
 
 func generateRandomData() -> [[UIColor]] {
-    let numberOfRows = 1
+    let numberOfRows = 5
     let numberOfItemsPerRow = 15
     
     return (0..<numberOfRows).map { _ in
