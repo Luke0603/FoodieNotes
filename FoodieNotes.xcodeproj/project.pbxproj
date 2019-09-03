@@ -29,6 +29,10 @@
 		E4B0CB362313055B0090BA3C /* LiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B0CB352313055B0090BA3C /* LiveTableViewCell.swift */; };
 		E4B0CB3823130BF40090BA3C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B0CB3723130BF40090BA3C /* Helpers.swift */; };
 		E4B0CB3A23132AA70090BA3C /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B0CB3923132AA70090BA3C /* PostTableViewCell.swift */; };
+		E4B258F82315498E00E8F7B1 /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258F72315498E00E8F7B1 /* AddPostViewController.swift */; };
+		E4B258FA2319698800E8F7B1 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258F92319698800E8F7B1 /* Constant.swift */; };
+		E4B258FC231D928600E8F7B1 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258FB231D928600E8F7B1 /* MainTabBarViewController.swift */; };
+		E4B258FE231DAF9C00E8F7B1 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258FD231DAF9C00E8F7B1 /* UserDefaultKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +87,10 @@
 		E4B0CB352313055B0090BA3C /* LiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTableViewCell.swift; sourceTree = "<group>"; };
 		E4B0CB3723130BF40090BA3C /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		E4B0CB3923132AA70090BA3C /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		E4B258F72315498E00E8F7B1 /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
+		E4B258F92319698800E8F7B1 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		E4B258FB231D928600E8F7B1 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		E4B258FD231DAF9C00E8F7B1 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +180,8 @@
 				E44C0D68230A8ADE0099FC82 /* FoodieNotes.xcdatamodeld */,
 				E44C0D96230BA5370099FC82 /* GoogleService-Info.plist */,
 				E4B0CB3723130BF40090BA3C /* Helpers.swift */,
+				E4B258F92319698800E8F7B1 /* Constant.swift */,
+				E4B258FD231DAF9C00E8F7B1 /* UserDefaultKeys.swift */,
 			);
 			path = FoodieNotes;
 			sourceTree = "<group>";
@@ -211,6 +221,8 @@
 				E44C0D63230A8ADD0099FC82 /* ViewController.swift */,
 				E44C0D94230A9A710099FC82 /* LoginViewController.swift */,
 				E44C0D9A230C052D0099FC82 /* IndexViewController.swift */,
+				E4B258F72315498E00E8F7B1 /* AddPostViewController.swift */,
+				E4B258FB231D928600E8F7B1 /* MainTabBarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -449,12 +461,16 @@
 			files = (
 				E44C0D95230A9A710099FC82 /* LoginViewController.swift in Sources */,
 				E44C0D6A230A8ADE0099FC82 /* FoodieNotes.xcdatamodeld in Sources */,
+				E4B258FA2319698800E8F7B1 /* Constant.swift in Sources */,
 				E4B0CB3A23132AA70090BA3C /* PostTableViewCell.swift in Sources */,
 				E4B0CB362313055B0090BA3C /* LiveTableViewCell.swift in Sources */,
 				E44C0D64230A8ADD0099FC82 /* ViewController.swift in Sources */,
 				E44C0D99230BDE860099FC82 /* User.swift in Sources */,
+				E4B258F82315498E00E8F7B1 /* AddPostViewController.swift in Sources */,
 				E44C0D62230A8ADD0099FC82 /* AppDelegate.swift in Sources */,
+				E4B258FC231D928600E8F7B1 /* MainTabBarViewController.swift in Sources */,
 				E4B0CB312312FC980090BA3C /* IndexTableViewModel.swift in Sources */,
+				E4B258FE231DAF9C00E8F7B1 /* UserDefaultKeys.swift in Sources */,
 				E4B0CB3823130BF40090BA3C /* Helpers.swift in Sources */,
 				E4B0CB342313042C0090BA3C /* PostLiveCollectionViewCell.swift in Sources */,
 				E4B0CB2D2312ECEA0090BA3C /* Post.swift in Sources */,

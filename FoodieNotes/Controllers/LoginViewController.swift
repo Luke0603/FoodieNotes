@@ -20,6 +20,14 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // 1 監聽
+        Auth.auth().addStateDidChangeListener() { auth, user in
+            if user != nil {
+                self.performSegue(withIdentifier: "", sender: nil)
+                self.textFieldLoginEmail.text = nil
+                self.textFieldLoginPassword.text = nil
+            }
+        }
         // Do any additional setup after loading the view.
     }
     @IBAction func loginDidTouch(_ sender: Any) {

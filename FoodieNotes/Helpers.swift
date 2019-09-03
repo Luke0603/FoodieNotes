@@ -1,4 +1,5 @@
 import UIKit
+import Firebase
 
 func generateRandomData() -> [[UIColor]] {
     let numberOfRows = 5
@@ -19,4 +20,13 @@ extension UIColor {
         
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1.0)
     }
+}
+
+
+
+func checkDidLogin() -> Bool {
+    
+    guard UserDefaults.standard.value(forKey: "loginUserInfo") != nil else { return false }
+    
+    return true
 }

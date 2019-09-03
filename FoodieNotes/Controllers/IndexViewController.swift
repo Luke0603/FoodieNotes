@@ -47,7 +47,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return model.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,7 +66,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             if let postCell = indexTableView.dequeueReusableCell(withIdentifier: "PostTableCell") as? PostTableViewCell {
 //                postCell.contentLB.text = "快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我"
                 postCell.contentLB.text = "快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我"
-                postCell.likeCountLB.text = "100000000"
+                postCell.likeCountLB.text = "1000000000"
                 postCell.messageCountLB.text = "10000"
                 cell = postCell
             }
@@ -81,28 +81,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
     }
-    //
-    //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-    //
-    //        return 100
-    //    }
-    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //
-    //        return UITableView.automaticDimension
-    //    }
-    
-    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //
-    //        let imageRatio: CGFloat
-    //
-    //        if indexPath.item == 0 {
-    //            imageRatio = CGFloat(100)
-    //        } else {
-    //            imageRatio = CGFloat(550)
-    //        }
-    //
-    //        return imageRatio
-    //    }
     
     /*
      // MARK: - Navigation
@@ -115,15 +93,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
      */
     
 }
-
-//extension UIImage {
-//    func getImageRatio() -> CGFloat {
-//        
-//        let imageRatio = CGFloat(80 / 80)
-//        
-//        return imageRatio
-//    }
-//}
 
 extension IndexViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
