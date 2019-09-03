@@ -33,6 +33,12 @@
 		E4B258FA2319698800E8F7B1 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258F92319698800E8F7B1 /* Constant.swift */; };
 		E4B258FC231D928600E8F7B1 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258FB231D928600E8F7B1 /* MainTabBarViewController.swift */; };
 		E4B258FE231DAF9C00E8F7B1 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258FD231DAF9C00E8F7B1 /* UserDefaultKeys.swift */; };
+		E4B25900231E134B00E8F7B1 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B258FF231E134B00E8F7B1 /* UserProfileViewController.swift */; };
+		E4B25902231E206300E8F7B1 /* UserNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25901231E206300E8F7B1 /* UserNameTableViewCell.swift */; };
+		E4B25904231E217000E8F7B1 /* UserFollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25903231E217000E8F7B1 /* UserFollowTableViewCell.swift */; };
+		E4B25906231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25905231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift */; };
+		E4B25908231E259E00E8F7B1 /* UserPostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25907231E259E00E8F7B1 /* UserPostsTableViewCell.swift */; };
+		E4B2590A231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25909231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +97,12 @@
 		E4B258F92319698800E8F7B1 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E4B258FB231D928600E8F7B1 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		E4B258FD231DAF9C00E8F7B1 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
+		E4B258FF231E134B00E8F7B1 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		E4B25901231E206300E8F7B1 /* UserNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25903231E217000E8F7B1 /* UserFollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25905231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSummaryTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25907231E259E00E8F7B1 /* UserPostsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25909231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +235,7 @@
 				E44C0D9A230C052D0099FC82 /* IndexViewController.swift */,
 				E4B258F72315498E00E8F7B1 /* AddPostViewController.swift */,
 				E4B258FB231D928600E8F7B1 /* MainTabBarViewController.swift */,
+				E4B258FF231E134B00E8F7B1 /* UserProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -233,6 +246,11 @@
 				E4B0CB332313042C0090BA3C /* PostLiveCollectionViewCell.swift */,
 				E4B0CB352313055B0090BA3C /* LiveTableViewCell.swift */,
 				E4B0CB3923132AA70090BA3C /* PostTableViewCell.swift */,
+				E4B25901231E206300E8F7B1 /* UserNameTableViewCell.swift */,
+				E4B25903231E217000E8F7B1 /* UserFollowTableViewCell.swift */,
+				E4B25905231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift */,
+				E4B25907231E259E00E8F7B1 /* UserPostsTableViewCell.swift */,
+				E4B25909231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -461,13 +479,19 @@
 			files = (
 				E44C0D95230A9A710099FC82 /* LoginViewController.swift in Sources */,
 				E44C0D6A230A8ADE0099FC82 /* FoodieNotes.xcdatamodeld in Sources */,
+				E4B25908231E259E00E8F7B1 /* UserPostsTableViewCell.swift in Sources */,
+				E4B25906231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift in Sources */,
 				E4B258FA2319698800E8F7B1 /* Constant.swift in Sources */,
 				E4B0CB3A23132AA70090BA3C /* PostTableViewCell.swift in Sources */,
 				E4B0CB362313055B0090BA3C /* LiveTableViewCell.swift in Sources */,
 				E44C0D64230A8ADD0099FC82 /* ViewController.swift in Sources */,
 				E44C0D99230BDE860099FC82 /* User.swift in Sources */,
+				E4B25902231E206300E8F7B1 /* UserNameTableViewCell.swift in Sources */,
+				E4B25900231E134B00E8F7B1 /* UserProfileViewController.swift in Sources */,
 				E4B258F82315498E00E8F7B1 /* AddPostViewController.swift in Sources */,
+				E4B25904231E217000E8F7B1 /* UserFollowTableViewCell.swift in Sources */,
 				E44C0D62230A8ADD0099FC82 /* AppDelegate.swift in Sources */,
+				E4B2590A231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift in Sources */,
 				E4B258FC231D928600E8F7B1 /* MainTabBarViewController.swift in Sources */,
 				E4B0CB312312FC980090BA3C /* IndexTableViewModel.swift in Sources */,
 				E4B258FE231DAF9C00E8F7B1 /* UserDefaultKeys.swift in Sources */,

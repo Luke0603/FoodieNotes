@@ -2,8 +2,8 @@ import UIKit
 import Firebase
 
 func generateRandomData() -> [[UIColor]] {
-    let numberOfRows = 5
-    let numberOfItemsPerRow = 15
+    let numberOfRows = 4
+    let numberOfItemsPerRow = 30
     
     return (0..<numberOfRows).map { _ in
         return (0..<numberOfItemsPerRow).map { _ in UIColor.randomColor() }
