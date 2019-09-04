@@ -621,7 +621,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="834-Qu-bjx" userLabel="UserView">
                                 <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D1r-X8-mg1">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D1r-X8-mg1">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -755,7 +755,7 @@
                                             <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="UserPostsTableCell" rowHeight="130" id="so6-lL-t6o" customClass="UserPostsTableViewCell" customModule="FoodieNotes" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="268" width="375" height="130"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="so6-lL-t6o" id="nuU-ls-f2P">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="so6-lL-t6o" id="nuU-ls-f2P">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="129.66666666666666"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
@@ -802,14 +802,15 @@
                                                         </collectionView>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="CBd-7I-4bj" secondAttribute="bottom" priority="999" id="Mnh-Qb-ksi"/>
                                                         <constraint firstItem="CBd-7I-4bj" firstAttribute="top" secondItem="nuU-ls-f2P" secondAttribute="top" id="S1H-Ru-uUf"/>
                                                         <constraint firstAttribute="trailing" secondItem="CBd-7I-4bj" secondAttribute="trailing" id="acm-4e-h90"/>
                                                         <constraint firstItem="CBd-7I-4bj" firstAttribute="leading" secondItem="nuU-ls-f2P" secondAttribute="leading" id="r2f-o1-2i7"/>
-                                                        <constraint firstAttribute="bottom" secondItem="CBd-7I-4bj" secondAttribute="bottom" constant="10" id="ugS-39-ogR"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="userPostsCollectionView" destination="CBd-7I-4bj" id="n3l-zF-frJ"/>
+                                                    <outlet property="userPostsCollectionViewHigh" destination="8Mq-tw-QWw" id="8DF-IN-5vo"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>

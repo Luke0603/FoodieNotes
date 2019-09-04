@@ -52,6 +52,8 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         
         var cell: UITableViewCell = UITableViewCell()
         
+        print("cellForRowAt!!!!")
+        
         if !userTableView.isHidden {
             print("userTableView: Here!!!!!!!!!!")
             if indexPath.item == 0 {
@@ -79,9 +81,8 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
             } else {
                 if let userPostsCell = userTableView.dequeueReusableCell(withIdentifier: "UserPostsTableCell") as? UserPostsTableViewCell {
                     
-                    //                userPostsCell.frame = tableView.bounds
-                    //                userPostsCell.layoutIfNeeded()
-                    //                userPostsCell.reloadContentSize()
+                    userPostsCell.frame = tableView.bounds
+                    userPostsCell.layoutIfNeeded()
                     
                     cell = userPostsCell
                 }
@@ -134,18 +135,25 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
+        print("forRowAt!!!!")
         if !userTableView.isHidden {
             
             guard let userPostsTableViewCell = cell as? UserPostsTableViewCell else { return }
             
-            userPostsTableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+            let cGSize = userPostsTableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+            
+            userTableView.frame = CGRect(x:0, y:0, width: userTableView.frame.width, height: userTableView.frame.height +  cGSize.height)
+            
         }
         
         if !storeTableView.isHidden {
             
             guard let storePostsTableViewCell = cell as? StorePostsTableViewCell else { return }
             
-            storePostsTableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+            let cGSize = storePostsTableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+            
+            storeTableView.frame = CGRect(x:0, y:0, width: storeTableView.frame.width, height: storeTableView.frame.height +  cGSize.height)
+            
         }
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 class UserPostsTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var userPostsCollectionView: UICollectionView!
     
     @IBOutlet weak var userPostsCollectionViewHigh: NSLayoutConstraint!
@@ -18,36 +18,34 @@ class UserPostsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-    
-    func reloadContentSize() {
-        userPostsCollectionView.reloadData()
-        
-        //更新collectionView的高度约束
-        let contentSize = userPostsCollectionView.collectionViewLayout.collectionViewContentSize
-        
-        print("contentSize.height: \(contentSize.height)")
-        
-        userPostsCollectionViewHigh.constant = contentSize.height
-        
-        userPostsCollectionView.collectionViewLayout.invalidateLayout()
-    }
-
 }
 
 extension UserPostsTableViewCell {
     
-    func setCollectionViewDataSourceDelegate<D: UICollectionViewDataSource & UICollectionViewDelegate>(_ dataSourceDelegate: D, forRow row: Int) {
+    func setCollectionViewDataSourceDelegate<D: UICollectionViewDataSource & UICollectionViewDelegate>(_ dataSourceDelegate: D, forRow row: Int) -> CGSize{
         
         userPostsCollectionView.delegate = dataSourceDelegate
         userPostsCollectionView.dataSource = dataSourceDelegate
         userPostsCollectionView.tag = row
         userPostsCollectionView.setContentOffset(userPostsCollectionView.contentOffset, animated:false) // Stops collection view if it was scrolling.
+        
+        //更新collectionView的高度约束
+        let contentSize = userPostsCollectionView.collectionViewLayout.collectionViewContentSize
+        
+        print("contentSize.height[1]: \(contentSize.height)")
+        
+        userPostsCollectionViewHigh.constant = contentSize.height
+        
+        userPostsCollectionView.collectionViewLayout.invalidateLayout()
+        
         userPostsCollectionView.reloadData()
+        
+        return contentSize
     }
 }
