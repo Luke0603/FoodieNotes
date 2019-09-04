@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,11 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
+        GMSServices.provideAPIKey("AIzaSyBidg33gYFYS2TUTliVN8LxRB-akvvd6CM")
+        
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! UITabBarController
+        let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
         
         self.window?.rootViewController = initialViewController
         

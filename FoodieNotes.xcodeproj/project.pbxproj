@@ -39,6 +39,12 @@
 		E4B25906231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25905231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift */; };
 		E4B25908231E259E00E8F7B1 /* UserPostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25907231E259E00E8F7B1 /* UserPostsTableViewCell.swift */; };
 		E4B2590A231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25909231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift */; };
+		E4B2590E231E784000E8F7B1 /* StoreNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B2590D231E784000E8F7B1 /* StoreNameTableViewCell.swift */; };
+		E4B25910231E7AA800E8F7B1 /* StoreFollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B2590F231E7AA800E8F7B1 /* StoreFollowTableViewCell.swift */; };
+		E4B25912231E7ACE00E8F7B1 /* StoreSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25911231E7ACE00E8F7B1 /* StoreSummaryTableViewCell.swift */; };
+		E4B25914231E7B0100E8F7B1 /* StoreMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25913231E7B0100E8F7B1 /* StoreMapTableViewCell.swift */; };
+		E4B25916231E7B1D00E8F7B1 /* StorePostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25915231E7B1D00E8F7B1 /* StorePostsTableViewCell.swift */; };
+		E4B25918231E7B4C00E8F7B1 /* StorePostsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B25917231E7B4C00E8F7B1 /* StorePostsCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +109,12 @@
 		E4B25905231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		E4B25907231E259E00E8F7B1 /* UserPostsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsTableViewCell.swift; sourceTree = "<group>"; };
 		E4B25909231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsCollectionViewCell.swift; sourceTree = "<group>"; };
+		E4B2590D231E784000E8F7B1 /* StoreNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreNameTableViewCell.swift; sourceTree = "<group>"; };
+		E4B2590F231E7AA800E8F7B1 /* StoreFollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFollowTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25911231E7ACE00E8F7B1 /* StoreSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSummaryTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25913231E7B0100E8F7B1 /* StoreMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMapTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25915231E7B1D00E8F7B1 /* StorePostsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePostsTableViewCell.swift; sourceTree = "<group>"; };
+		E4B25917231E7B4C00E8F7B1 /* StorePostsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePostsCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,16 +255,38 @@
 		E4B0CB322313010B0090BA3C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				E4B2590C231E676800E8F7B1 /* UserProfileViewCell */,
+				E4B2590B231E674200E8F7B1 /* IndexViewCell */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		E4B2590B231E674200E8F7B1 /* IndexViewCell */ = {
+			isa = PBXGroup;
+			children = (
 				E4B0CB332313042C0090BA3C /* PostLiveCollectionViewCell.swift */,
 				E4B0CB352313055B0090BA3C /* LiveTableViewCell.swift */,
 				E4B0CB3923132AA70090BA3C /* PostTableViewCell.swift */,
+			);
+			path = IndexViewCell;
+			sourceTree = "<group>";
+		};
+		E4B2590C231E676800E8F7B1 /* UserProfileViewCell */ = {
+			isa = PBXGroup;
+			children = (
 				E4B25901231E206300E8F7B1 /* UserNameTableViewCell.swift */,
 				E4B25903231E217000E8F7B1 /* UserFollowTableViewCell.swift */,
 				E4B25905231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift */,
 				E4B25907231E259E00E8F7B1 /* UserPostsTableViewCell.swift */,
 				E4B25909231E264D00E8F7B1 /* UserPostsCollectionViewCell.swift */,
+				E4B2590D231E784000E8F7B1 /* StoreNameTableViewCell.swift */,
+				E4B2590F231E7AA800E8F7B1 /* StoreFollowTableViewCell.swift */,
+				E4B25911231E7ACE00E8F7B1 /* StoreSummaryTableViewCell.swift */,
+				E4B25913231E7B0100E8F7B1 /* StoreMapTableViewCell.swift */,
+				E4B25915231E7B1D00E8F7B1 /* StorePostsTableViewCell.swift */,
+				E4B25917231E7B4C00E8F7B1 /* StorePostsCollectionViewCell.swift */,
 			);
-			path = Cells;
+			path = UserProfileViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +301,7 @@
 				E44C0D5B230A8ADD0099FC82 /* Frameworks */,
 				E44C0D5C230A8ADD0099FC82 /* Resources */,
 				F14FAAD750AE8376CC2B3E5A /* [CP] Embed Pods Frameworks */,
+				D6B54846EA8A95AC15F2CA37 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -431,6 +466,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D6B54846EA8A95AC15F2CA37 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FoodieNotes/Pods-FoodieNotes-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FoodieNotes/Pods-FoodieNotes-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FoodieNotes/Pods-FoodieNotes-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E459219035FAF114DA64718A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -477,16 +529,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4B25914231E7B0100E8F7B1 /* StoreMapTableViewCell.swift in Sources */,
+				E4B2590E231E784000E8F7B1 /* StoreNameTableViewCell.swift in Sources */,
 				E44C0D95230A9A710099FC82 /* LoginViewController.swift in Sources */,
 				E44C0D6A230A8ADE0099FC82 /* FoodieNotes.xcdatamodeld in Sources */,
 				E4B25908231E259E00E8F7B1 /* UserPostsTableViewCell.swift in Sources */,
 				E4B25906231E21BD00E8F7B1 /* UserSummaryTableViewCell.swift in Sources */,
 				E4B258FA2319698800E8F7B1 /* Constant.swift in Sources */,
 				E4B0CB3A23132AA70090BA3C /* PostTableViewCell.swift in Sources */,
+				E4B25910231E7AA800E8F7B1 /* StoreFollowTableViewCell.swift in Sources */,
 				E4B0CB362313055B0090BA3C /* LiveTableViewCell.swift in Sources */,
 				E44C0D64230A8ADD0099FC82 /* ViewController.swift in Sources */,
 				E44C0D99230BDE860099FC82 /* User.swift in Sources */,
 				E4B25902231E206300E8F7B1 /* UserNameTableViewCell.swift in Sources */,
+				E4B25912231E7ACE00E8F7B1 /* StoreSummaryTableViewCell.swift in Sources */,
 				E4B25900231E134B00E8F7B1 /* UserProfileViewController.swift in Sources */,
 				E4B258F82315498E00E8F7B1 /* AddPostViewController.swift in Sources */,
 				E4B25904231E217000E8F7B1 /* UserFollowTableViewCell.swift in Sources */,
@@ -498,6 +554,8 @@
 				E4B0CB3823130BF40090BA3C /* Helpers.swift in Sources */,
 				E4B0CB342313042C0090BA3C /* PostLiveCollectionViewCell.swift in Sources */,
 				E4B0CB2D2312ECEA0090BA3C /* Post.swift in Sources */,
+				E4B25916231E7B1D00E8F7B1 /* StorePostsTableViewCell.swift in Sources */,
+				E4B25918231E7B4C00E8F7B1 /* StorePostsCollectionViewCell.swift in Sources */,
 				E44C0D9B230C052D0099FC82 /* IndexViewController.swift in Sources */,
 				E4B0CB2F2312ECFB0090BA3C /* PostLive.swift in Sources */,
 			);
@@ -675,7 +733,9 @@
 			baseConfigurationReference = 9573A551EC6A09C6DD1FACD1 /* Pods-FoodieNotes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KZW8Q88296;
 				INFOPLIST_FILE = FoodieNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -683,6 +743,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.luke.FoodieNotes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -693,7 +754,9 @@
 			baseConfigurationReference = 69612C831F22481FD3BF8294 /* Pods-FoodieNotes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KZW8Q88296;
 				INFOPLIST_FILE = FoodieNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -701,6 +764,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.luke.FoodieNotes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

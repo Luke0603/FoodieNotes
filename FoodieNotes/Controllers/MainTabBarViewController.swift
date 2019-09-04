@@ -34,6 +34,19 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 self.present(alert, animated: true, completion: nil)
             }
             print("=============Here============")
+        } else if item.tag == 2 {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+//            let userProfileViewController = storyboard.instantiateViewController(withIdentifier: "userProfileVC") as! UserProfileViewController
+            
+            print("userType: \(UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) ?? "No UserType!!!!!")")
+//            if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
+//                userProfileViewController.userTableView.isHidden = false
+//                userProfileViewController.storeTableView.isHidden = true
+//            } else {
+//                userProfileViewController.userTableView.isHidden = true
+//                userProfileViewController.storeTableView.isHidden = false
+//            }
         }
     }
 }
