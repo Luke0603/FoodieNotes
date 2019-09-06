@@ -19,6 +19,9 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UserDefaults.standard.set("0", forKey: UserDefaultKeys.AccountInfo.userType)
+        print("======>UserType:\(String(describing: UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType)))")
+        
         indexTableView.delegate = self
         indexTableView.dataSource = self
         indexTableView.estimatedRowHeight = 200
