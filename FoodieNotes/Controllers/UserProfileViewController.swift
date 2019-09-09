@@ -97,8 +97,8 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func goToSetUpPage(_ sender: Any) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "SetUpPage") {
-            navigationController?.pushViewController(controller, animated: true) // 顯示下一個畫面
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "SetUpPageNGC") {
+            present(controller, animated: false, completion: nil)
         }
     }
     

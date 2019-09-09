@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class LoginViewController: UIViewController {
-
+    
     @IBOutlet weak var textFieldLoginEmail: UITextField!
     
     @IBOutlet weak var textFieldLoginPassword: UITextField!
@@ -19,11 +19,11 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // 1 監聽
         Auth.auth().addStateDidChangeListener() { auth, user in
             if user != nil {
-                self.performSegue(withIdentifier: "", sender: nil)
+                //                self.performSegue(withIdentifier: "", sender: nil)
                 self.textFieldLoginEmail.text = nil
                 self.textFieldLoginPassword.text = nil
             }
@@ -97,14 +97,18 @@ class LoginViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
+    
+    
+    @IBAction func backDidTouch(_ sender: Any) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        let indexViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
+
+        indexViewController.selectedIndex = 0
+        
+        present(indexViewController, animated: false, completion: nil)
+        
+        //        dismiss(animated: false, completion: nil) // 返回前一頁
     }
-    */
-
 }
