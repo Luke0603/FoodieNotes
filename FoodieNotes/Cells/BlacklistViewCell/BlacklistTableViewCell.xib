@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="BlacklistTableViewCell" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="BlacklistTableViewCell" customModule="FoodieNotes" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SOv-GK-2w4">
+                        <rect key="frame" x="20" y="5.5" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="8Ig-Mf-AeL"/>
+                            <constraint firstAttribute="width" constant="50" id="pTm-qT-OhC"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l4I-zR-Brw">
+                        <rect key="frame" x="315" y="15.5" width="40" height="30"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.065431795061399178" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="JfE-jw-rw1"/>
+                            <constraint firstAttribute="width" constant="40" id="dt8-lG-ZjC"/>
+                        </constraints>
+                        <state key="normal" title="移除">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgj-HB-EY7">
+                        <rect key="frame" x="77" y="18" width="220" height="25"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                        <size key="shadowOffset" width="0.0" height="0.0"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="l4I-zR-Brw" firstAttribute="centerY" secondItem="SOv-GK-2w4" secondAttribute="centerY" id="1Ce-P3-wZh"/>
+                    <constraint firstItem="l4I-zR-Brw" firstAttribute="leading" secondItem="qgj-HB-EY7" secondAttribute="trailing" constant="18" id="3wT-S6-EvK"/>
+                    <constraint firstAttribute="bottom" secondItem="qgj-HB-EY7" secondAttribute="bottom" constant="16.5" id="IMu-ep-7Jv"/>
+                    <constraint firstItem="qgj-HB-EY7" firstAttribute="centerY" secondItem="SOv-GK-2w4" secondAttribute="centerY" id="XXT-jz-DW1"/>
+                    <constraint firstItem="qgj-HB-EY7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="77" id="YDn-3v-Zzu"/>
+                    <constraint firstItem="qgj-HB-EY7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="cSL-eB-alz"/>
+                    <constraint firstAttribute="trailing" secondItem="qgj-HB-EY7" secondAttribute="trailing" constant="78" id="csk-oS-cs3"/>
+                    <constraint firstItem="qgj-HB-EY7" firstAttribute="leading" secondItem="SOv-GK-2w4" secondAttribute="trailing" constant="7" id="t0X-SL-rdb"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="blacklistRemoveButton" destination="l4I-zR-Brw" id="k6f-Ig-csE"/>
+                <outlet property="blacklistUserImg" destination="SOv-GK-2w4" id="SPV-eb-I3y"/>
+                <outlet property="blacklistUserName" destination="qgj-HB-EY7" id="u1B-Ih-UEq"/>
+            </connections>
+            <point key="canvasLocation" x="138.40579710144928" y="108.48214285714285"/>
+        </tableViewCell>
+    </objects>
+</document>
