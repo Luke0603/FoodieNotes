@@ -32,6 +32,7 @@
 		E4AC287F2326CB98002E4910 /* BlacklistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AC287D2326CB98002E4910 /* BlacklistTableViewCell.swift */; };
 		E4AC28802326CB98002E4910 /* BlacklistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4AC287E2326CB98002E4910 /* BlacklistTableViewCell.xib */; };
 		E4AC28822326CC53002E4910 /* BlacklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AC28812326CC53002E4910 /* BlacklistViewController.swift */; };
+		E4AC288C2327B756002E4910 /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AC288B2327B756002E4910 /* OtherProfileViewController.swift */; };
 		E4B0CB2D2312ECEA0090BA3C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B0CB2C2312ECEA0090BA3C /* Post.swift */; };
 		E4B0CB2F2312ECFB0090BA3C /* PostLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B0CB2E2312ECFB0090BA3C /* PostLive.swift */; };
 		E4B0CB312312FC980090BA3C /* IndexTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B0CB302312FC980090BA3C /* IndexTableViewModel.swift */; };
@@ -103,6 +104,7 @@
 		E4AC287D2326CB98002E4910 /* BlacklistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlacklistTableViewCell.swift; sourceTree = "<group>"; };
 		E4AC287E2326CB98002E4910 /* BlacklistTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlacklistTableViewCell.xib; sourceTree = "<group>"; };
 		E4AC28812326CC53002E4910 /* BlacklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlacklistViewController.swift; sourceTree = "<group>"; };
+		E4AC288B2327B756002E4910 /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 		E4B0CB2C2312ECEA0090BA3C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		E4B0CB2E2312ECFB0090BA3C /* PostLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLive.swift; sourceTree = "<group>"; };
 		E4B0CB302312FC980090BA3C /* IndexTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexTableViewModel.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				E4AC287823226EC2002E4910 /* MaintainInfoViewController.swift */,
 				E4AC287A232636F2002E4910 /* StoreMaintainInfoViewController.swift */,
 				E4AC28812326CC53002E4910 /* BlacklistViewController.swift */,
+				E4AC288B2327B756002E4910 /* OtherProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -551,6 +554,7 @@
 				E4B0CB362313055B0090BA3C /* LiveTableViewCell.swift in Sources */,
 				E44C0D64230A8ADD0099FC82 /* ViewController.swift in Sources */,
 				E4AC28822326CC53002E4910 /* BlacklistViewController.swift in Sources */,
+				E4AC288C2327B756002E4910 /* OtherProfileViewController.swift in Sources */,
 				E44C0D99230BDE860099FC82 /* User.swift in Sources */,
 				E4B25900231E134B00E8F7B1 /* UserProfileViewController.swift in Sources */,
 				E4B258F82315498E00E8F7B1 /* AddPostViewController.swift in Sources */,

@@ -68,10 +68,14 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         } else {
             if let postCell = indexTableView.dequeueReusableCell(withIdentifier: "PostTableCell") as? PostTableViewCell {
-//                postCell.contentLB.text = "快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我"
                 postCell.contentLB.text = "快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我"
                 postCell.likeCountLB.text = "1000000000"
                 postCell.messageCountLB.text = "10000"
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(IndexViewController.goToProfilePage(sender:)))
+                postCell.userNameLB.isUserInteractionEnabled = true
+                postCell.userNameLB.addGestureRecognizer(tap)
+                
                 cell = postCell
             }
         }
@@ -86,15 +90,11 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    @IBAction func goToProfilePage(sender: UITapGestureRecognizer) {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "OtherUserProfileNGC") {
+            present(controller, animated: false, completion: nil)
+        }
+    }
     
 }
 

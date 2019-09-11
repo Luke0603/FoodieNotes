@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import GooglePlaces
 
 class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate {
-
+    
     @IBOutlet weak var storeImg: UIImageView!
     
     @IBOutlet weak var storeNameTextField: UITextField!
@@ -23,7 +24,7 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //storeImg 綁定事件
         let tap = UITapGestureRecognizer(target: self, action: #selector(StoreMaintainInfoViewController.selectUserImg(sender:)))
         storeImg.isUserInteractionEnabled = true
@@ -36,11 +37,18 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate {
         priceTextField.setBottomBorder()
     }
     
-
+    @IBAction func setAddressInfo(_ sender: Any) {
+        print("=================Address=================")
+        addressTextField.resignFirstResponder()
+        let acController = GMSAutocompleteViewController()
+        acController.delegate = self
+        present(acController, animated: true, completion: nil)
+    }
+    
     @IBAction func backToSetUpPage(_ sender: Any) {
         dismiss(animated: false, completion: nil) // 返回前一頁
     }
-
+    
     @IBAction func selectUserImg(sender: UITapGestureRecognizer) {
         makeUpView()
     }
@@ -72,3 +80,20 @@ extension StoreMaintainInfoViewController: UIImagePickerControllerDelegate & UIN
     }
 }
 
+extension StoreMaintainInfoViewController: GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        // Get the place name from 'GMSAutocompleteViewController'
+        // Then display the name in textField
+        addressTextField.text = place.name
+        // Dismiss the GMSAutocompleteViewController when something is selected
+        dismiss(animated: true, completion: nil)
+    }
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // Handle the error
+        print("Error: ", error.localizedDescription)
+    }
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        // Dismiss when the user canceled the action
+        dismiss(animated: true, completion: nil)
+    }
+}

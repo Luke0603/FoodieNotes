@@ -284,6 +284,68 @@
             </objects>
             <point key="canvasLocation" x="2590" y="-570"/>
         </scene>
+        <!--Other Profile View Controller-->
+        <scene sceneID="L9u-fZ-ne6">
+            <objects>
+                <viewController id="TTi-52-7Oe" customClass="OtherProfileViewController" customModule="FoodieNotes" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7Z4-OR-ES8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h0F-q1-Hr5">
+                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="h0F-q1-Hr5" firstAttribute="top" secondItem="aDb-yK-HiY" secondAttribute="top" id="Hgp-hl-X2D"/>
+                            <constraint firstItem="h0F-q1-Hr5" firstAttribute="bottom" secondItem="aDb-yK-HiY" secondAttribute="bottom" id="aoh-u1-C5K"/>
+                            <constraint firstItem="h0F-q1-Hr5" firstAttribute="trailing" secondItem="aDb-yK-HiY" secondAttribute="trailing" id="cWQ-RJ-OYu"/>
+                            <constraint firstItem="h0F-q1-Hr5" firstAttribute="leading" secondItem="aDb-yK-HiY" secondAttribute="leading" id="t7k-lE-UuO"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aDb-yK-HiY"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kkj-Yg-zgd">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="GY2-50-CYr">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wE6-iC-GGp">
+                                <rect key="frame" x="16" y="4" width="83" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <inset key="titleEdgeInsets" minX="-30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="&lt;返回">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToIndexPage:" destination="TTi-52-7Oe" eventType="touchUpInside" id="Fll-mi-8f3"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="dUL-r1-eg6">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fg4-JY-ecG">
+                                <rect key="frame" x="249" y="4" width="110" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <inset key="titleEdgeInsets" minX="40" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="-封鎖">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="addBlacklistDidTouch:" destination="TTi-52-7Oe" eventType="touchUpInside" id="bXH-Be-Wxq"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addBlacklistButton" destination="fg4-JY-ecG" id="1eT-UQ-l8A"/>
+                        <outlet property="userTableView" destination="h0F-q1-Hr5" id="Dfh-7T-keQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hDe-FP-OgC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4516" y="-570.44334975369463"/>
+        </scene>
         <!--Main Tab Bar View Controller-->
         <scene sceneID="t7G-gt-Ajf">
             <objects>
@@ -832,6 +894,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <textInputTraits key="textInputTraits" textContentType="location"/>
+                                <connections>
+                                    <action selector="setAddressInfo:" destination="xsb-wZ-Xos" eventType="editingDidBegin" id="BsQ-CF-Veg"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="價位:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snZ-cA-Fvh">
                                 <rect key="frame" x="104" y="383" width="51" height="27"/>
@@ -923,6 +988,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eiP-ph-2C7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5436" y="1538.423645320197"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="UQ0-e8-Cgb">
+            <objects>
+                <navigationController storyboardIdentifier="OtherUserProfileNGC" automaticallyAdjustsScrollViewInsets="NO" id="0Aa-vv-2er" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kZx-Li-8M4">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.86226245759999998" blue="0.23450694720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="TTi-52-7Oe" kind="relationship" relationship="rootViewController" id="MEb-dZ-sZO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ccx-ot-wYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3573.5999999999999" y="-570.44334975369463"/>
         </scene>
     </scenes>
     <resources>
