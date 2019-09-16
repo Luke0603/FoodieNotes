@@ -19,11 +19,7 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item.tag == 1 || item.tag == 2 {
-            
             if !UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
-                
-                
-                
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 
                 let loginViewController = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
@@ -31,16 +27,17 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 self.present(loginViewController, animated: false, completion: nil)
                 
                 self.selectedIndex = 0
-                //                let alert = UIAlertController(title: "尚未登入",message: "請先登入/註冊帳號,謝謝!!",preferredStyle: .alert)
-                //
-                //                let backAction = UIAlertAction(title: "返回", style: .default) { _ in
-                //                    self.selectedIndex = 0
-                //
-                //                }
-                //
-                //                alert.addAction(backAction)
+            } else {
                 
-                //                self.present(alert, animated: true, completion: nil)
+                if item.tag == 1 {
+                    let controller = self.viewControllers![item.tag] as! AddPostViewController
+                    controller.viewDidLoad()
+                }
+                //                if let controller = storyboard?.instantiateViewController(withIdentifier: "addPostVC") {
+                //                    present(controller, animated: false, completion: nil)
+                //                }
+                //                let captureViewCon = AddSimplePostViewController(nibName: "AddSimplePostViewController", bundle: nil)
+                //                self.present(captureViewCon, animated: true, completion: nil)
             }
             print("=============Here============")
         }

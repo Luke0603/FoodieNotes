@@ -496,7 +496,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="blacklistLabel" destination="8CQ-ix-CrE" id="6bZ-rk-t4W"/>
-                        <outlet property="loginButton" destination="MnC-py-ogw" id="791-N3-dhq"/>
+                        <outlet property="loginButton" destination="BGj-Ve-EzS" id="4k8-yk-mO8"/>
                         <outlet property="maintenanceInfoLabel" destination="QjS-RW-MZq" id="kXu-zY-52D"/>
                     </connections>
                 </viewController>

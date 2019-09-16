@@ -14,7 +14,7 @@ class SetUpViewController: UIViewController {
     
     @IBOutlet weak var blacklistLabel: UILabel!
     
-    @IBOutlet weak var loginButton: UIBarButtonItem!
+    @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +28,9 @@ class SetUpViewController: UIViewController {
         blacklistLabel.addGestureRecognizer(tap2)
         
         if UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
-            loginButton.title = "登出"
+            loginButton.setTitle("登出",for: .normal)
         } else {
-            loginButton.title = "登入"
+            loginButton.setTitle("登入",for: .normal)
         }
     }
     
