@@ -19,8 +19,8 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UserDefaults.standard.set("0", forKey: UserDefaultKeys.AccountInfo.userType)
-        UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+        UserDefaults.standard.set("1", forKey: UserDefaultKeys.AccountInfo.userType)
+        UserDefaults.standard.set(false, forKey: UserDefaultKeys.LoginInfo.isLogin)
         print("======>UserType:\(String(describing: UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType)))")
         
         indexTableView.delegate = self

@@ -14,6 +14,7 @@
 		E44A7706232A22BC00DC6C0C /* AddSimplePostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E44A7704232A22BC00DC6C0C /* AddSimplePostViewController.xib */; };
 		E44A770D232A442B00DC6C0C /* PostPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44A770B232A442B00DC6C0C /* PostPageViewController.swift */; };
 		E44A770E232A442B00DC6C0C /* PostPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E44A770C232A442B00DC6C0C /* PostPageViewController.xib */; };
+		E44A77102330C80E00DC6C0C /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44A770F2330C80E00DC6C0C /* SignupViewController.swift */; };
 		E44C0D62230A8ADD0099FC82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C0D61230A8ADD0099FC82 /* AppDelegate.swift */; };
 		E44C0D64230A8ADD0099FC82 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44C0D63230A8ADD0099FC82 /* ViewController.swift */; };
 		E44C0D67230A8ADE0099FC82 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E44C0D65230A8ADE0099FC82 /* Main.storyboard */; };
@@ -84,6 +85,7 @@
 		E44A7704232A22BC00DC6C0C /* AddSimplePostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddSimplePostViewController.xib; sourceTree = "<group>"; };
 		E44A770B232A442B00DC6C0C /* PostPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPageViewController.swift; sourceTree = "<group>"; };
 		E44A770C232A442B00DC6C0C /* PostPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostPageViewController.xib; sourceTree = "<group>"; };
+		E44A770F2330C80E00DC6C0C /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		E44C0D5E230A8ADD0099FC82 /* FoodieNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodieNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E44C0D61230A8ADD0099FC82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E44C0D63230A8ADD0099FC82 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				E4AC287A232636F2002E4910 /* StoreMaintainInfoViewController.swift */,
 				E4AC28812326CC53002E4910 /* BlacklistViewController.swift */,
 				E4AC288B2327B756002E4910 /* OtherProfileViewController.swift */,
+				E44A770F2330C80E00DC6C0C /* SignupViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				E4B0CB342313042C0090BA3C /* PostLiveCollectionViewCell.swift in Sources */,
 				E4B0CB2D2312ECEA0090BA3C /* Post.swift in Sources */,
 				E44C0D9B230C052D0099FC82 /* IndexViewController.swift in Sources */,
+				E44A77102330C80E00DC6C0C /* SignupViewController.swift in Sources */,
 				E4AC287723224CD9002E4910 /* SetUpViewController.swift in Sources */,
 				E4B0CB2F2312ECFB0090BA3C /* PostLive.swift in Sources */,
 				E44A770D232A442B00DC6C0C /* PostPageViewController.swift in Sources */,

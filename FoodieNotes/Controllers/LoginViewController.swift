@@ -61,41 +61,45 @@ class LoginViewController: UIViewController {
     
     @IBAction func signUpDidTouch(_ sender: Any) {
         
-        let alert = UIAlertController(title: "註冊新帳號",
-                                      message: "請輸入Email,Password以便登入,感謝!!",
-                                      preferredStyle: .alert)
-        
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-            // 1
-            let emailField = alert.textFields![0]
-            let passwordField = alert.textFields![1]
-            
-            // 2
-            Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
-                if error == nil {
-                    // 3
-                    Auth.auth().signIn(withEmail: self.textFieldLoginEmail.text!,
-                                       password: self.textFieldLoginPassword.text!)
-                }
-            }
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "SignUpVC") {
+            present(controller, animated: false, completion: nil)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: .cancel)
-        
-        alert.addTextField { textEmail in
-            textEmail.placeholder = "Enter your email"
-        }
-        
-        alert.addTextField { textPassword in
-            textPassword.isSecureTextEntry = true
-            textPassword.placeholder = "Enter your password"
-        }
-        
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: "註冊新帳號",
+//                                      message: "請輸入Email,Password以便登入,感謝!!",
+//                                      preferredStyle: .alert)
+//
+//        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+//            // 1
+//            let emailField = alert.textFields![0]
+//            let passwordField = alert.textFields![1]
+//
+//            // 2
+//            Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
+//                if error == nil {
+//                    // 3
+//                    Auth.auth().signIn(withEmail: self.textFieldLoginEmail.text!,
+//                                       password: self.textFieldLoginPassword.text!)
+//                }
+//            }
+//        }
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+//
+//
+//        alert.addTextField { textEmail in
+//            textEmail.placeholder = "Enter your email"
+//        }
+//
+//        alert.addTextField { textPassword in
+//            textPassword.isSecureTextEntry = true
+//            textPassword.placeholder = "Enter your password"
+//        }
+//
+//        alert.addAction(saveAction)
+//        alert.addAction(cancelAction)
+//
+//        present(alert, animated: true, completion: nil)
     }
     
     
