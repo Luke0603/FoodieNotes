@@ -23,9 +23,8 @@ class User {
     var price : Int //平均價位
     var summary : String //簡介
     var headShotUrl : String //Logo or 大頭貼儲存連結
-    var storePicUrl_array : [String] //店家介紹圖片
     
-    init(UserType userType : String, UserName userName : String, Birthday birthday : String, Gender gender : String, Tel tel : String, Email email : String, Website website : String, Address address : String, Price price : Int, Summary summary : String, HeadShotUrl headShotUrl : String, StorePicUrl_array storePicUrl_array : [String]) {
+    init(UserType userType : String, UserName userName : String, Birthday birthday : String, Gender gender : String, Tel tel : String, Email email : String, Website website : String, Address address : String, Price price : Int, Summary summary : String, HeadShotUrl headShotUrl : String) {
         
         self.ref = nil
         self.userType = userType
@@ -39,7 +38,6 @@ class User {
         self.price = price
         self.summary = summary
         self.headShotUrl = headShotUrl
-        self.storePicUrl_array = storePicUrl_array
     }
     
     init?(snapshot: DataSnapshot) {
@@ -59,7 +57,6 @@ class User {
         let price = value["price"] as? Int
         let summary = value["summary"] as? String
         let headShotUrl = value["headShotUrl"] as? String
-        let storePicUrl_array = value["storePicUrl_array"] as? [String]
         
         self.ref = snapshot.ref
         self.userType = userType!
@@ -73,7 +70,6 @@ class User {
         self.price = price!
         self.summary = summary!
         self.headShotUrl = headShotUrl!
-        self.storePicUrl_array = storePicUrl_array!
         
     }
     
@@ -89,8 +85,7 @@ class User {
             "address" : address,
             "price" : price,
             "summary" : summary,
-            "headShotUrl" : headShotUrl,
-            "storePicUrl" : storePicUrl_array
+            "headShotUrl" : headShotUrl
         ]
     }
 }

@@ -20,16 +20,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 1 監聽
-        Auth.auth().addStateDidChangeListener() { auth, user in
-            if user != nil {
-                //                self.performSegue(withIdentifier: "", sender: nil)
-                self.textFieldLoginEmail.text = nil
-                self.textFieldLoginPassword.text = nil
-            }
-        }
-        // Do any additional setup after loading the view.
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func loginDidTouch(_ sender: Any) {
         
         guard
@@ -43,20 +39,37 @@ class LoginViewController: UIViewController {
         
         Auth.auth().signIn(withEmail: email, password: password) { user, error in
             if let error = error, user == nil {
-                let alert = UIAlertController(title: "Login Failed",
-                                              message: error.localizedDescription,
-                                              preferredStyle: .alert)
-                
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                
+                let alert = UIAlertController(title: "登入失敗", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             } else {
+                var user: User!
+                var uid: String = ""
+                
+                if let user = Auth.auth().currentUser{
+                    uid = user.uid
+                    
+                }
+                
+                self.usersRef.child(uid).observe( .value, with: { snapshot in
+                    if let userData = User(snapshot: snapshot) {
+                        user = userData
+                    }
+                    
+                    UserDefaults.standard.set(user.userType, forKey: UserDefaultKeys.AccountInfo.userType)
+                    UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                    // 登入成功,導回首頁
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
+                    
+                    appDelegate.window?.rootViewController = initialViewController
+                    appDelegate.window?.makeKeyAndVisible()
+                })
+                
                 
             }
         }
-        
-        usersRef.child(Auth.auth().currentUser?.uid ?? "")
-        
     }
     
     @IBAction func signUpDidTouch(_ sender: Any) {
@@ -64,51 +77,15 @@ class LoginViewController: UIViewController {
         if let controller = storyboard?.instantiateViewController(withIdentifier: "SignUpVC") {
             present(controller, animated: false, completion: nil)
         }
-        
-//        let alert = UIAlertController(title: "註冊新帳號",
-//                                      message: "請輸入Email,Password以便登入,感謝!!",
-//                                      preferredStyle: .alert)
-//
-//        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-//            // 1
-//            let emailField = alert.textFields![0]
-//            let passwordField = alert.textFields![1]
-//
-//            // 2
-//            Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
-//                if error == nil {
-//                    // 3
-//                    Auth.auth().signIn(withEmail: self.textFieldLoginEmail.text!,
-//                                       password: self.textFieldLoginPassword.text!)
-//                }
-//            }
-//        }
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-//
-//
-//        alert.addTextField { textEmail in
-//            textEmail.placeholder = "Enter your email"
-//        }
-//
-//        alert.addTextField { textPassword in
-//            textPassword.isSecureTextEntry = true
-//            textPassword.placeholder = "Enter your password"
-//        }
-//
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//
-//        present(alert, animated: true, completion: nil)
     }
     
     
     @IBAction func backDidTouch(_ sender: Any) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
+        
         let indexViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
-
+        
         indexViewController.selectedIndex = 0
         
         present(indexViewController, animated: false, completion: nil)

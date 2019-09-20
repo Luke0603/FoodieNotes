@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SetUpViewController: UIViewController {
     
@@ -36,6 +37,32 @@ class SetUpViewController: UIViewController {
     
     @IBAction func backToUserProfile(_ sender: Any) {
         dismiss(animated: false, completion: nil) // 返回前一頁
+    }
+    
+    @IBAction func signoutAction(_ sender: Any) {
+        
+        do {
+            // 登出,並導回首頁
+            try Auth.auth().signOut()
+            let userDefaults = UserDefaults.standard
+            userDefaults.set("", forKey: UserDefaultKeys.AccountInfo.userType)
+            userDefaults.set(false, forKey: UserDefaultKeys.LoginInfo.isLogin)
+            userDefaults.synchronize()
+            // 登入成功,導回首頁
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
+            
+            appDelegate.window?.rootViewController = initialViewController
+            appDelegate.window?.makeKeyAndVisible()
+        } catch (let error) {
+            print("Auth sign out failed: \(error)")
+            // 顯示失敗訊息
+            let controller = UIAlertController(title: "登出失敗", message: error.localizedDescription, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            controller.addAction(okAction)
+            self.present(controller, animated: true, completion: nil)
+        }
     }
     
     @IBAction func goToMaintenPage(sender: UITapGestureRecognizer) {

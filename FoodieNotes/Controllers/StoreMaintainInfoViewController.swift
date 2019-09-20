@@ -37,6 +37,10 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate {
         priceTextField.setBottomBorder()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func setAddressInfo(_ sender: Any) {
         print("=================Address=================")
         addressTextField.resignFirstResponder()

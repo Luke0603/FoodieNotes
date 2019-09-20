@@ -15,9 +15,10 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var userTypeLabel: UILabel!
     
-    //    let fullScreenSize = UIScreen.main.bounds.size
+    let usersRef = Database.database().reference(withPath: "users")
     let userTypeArray = ["請選擇角色", "店家", "吃貨"]
     var userType: String = ""
+    var userType_UserDefault: String = ""
     var checkSelectRow: Int = 0
     var selectRow: Int = 0
     
@@ -29,6 +30,10 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         userTypeLabel.addGestureRecognizer(tap)
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     @IBAction func alertUserTypePicker(sender: UITapGestureRecognizer) {
@@ -60,7 +65,7 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let controller = UIAlertController(title: "資料檢核", message: "E-mail忘記輸入了!!", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             controller.addAction(okAction)
-            present(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: nil)
             return
         }
         
@@ -69,7 +74,7 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let controller = UIAlertController(title: "資料檢核", message: "Password忘記輸入了!!", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             controller.addAction(okAction)
-            present(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: nil)
             return
         }
         
@@ -78,8 +83,12 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             let controller = UIAlertController(title: "資料檢核", message: "還沒有選擇角色喔!!", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             controller.addAction(okAction)
-            present(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: nil)
             return
+        } else if self.checkSelectRow == 1 {
+            userType_UserDefault = Constant.UserType.store
+        } else if self.checkSelectRow == 2 {
+            userType_UserDefault = Constant.UserType.user
         }
         
         // 註冊帳號
@@ -87,16 +96,27 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             if error == nil {
                 // 成功註冊後登入
                 Auth.auth().signIn(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!)
-
+                
+                let user = User(UserType: self.userType_UserDefault, UserName: "", Birthday: "", Gender: "", Tel: "", Email: "", Website: "", Address: "", Price: 0, Summary: "", HeadShotUrl: "")
+                
+                let userref = self.usersRef.child(Auth.auth().currentUser!.uid)
+                userref.setValue(user.toAnyObject())
+                
+                UserDefaults.standard.set(self.userType_UserDefault, forKey: UserDefaultKeys.AccountInfo.userType)
+                UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                // 登入成功,導回首頁
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
                 let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
 
                 appDelegate.window?.rootViewController = initialViewController
-
                 appDelegate.window?.makeKeyAndVisible()
+            } else {
+                // 顯示失敗訊息
+                let controller = UIAlertController(title: "註冊失敗", message: error?.localizedDescription, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                controller.addAction(okAction)
+                self.present(controller, animated: true, completion: nil)
             }
         }
     }

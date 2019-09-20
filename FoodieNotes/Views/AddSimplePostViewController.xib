@@ -23,7 +23,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Img_foodPost" translatesAutoresizingMaskIntoConstraints="NO" id="QZZ-d3-9ji">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Img_foodPost" translatesAutoresizingMaskIntoConstraints="NO" id="QZZ-d3-9ji">
                     <rect key="frame" x="35" y="54" width="345" height="345"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="QZZ-d3-9ji" secondAttribute="height" multiplier="1:1" id="FVw-Yu-6W4"/>
@@ -51,7 +51,7 @@
                     </constraints>
                 </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vr-Z1-CuX">
-                    <rect key="frame" x="20" y="554" width="374" height="203"/>
+                    <rect key="frame" x="20" y="554" width="374" height="180"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -77,7 +77,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKf-Fr-y64">
-                    <rect key="frame" x="270" y="785" width="45" height="39"/>
+                    <rect key="frame" x="270" y="757" width="45" height="39"/>
                     <color key="backgroundColor" red="1" green="0.86226245759999998" blue="0.23450694720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                     <state key="normal" title="完成">
@@ -88,7 +88,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dN7-ar-IzV">
-                    <rect key="frame" x="100" y="785" width="45" height="39"/>
+                    <rect key="frame" x="99" y="757" width="45" height="39"/>
                     <color key="backgroundColor" red="1" green="0.86226245759999998" blue="0.23450694720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                     <state key="normal" title="取消">
@@ -103,11 +103,10 @@
             <constraints>
                 <constraint firstItem="7vr-Z1-CuX" firstAttribute="top" secondItem="5Q6-8E-kFh" secondAttribute="bottom" constant="8" id="0Vb-HM-EsH"/>
                 <constraint firstItem="fKf-Fr-y64" firstAttribute="top" secondItem="dN7-ar-IzV" secondAttribute="top" id="36T-vN-hjy"/>
-                <constraint firstItem="dN7-ar-IzV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="100" id="5cm-C9-07d"/>
-                <constraint firstItem="fKf-Fr-y64" firstAttribute="top" secondItem="7vr-Z1-CuX" secondAttribute="bottom" constant="28" id="9Og-mx-c7w"/>
+                <constraint firstItem="dN7-ar-IzV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="99" id="8YQ-87-FWp"/>
+                <constraint firstItem="fKf-Fr-y64" firstAttribute="top" secondItem="7vr-Z1-CuX" secondAttribute="bottom" constant="23" id="9Og-mx-c7w"/>
                 <constraint firstItem="wSZ-Rd-sND" firstAttribute="top" secondItem="QZZ-d3-9ji" secondAttribute="bottom" constant="44" id="9lo-EQ-HAU"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7vr-Z1-CuX" secondAttribute="trailing" constant="20" id="AZc-Ze-4CW"/>
-                <constraint firstItem="fKf-Fr-y64" firstAttribute="leading" secondItem="dN7-ar-IzV" secondAttribute="trailing" constant="125" id="Ba1-vR-sCk"/>
                 <constraint firstItem="NZl-VI-Eha" firstAttribute="top" secondItem="wSZ-Rd-sND" secondAttribute="bottom" constant="8" id="JuH-mF-eG5"/>
                 <constraint firstItem="5Q6-8E-kFh" firstAttribute="leading" secondItem="FNf-v4-xGA" secondAttribute="trailing" constant="8" id="OIt-Fs-bdn"/>
                 <constraint firstItem="5Q6-8E-kFh" firstAttribute="top" secondItem="NZl-VI-Eha" secondAttribute="bottom" constant="8" id="QUW-l3-gGd"/>
@@ -123,7 +122,7 @@
                 <constraint firstItem="FNf-v4-xGA" firstAttribute="top" secondItem="5Q6-8E-kFh" secondAttribute="top" id="hsd-HR-9JK"/>
                 <constraint firstItem="FNf-v4-xGA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="hu1-q0-M3H"/>
                 <constraint firstItem="wSZ-Rd-sND" firstAttribute="top" secondItem="K8H-f9-Y1O" secondAttribute="top" id="pei-fh-501"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="fKf-Fr-y64" secondAttribute="bottom" constant="38" id="xQ1-S9-g9A"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="fKf-Fr-y64" secondAttribute="bottom" constant="66" id="xQ1-S9-g9A"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="47.826086956521742" y="35.491071428571423"/>

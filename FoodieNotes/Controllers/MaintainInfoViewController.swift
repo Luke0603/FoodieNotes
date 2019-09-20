@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MaintainInfoViewController: UIViewController, UITextFieldDelegate {
 
@@ -14,11 +15,39 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var userNickNameTextField: UITextField!
     
+    @IBOutlet weak var userSummaryTextView: UITextView!
+    
     let imgPicker = UIImagePickerController()
+    
+    let usersRef = Database.database().reference(withPath: "users")
+    
+    let storageRef = Storage.storage().reference(withPath: "users")
+    
+    var user: User!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+            if let userData = User(snapshot: snapshot) {
+                self.user = userData
+                
+                let url = URL(string: userData.headShotUrl)
+                let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                    if error != nil {
+                        print("error")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.userImg.image = UIImage(data: data!)
+                        self.userNickNameTextField.text = userData.userName
+                        self.userSummaryTextView.text = userData.summary
+                    }
+                })
+                task.resume()
+            }
+        })
+        
         //userImg 綁定事件
         let tap = UITapGestureRecognizer(target: self, action: #selector(MaintainInfoViewController.selectUserImg(sender:)))
         userImg.isUserInteractionEnabled = true
@@ -28,7 +57,50 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func backToSetUpPage(_ sender: Any) {
+        
+        dismiss(animated: false, completion: nil) // 返回前一頁
+    }
+    
+    @IBAction func maintainSaveAction(_ sender: Any) {
+        
+        guard let data = self.userImg.image?.jpegData(compressionQuality: 0.7) else { return }
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/jpg"
+        self.storageRef.child(Auth.auth().currentUser!.uid).putData(data, metadata: metaData) { (metadata, error) in
+            if error != nil {
+                print("\(String(describing: error))")
+            }
+            self.storageRef.child(Auth.auth().currentUser!.uid).downloadURL(completion: { (url, error) in
+                if error != nil {
+                    print("\(String(describing: error))")
+                } else {
+                    if url?.absoluteString != nil {
+                        self.user.headShotUrl = url!.absoluteString
+                        self.user.userName = self.userNickNameTextField.text!
+                        self.user.summary = self.userSummaryTextView.text!
+                        self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
+                    }
+                }
+            })
+        }
+//        self.user.userName = self.userNickNameTextField.text!
+//        self.user.summary = self.userSummaryTextView.text!
+//        self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
+        
+//        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+//            if let userData = User(snapshot: snapshot) {
+//                self.user = userData
+//                self.user.userName = self.userNickNameTextField.text!
+//                self.user.summary = self.userSummaryTextView.text!
+//            }
+//            self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
+//        })
+        
         dismiss(animated: false, completion: nil) // 返回前一頁
     }
     
