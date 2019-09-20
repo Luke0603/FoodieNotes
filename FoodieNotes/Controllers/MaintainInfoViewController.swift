@@ -9,13 +9,17 @@
 import UIKit
 import Firebase
 
-class MaintainInfoViewController: UIViewController, UITextFieldDelegate {
-
+class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+    
     @IBOutlet weak var userImg: UIImageView!
     
     @IBOutlet weak var userNickNameTextField: UITextField!
     
     @IBOutlet weak var userSummaryTextView: UITextView!
+    
+    @IBOutlet weak var saveButton: UIButton!
+    
+    @IBOutlet weak var cancelButton: UIButton!
     
     let imgPicker = UIImagePickerController()
     
@@ -27,34 +31,72 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
-            if let userData = User(snapshot: snapshot) {
-                self.user = userData
-                
-                let url = URL(string: userData.headShotUrl)
-                let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                    if error != nil {
-                        print("error")
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.userImg.image = UIImage(data: data!)
-                        self.userNickNameTextField.text = userData.userName
-                        self.userSummaryTextView.text = userData.summary
-                    }
-                })
-                task.resume()
-            }
-        })
         
         //userImg 綁定事件
         let tap = UITapGestureRecognizer(target: self, action: #selector(MaintainInfoViewController.selectUserImg(sender:)))
         userImg.isUserInteractionEnabled = true
         userImg.addGestureRecognizer(tap)
         
-        userNickNameTextField.setBottomBorder()
-        // Do any additional setup after loading the view.
+        //        setTextFieldLayer()
+        setViewStyle()
+        
+        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+            if let userData = User(snapshot: snapshot) {
+                self.user = userData
+                
+                if !userData.headShotUrl.isEmpty {
+                    let url = URL(string: userData.headShotUrl)
+                    let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                        if error != nil {
+                            print("error")
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            self.userImg.image = UIImage(data: data!)
+                            
+                        }
+                    })
+                    task.resume()
+                }
+                
+                self.userNickNameTextField.text = userData.userName
+                self.userSummaryTextView.text = userData.summary
+                self.userSummaryTextView.textColor = UIColor.black
+            }
+        })
+    }
+    
+    func setViewStyle() {
+        
+        userSummaryTextView.delegate = self
+        userSummaryTextView.layer.cornerRadius = 10
+        userSummaryTextView.text = "Self introduction"
+        userSummaryTextView.textColor = UIColor.lightGray
+        
+        userImg.layer.cornerRadius = 60
+        userImg.layer.borderColor = UIColor.gray.cgColor
+        userImg.layer.borderWidth = 1
+        
+        saveButton.layer.cornerRadius = 10
+        cancelButton.layer.cornerRadius = 10
+    }
+    
+    func setTextFieldLayer() {
+        userNickNameTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 1.0)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Self introduction"
+            textView.textColor = UIColor.lightGray
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -88,18 +130,18 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate {
                 }
             })
         }
-//        self.user.userName = self.userNickNameTextField.text!
-//        self.user.summary = self.userSummaryTextView.text!
-//        self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
+        //        self.user.userName = self.userNickNameTextField.text!
+        //        self.user.summary = self.userSummaryTextView.text!
+        //        self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
         
-//        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
-//            if let userData = User(snapshot: snapshot) {
-//                self.user = userData
-//                self.user.userName = self.userNickNameTextField.text!
-//                self.user.summary = self.userSummaryTextView.text!
-//            }
-//            self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
-//        })
+        //        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+        //            if let userData = User(snapshot: snapshot) {
+        //                self.user = userData
+        //                self.user.userName = self.userNickNameTextField.text!
+        //                self.user.summary = self.userSummaryTextView.text!
+        //            }
+        //            self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
+        //        })
         
         dismiss(animated: false, completion: nil) // 返回前一頁
     }
@@ -108,19 +150,6 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate {
         makeUpView()
     }
     
-    
-}
-
-extension UITextField {
-    func setBottomBorder() {
-        self.borderStyle = .none
-        
-        self.layer.masksToBounds = false
-        self.layer.shadowColor = UIColor.gray.cgColor
-        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
-        self.layer.shadowOpacity = 1.0
-        self.layer.shadowRadius = 0.0
-    }
     
 }
 

@@ -44,12 +44,12 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         myPickerView.dataSource = self
         alert.view.addSubview(myPickerView)
         
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+        let saveAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.userTypeLabel.text = self.userType
             self.checkSelectRow = self.selectRow
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: "BACK", style: .cancel)
         
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
@@ -59,7 +59,6 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBAction func didSignUp(_ sender: Any) {
         
-        // 1
         if self.emailTextField.text?.isEmpty == true {
             
             let controller = UIAlertController(title: "資料檢核", message: "E-mail忘記輸入了!!", preferredStyle: .alert)
