@@ -7,19 +7,19 @@
 //
 
 import UIKit
+import Crashlytics
 
 class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.delegate = self
-        // Do any additional setup after loading the view.
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item.tag == 1 || item.tag == 2 {
             if !UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
+                
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 
                 let loginViewController = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
@@ -28,16 +28,10 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 
                 self.selectedIndex = 0
             } else {
-                
                 if item.tag == 1 {
                     let controller = self.viewControllers![item.tag] as! AddPostViewController
                     controller.viewDidLoad()
                 }
-                //                if let controller = storyboard?.instantiateViewController(withIdentifier: "addPostVC") {
-                //                    present(controller, animated: false, completion: nil)
-                //                }
-                //                let captureViewCon = AddSimplePostViewController(nibName: "AddSimplePostViewController", bundle: nil)
-                //                self.present(captureViewCon, animated: true, completion: nil)
             }
             print("=============Here============")
         }

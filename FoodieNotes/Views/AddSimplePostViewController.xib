@@ -12,9 +12,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddSimplePostViewController" customModule="FoodieNotes" customModuleProvider="target">
             <connections>
+                <outlet property="cancelButton" destination="dN7-ar-IzV" id="1bI-Mo-W5E"/>
                 <outlet property="postContentTextView" destination="7vr-Z1-CuX" id="1qn-ii-7do"/>
                 <outlet property="postImg" destination="QZZ-d3-9ji" id="bxR-7V-1n1"/>
                 <outlet property="postStoreAddressTextField" destination="NZl-VI-Eha" id="Oo7-0R-j3M"/>
+                <outlet property="saveButton" destination="fKf-Fr-y64" id="xBl-0j-sme"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -36,7 +38,7 @@
                         <constraint firstAttribute="height" constant="30" id="GQk-sX-jZk"/>
                     </constraints>
                 </imageView>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="店名or地址" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="NZl-VI-Eha">
+                <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="店名" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="NZl-VI-Eha">
                     <rect key="frame" x="20" y="481" width="374" height="27"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <nil key="textColor"/>

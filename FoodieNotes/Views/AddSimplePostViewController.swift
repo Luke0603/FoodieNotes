@@ -16,10 +16,10 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     var rootTabbarController = UITabBarController()
     
     @IBOutlet weak var postImg: UIImageView!
-    
     @IBOutlet weak var postStoreAddressTextField: UITextField!
-    
     @IBOutlet weak var postContentTextView: UITextView!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +29,19 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
         postImg.isUserInteractionEnabled = true
         postImg.addGestureRecognizer(tap)
         
+        setViewStyle()
     }
     
     @IBAction func selectPostImg(sender: UITapGestureRecognizer) {
         makeUpView()
+    }
+    
+    func setViewStyle() {
+        
+        postStoreAddressTextField.layer.cornerRadius = 5
+        postContentTextView.layer.cornerRadius = 5
+        saveButton.layer.cornerRadius = 5
+        cancelButton.layer.cornerRadius = 5
     }
     
     func makeUpView() {

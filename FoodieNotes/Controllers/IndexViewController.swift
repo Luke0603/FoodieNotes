@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class IndexViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -30,6 +31,9 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         indexTableView.estimatedRowHeight = 200
         indexTableView.rowHeight = UITableView.automaticDimension
         indexTableView.contentInsetAdjustmentBehavior = .never
+        
+        Analytics.logEvent("FoodieNotes_IndexView_Start", parameters: nil)
+        
         //        model = getModel()
         // Do any additional setup after loading the view.
     }

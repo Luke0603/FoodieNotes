@@ -103,6 +103,7 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 
                 UserDefaults.standard.set(self.userType_UserDefault, forKey: UserDefaultKeys.AccountInfo.userType)
                 UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                Analytics.logEvent("FoodieNotes_SignUp_OK", parameters: ["SignUp_OK_Email": self.emailTextField.text!])
                 // 登入成功,導回首頁
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -115,6 +116,7 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 let controller = UIAlertController(title: "註冊失敗", message: error?.localizedDescription, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 controller.addAction(okAction)
+                Analytics.logEvent("FoodieNotes_SignUp_Error", parameters: nil)
                 self.present(controller, animated: true, completion: nil)
             }
         }

@@ -44,6 +44,7 @@ class SetUpViewController: UIViewController {
         do {
             // 登出,並導回首頁
             try Auth.auth().signOut()
+            Analytics.logEvent("FoodieNotes_SignOut", parameters: ["SignOut_OK": "OK"])
             let userDefaults = UserDefaults.standard
             userDefaults.set("", forKey: UserDefaultKeys.AccountInfo.userType)
             userDefaults.set(false, forKey: UserDefaultKeys.LoginInfo.isLogin)
@@ -61,6 +62,7 @@ class SetUpViewController: UIViewController {
             let controller = UIAlertController(title: "登出失敗", message: error.localizedDescription, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             controller.addAction(okAction)
+            Analytics.logEvent("FoodieNotes_SignOut", parameters: ["SignOut_Error": error.localizedDescription])
             self.present(controller, animated: true, completion: nil)
         }
     }

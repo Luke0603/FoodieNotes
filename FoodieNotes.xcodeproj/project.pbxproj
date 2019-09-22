@@ -342,6 +342,7 @@
 				E44C0D5C230A8ADD0099FC82 /* Resources */,
 				F14FAAD750AE8376CC2B3E5A /* [CP] Embed Pods Frameworks */,
 				D6B54846EA8A95AC15F2CA37 /* [CP] Copy Pods Resources */,
+				E44AC3BA2337892B00C1102B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -529,6 +530,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FoodieNotes/Pods-FoodieNotes-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E44AC3BA2337892B00C1102B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
+		};
 		E459219035FAF114DA64718A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -694,7 +713,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

@@ -49,7 +49,7 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
                     let url = URL(string: userData.headShotUrl)
                     let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                         if error != nil {
-                            print("error")
+                            print("!!!ERROR_HERE_[StoreMaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
                             return
                         }
                         DispatchQueue.main.async {

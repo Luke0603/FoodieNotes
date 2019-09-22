@@ -41,6 +41,7 @@ class LoginViewController: UIViewController {
             if let error = error, user == nil {
                 let alert = UIAlertController(title: "登入失敗", message: error.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                Analytics.logEvent("FoodieNotes_SignIn_Error", parameters: nil)
                 self.present(alert, animated: true, completion: nil)
             } else {
                 var user: User!
@@ -58,6 +59,7 @@ class LoginViewController: UIViewController {
                     
                     UserDefaults.standard.set(user.userType, forKey: UserDefaultKeys.AccountInfo.userType)
                     UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                    Analytics.logEvent("FoodieNotes_SignIn_OK", parameters: ["SignIn_OK_Email": email])
                     // 登入成功,導回首頁
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)

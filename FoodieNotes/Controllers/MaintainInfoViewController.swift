@@ -48,7 +48,7 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
                     let url = URL(string: userData.headShotUrl)
                     let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                         if error != nil {
-                            print("error")
+                            print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
                             return
                         }
                         DispatchQueue.main.async {
@@ -115,11 +115,11 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
         metaData.contentType = "image/jpg"
         self.storageRef.child(Auth.auth().currentUser!.uid).putData(data, metadata: metaData) { (metadata, error) in
             if error != nil {
-                print("\(String(describing: error))")
+                print("!!!ERROR_HERE_[MaintainInfoViewController_MaintainSaveAction]: \(error!.localizedDescription)")
             }
             self.storageRef.child(Auth.auth().currentUser!.uid).downloadURL(completion: { (url, error) in
                 if error != nil {
-                    print("\(String(describing: error))")
+                    print("!!!ERROR_HERE_[MaintainInfoViewController_MaintainSaveAction]: \(error!.localizedDescription)")
                 } else {
                     if url?.absoluteString != nil {
                         self.user.headShotUrl = url!.absoluteString
@@ -130,18 +130,6 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
                 }
             })
         }
-        //        self.user.userName = self.userNickNameTextField.text!
-        //        self.user.summary = self.userSummaryTextView.text!
-        //        self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
-        
-        //        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
-        //            if let userData = User(snapshot: snapshot) {
-        //                self.user = userData
-        //                self.user.userName = self.userNickNameTextField.text!
-        //                self.user.summary = self.userSummaryTextView.text!
-        //            }
-        //            self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
-        //        })
         
         dismiss(animated: false, completion: nil) // 返回前一頁
     }
