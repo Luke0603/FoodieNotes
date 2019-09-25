@@ -8,12 +8,17 @@
 
 import UIKit
 import GooglePlaces
+import Firebase
 
 class AddSimplePostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let imgPicker = UIImagePickerController()
     
     var rootTabbarController = UITabBarController()
+    
+    let storageRef = Storage.storage().reference(withPath: "posts")
+    
+    let postRef = Database.database().reference(withPath: "posts")
     
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var postStoreAddressTextField: UITextField!
@@ -30,6 +35,7 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
         postImg.addGestureRecognizer(tap)
         
         setViewStyle()
+        
     }
     
     @IBAction func selectPostImg(sender: UITapGestureRecognizer) {
@@ -67,9 +73,58 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         ///關閉ImagePickerController
         picker.dismiss(animated: false, completion: nil)
+        self.rootTabbarController.selectedIndex = 0
+        dismiss(animated: false, completion: nil) // 返回前一頁
     }
     
     @IBAction func savePostButton(_ sender: Any) {
+        
+        if self.postStoreAddressTextField.text?.isEmpty == true {
+            let controller = UIAlertController(title: "資料檢核", message: "麻煩請輸入「店名」,謝謝", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            controller.addAction(okAction)
+            
+            self.present(controller, animated: true, completion: nil)
+            return
+        }
+        
+        if self.postImg.image!.isEqual(UIImage(named: "Img_foodPost")) {
+            let controller = UIAlertController(title: "資料檢核", message: "麻煩請選擇「照片」,謝謝", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            controller.addAction(okAction)
+            
+            self.present(controller, animated: true, completion: nil)
+            return
+        }
+        
+        guard let data = self.postImg.image?.jpegData(compressionQuality: 0.7) else { return }
+        let uniqueString = NSUUID().uuidString
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/jpg"
+        self.storageRef.child(uniqueString).putData(data, metadata: metaData) { (metadata, error) in
+            if error != nil {
+                print("!!!ERROR_HERE_[AddSimplePostViewController_savePostButton]: \(error!.localizedDescription)")
+            }
+            self.storageRef.child(uniqueString).downloadURL(completion: { (url, error) in
+                if error != nil {
+                    print("!!!ERROR_HERE_[AddSimplePostViewController_savePostButton]: \(error!.localizedDescription)")
+                } else {
+                    var img_url: String!
+                    let now: Date = Date()
+                    let dateFormat: DateFormatter = DateFormatter()
+                    dateFormat.dateFormat = "YYYY/MM/dd HH:mm:ss"
+                    let dateString: String = dateFormat.string(from: now)
+                    
+                    if url?.absoluteString != nil {
+                        img_url = url!.absoluteString
+                    }
+                    
+                    let newPost: Post = Post(StoreName: self.postStoreAddressTextField.text!, StoreAddress: "", PostImg: img_url, PostContent: self.postContentTextView.text!, PostDate: dateString, PostAddUserId: Auth.auth().currentUser!.uid, LikeCount: 0, MessageCount: 0)
+                    
+                    self.postRef.child(uniqueString).setValue(newPost.toAnyObject())
+                }
+            })
+        }
         
         self.rootTabbarController.selectedIndex = 0
         dismiss(animated: false, completion: nil) // 返回前一頁

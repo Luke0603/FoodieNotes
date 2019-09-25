@@ -15,6 +15,8 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBOutlet weak var userTableView: UITableView!
     
+    var post: IndexPost!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,9 +27,9 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
         userTableView.rowHeight = UITableView.automaticDimension
         userTableView.contentInsetAdjustmentBehavior = .never
         
-        if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
+        if post.userType == Constant.UserType.store {
             userTableView.register(UINib(nibName:"StoreTableViewCell", bundle:nil),forCellReuseIdentifier:"StoreTableViewCell")
-        } else if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
+        } else if post.userType == Constant.UserType.user {
             userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
         }
         
@@ -45,51 +47,51 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell = UITableViewCell()
         
-        if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
-            if let storeTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "StoreTableViewCell") as? StoreTableViewCell {
-                
-                storeTableViewCell.storeNameLabel.text = "Luke Chen"
-                storeTableViewCell.storeFansCountLabel.text = "10000"
-                storeTableViewCell.storeFollowCountLabel.text = "20000"
-                storeTableViewCell.storeSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
-                storeTableViewCell.storePriceLabel.text = "平均價位:1000"
-                
-                print("GMSCameraPosition<============ Start!!!!!")
-                // 將視角切換至台北 101
-                let camera = GMSCameraPosition.camera(withLatitude: 25.033671, longitude: 121.564427, zoom: 15.0)
-                storeTableViewCell.storeMapView.camera = camera
-                let marker = GMSMarker()
-                marker.position = CLLocationCoordinate2D(latitude: 25.033671, longitude: 121.564427)
-                marker.title = "Taiwan"
-                marker.snippet = "Taipei101"
-                marker.map = storeTableViewCell.storeMapView
-                print("GMSCameraPosition<============ End!!!!!")
-                
-                storeTableViewCell.frame = tableView.bounds
-                storeTableViewCell.layoutIfNeeded()
-                
-                //重新加载单元格数据
-                storeTableViewCell.reloadData()
-                
-                cell = storeTableViewCell
-            }
-        } else if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
-            if let userTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "UserTableViewCell") as? UserTableViewCell {
-                
-                userTableViewCell.userNameLabel.text = "Luke Chen"
-                userTableViewCell.userFansCountLabel.text = "10000"
-                userTableViewCell.userFollowCountLabel.text = "20000"
-                userTableViewCell.userSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
-                
-                userTableViewCell.frame = tableView.bounds
-                userTableViewCell.layoutIfNeeded()
-                
-                //重新加载单元格数据
-                userTableViewCell.reloadData()
-                
-                cell = userTableViewCell
-            }
+        //        if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
+        if let storeTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "StoreTableViewCell") as? StoreTableViewCell {
+            
+            storeTableViewCell.storeNameLabel.text = "Luke Chen"
+            storeTableViewCell.storeFansCountLabel.text = "10000"
+            storeTableViewCell.storeFollowCountLabel.text = "20000"
+            storeTableViewCell.storeSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
+            storeTableViewCell.storePriceLabel.text = "平均價位:1000"
+            
+            print("GMSCameraPosition<============ Start!!!!!")
+            // 將視角切換至台北 101
+            let camera = GMSCameraPosition.camera(withLatitude: 25.033671, longitude: 121.564427, zoom: 15.0)
+            storeTableViewCell.storeMapView.camera = camera
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: 25.033671, longitude: 121.564427)
+            marker.title = "Taiwan"
+            marker.snippet = "Taipei101"
+            marker.map = storeTableViewCell.storeMapView
+            print("GMSCameraPosition<============ End!!!!!")
+            
+            storeTableViewCell.frame = tableView.bounds
+            storeTableViewCell.layoutIfNeeded()
+            
+            //重新加载单元格数据
+            storeTableViewCell.reloadData()
+            
+            cell = storeTableViewCell
         }
+        //        } else if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
+        if let userTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "UserTableViewCell") as? UserTableViewCell {
+            
+            userTableViewCell.userNameLabel.text = "Luke Chen"
+            userTableViewCell.userFansCountLabel.text = "10000"
+            userTableViewCell.userFollowCountLabel.text = "20000"
+            userTableViewCell.userSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
+            
+            userTableViewCell.frame = tableView.bounds
+            userTableViewCell.layoutIfNeeded()
+            
+            //重新加载单元格数据
+            userTableViewCell.reloadData()
+            
+            cell = userTableViewCell
+        }
+        //        }
         return cell
     }
     

@@ -12,13 +12,9 @@ import Firebase
 class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var userImg: UIImageView!
-    
     @IBOutlet weak var userNickNameTextField: UITextField!
-    
     @IBOutlet weak var userSummaryTextView: UITextView!
-    
     @IBOutlet weak var saveButton: UIButton!
-    
     @IBOutlet weak var cancelButton: UIButton!
     
     let imgPicker = UIImagePickerController()
@@ -109,6 +105,15 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
     }
     
     @IBAction func maintainSaveAction(_ sender: Any) {
+        
+        if self.userNickNameTextField.text?.isEmpty == true {
+            let controller = UIAlertController(title: "資料檢核", message: "麻煩請輸入「暱稱」,謝謝", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            controller.addAction(okAction)
+            
+            self.present(controller, animated: true, completion: nil)
+            return
+        }
         
         guard let data = self.userImg.image?.jpegData(compressionQuality: 0.7) else { return }
         let metaData = StorageMetadata()

@@ -16,5 +16,6 @@ class IndexTableViewModel {
     init(PostLives postLives: [PostLive], Posts posts: [Post]) {
         self.postLives = postLives
         self.posts = posts
+        print("HERE_IndexTableViewModel: \(posts.count)")
     }
 }
