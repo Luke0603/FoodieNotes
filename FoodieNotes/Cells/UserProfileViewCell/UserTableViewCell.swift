@@ -11,18 +11,14 @@ import UIKit
 class UserTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var userNameLabel: UILabel!
-    
     @IBOutlet weak var userFansCountLabel: UILabel!
-    
     @IBOutlet weak var userFollowCountLabel: UILabel!
-    
     @IBOutlet weak var userSummaryLabel: UILabel!
-    
     @IBOutlet weak var userImg: UIImageView!
-    
     @IBOutlet weak var userPostsCollectionView: UICollectionView!
-    
     @IBOutlet weak var userPostsCollectionViewHeight: NSLayoutConstraint!
+    
+    var userPosts: [IndexPost] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -53,7 +49,7 @@ class UserTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 90
+        return userPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -61,6 +57,9 @@ class UserTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         var cell: UICollectionViewCell = UICollectionViewCell()
         
         if let userPostsCollectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserPostsCollectionViewCell", for: indexPath) as? UserPostsCollectionViewCell {
+            let post = userPosts[indexPath.item]
+            userPostsCollectionCell.userPostImg.image = post.postImg
+            
             cell = userPostsCollectionCell
         }
         

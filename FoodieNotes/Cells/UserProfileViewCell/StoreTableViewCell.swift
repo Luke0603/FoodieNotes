@@ -12,21 +12,13 @@ import GoogleMaps
 class StoreTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var storeNameLabel: UILabel!
-    
     @IBOutlet weak var storeFansCountLabel: UILabel!
-    
     @IBOutlet weak var storeFollowCountLabel: UILabel!
-    
     @IBOutlet weak var storeSummaryLabel: UILabel!
-    
     @IBOutlet weak var storePriceLabel: UILabel!
-    
     @IBOutlet weak var storeMapView: GMSMapView!
-    
     @IBOutlet weak var storeImg: UIImageView!
-    
     @IBOutlet weak var storePostsCollectionView: UICollectionView!
-    
     @IBOutlet weak var storePostsCollectionViewHeight: NSLayoutConstraint!
     
     override func awakeFromNib() {

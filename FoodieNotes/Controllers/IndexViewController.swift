@@ -61,7 +61,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         postLives.append(PostLive(PostAddUserId: "123", PostDate: "20190825"))
         
-        ref_posts.queryOrdered(byChild: "postDate").observe(.value, with: { snapshot in
+        ref_posts.observe(.value, with: { snapshot in
             self.posts.removeAll()
             //            print("=============self.view.subviews.count==========: \(self.view.subviews.count)")
             //            if self.view.subviews.count == 1 {
@@ -161,7 +161,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                 tap.post = post
                 postCell.userNameLB.isUserInteractionEnabled = true
                 postCell.userNameLB.addGestureRecognizer(tap)
-                postCell.userNameLB.tag = indexPath.item - 1
                 postCell.likeButton.tag = indexPath.item - 1
                 postCell.likeButton.addTarget(self, action: #selector(IndexViewController.didTouchLikeButton(_:)), for: .touchUpInside)
                 
@@ -194,14 +193,17 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func goToProfilePage(_ sender: MyTapGesture) {
         let post = sender.post
         
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "OtherUserProfileNGC") {
-            if let otherProfileViewController = controller.children[0] as? OtherProfileViewController {
-                otherProfileViewController.post = post
-                present(controller, animated: false, completion: nil)
+        if post?.postAddUserId != Auth.auth().currentUser?.uid {
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "OtherUserProfileNGC") {
+                if let otherProfileViewController = controller.children[0] as? OtherProfileViewController {
+                    otherProfileViewController.post = post
+                    present(controller, animated: false, completion: nil)
+                }
             }
+        } else {
+            self.tabBarController!.selectedIndex = 2
         }
     }
-    
 }
 
 extension IndexViewController: UICollectionViewDelegate, UICollectionViewDataSource {
