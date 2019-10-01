@@ -115,7 +115,7 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
             return
         }
         
-        guard let data = self.userImg.image?.jpegData(compressionQuality: 0.7) else { return }
+        guard let data = self.userImg.image?.jpegData(compressionQuality: 1.0) else { return }
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpg"
         self.storageRef.child(Auth.auth().currentUser!.uid).putData(data, metadata: metaData) { (metadata, error) in
@@ -131,12 +131,13 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
                         self.user.userName = self.userNickNameTextField.text!
                         self.user.summary = self.userSummaryTextView.text!
                         self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
+                        self.dismiss(animated: false, completion: nil) // 返回前一頁
                     }
                 }
             })
         }
-        
-        dismiss(animated: false, completion: nil) // 返回前一頁
+//
+//        dismiss(animated: false, completion: nil) // 返回前一頁
     }
     
     @IBAction func selectUserImg(sender: UITapGestureRecognizer) {

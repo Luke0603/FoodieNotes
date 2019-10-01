@@ -24,6 +24,11 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         
         userTableView.delegate = self
         userTableView.dataSource = self
@@ -32,58 +37,68 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         userTableView.rowHeight = UITableView.automaticDimension
         userTableView.contentInsetAdjustmentBehavior = .never
         
-        self.ref_users.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
-            if let userData = User(snapshot: snapshot) {
-                var userImg: UIImage!
-                let url = URL(string: userData.headShotUrl)
-                let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                    if error != nil {
-                        print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
-                        return
-                    }
-                    userImg = UIImage(data: data!)
-                    
-                    self.ref_posts.queryOrdered(byChild: "postAddUserId").queryEqual(toValue: Auth.auth().currentUser!.uid).observe(.value, with: { snapshot in
-                        self.userPosts.removeAll()
-                        for child in snapshot.children {
-                            if let snapshot = child as? DataSnapshot,
-                                let post = Post(snapshot: snapshot) {
-                                var postImg: UIImage!
-                                
-                                if !post.postImg.isEmpty {
-                                    let url = URL(string: post.postImg)
-                                    let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                                        if error != nil {
-                                            print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
-                                            return
-                                        }
-                                        postImg = UIImage(data: data!)
-                                        
-                                        DispatchQueue.main.async {
-                                            let indexPost = IndexPost(StoreName: post.storeName, PostImg: postImg, PostContent: post.postContent, PostAddUserId: post.postAddUserId, LikeCount: post.likeCount, MessageCount: post.messageCount, UserName: userData.userName, UserType: userData.userType, HeadShotImg: userImg, PostDate: post.postDate)
-                                            
-                                            self.userPosts.append(indexPost)
-                                            self.userImg = userImg
-                                            self.user = userData
-                                            self.userTableView.reloadData()
-                                        }
-                                        
-                                    })
-                                    task.resume()
-                                }
-                            }
-                        }
-                    })
-                    
-                })
-                task.resume()
-            }
-        })
-        
+        print("userType=============>\(String(describing: UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType)))")
         if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
             userTableView.register(UINib(nibName:"StoreTableViewCell", bundle:nil),forCellReuseIdentifier:"StoreTableViewCell")
         } else if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
             userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
+        }
+        
+        print("uid==============>\(Auth.auth().currentUser!.uid)")
+        if Auth.auth().currentUser != nil {
+            self.ref_users.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+                if let userData = User(snapshot: snapshot) {
+                    var userImg: UIImage!
+                    let url = URL(string: userData.headShotUrl)
+                    let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                        if error != nil {
+                            print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                            return
+                        }
+                        userImg = UIImage(data: data!)
+                        
+                        DispatchQueue.main.async {
+                            self.userImg = userImg
+                            self.user = userData
+                            self.userTableView.reloadData()
+                        }
+                        
+                        self.ref_posts.queryOrdered(byChild: "postAddUserId").queryEqual(toValue: Auth.auth().currentUser!.uid).observe(.value, with: { snapshot in
+                            self.userPosts.removeAll()
+                            for child in snapshot.children {
+                                if let snapshot = child as? DataSnapshot,
+                                    let post = Post(snapshot: snapshot) {
+                                    var postImg: UIImage!
+                                    
+                                    if !post.postImg.isEmpty {
+                                        let url = URL(string: post.postImg)
+                                        let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                                            if error != nil {
+                                                print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                                                return
+                                            }
+                                            postImg = UIImage(data: data!)
+                                            
+                                            DispatchQueue.main.async {
+                                                let indexPost = IndexPost(StoreName: post.storeName, PostImg: postImg, PostContent: post.postContent, PostAddUserId: post.postAddUserId, LikeCount: post.likeCount, MessageCount: post.messageCount, UserName: userData.userName, UserType: userData.userType, HeadShotImg: userImg, PostDate: post.postDate)
+                                                
+                                                self.userPosts.append(indexPost)
+                                                self.userImg = userImg
+                                                self.user = userData
+                                                self.userTableView.reloadData()
+                                            }
+                                            
+                                        })
+                                        task.resume()
+                                    }
+                                }
+                            }
+                        })
+                        
+                    })
+                    task.resume()
+                }
+            })
         }
     }
     
@@ -113,8 +128,8 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
             if let storeTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "StoreTableViewCell") as? StoreTableViewCell {
                 
                 storeTableViewCell.storeNameLabel.text = "Luke Chen"
-                storeTableViewCell.storeFansCountLabel.text = "10000"
-                storeTableViewCell.storeFollowCountLabel.text = "20000"
+                storeTableViewCell.storeFansCountLabel.text = "0"
+                storeTableViewCell.storeFollowCountLabel.text = "0"
                 storeTableViewCell.storeSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
                 storeTableViewCell.storePriceLabel.text = "平均價位:1000"
                 
@@ -141,9 +156,10 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
             if let userTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "UserTableViewCell") as? UserTableViewCell {
                 
                 userTableViewCell.userImg.image = self.userImg
+                userTableViewCell.userImg.layer.cornerRadius = userTableViewCell.userImg.frame.width/2
                 userTableViewCell.userNameLabel.text = self.user.userName
-                userTableViewCell.userFansCountLabel.text = "10000"
-                userTableViewCell.userFollowCountLabel.text = "20000"
+                userTableViewCell.userFansCountLabel.text = "0"
+                userTableViewCell.userFollowCountLabel.text = "0"
                 userTableViewCell.userSummaryLabel.text = self.user.summary
                 userTableViewCell.userPosts = self.userPosts
                 
@@ -167,18 +183,18 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//
-//        print("forRowAt!!!!")
-//
-//        guard let userPostsTableViewCell = cell as? UserTableViewCell else { return }
-//
-//        userPostsTableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-//
-//        userPostsTableViewCell.frame = tableView.bounds
-//
-//        userPostsTableViewCell.layoutIfNeeded()
-//    }
+    //    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    //
+    //        print("forRowAt!!!!")
+    //
+    //        guard let userPostsTableViewCell = cell as? UserTableViewCell else { return }
+    //
+    //        userPostsTableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+    //
+    //        userPostsTableViewCell.frame = tableView.bounds
+    //
+    //        userPostsTableViewCell.layoutIfNeeded()
+    //    }
 }
 
 //extension UserProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {

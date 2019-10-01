@@ -24,9 +24,7 @@ class AddPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let captureViewCon = AddSimplePostViewController(nibName: "AddSimplePostViewController", bundle: nil)
-        captureViewCon.rootTabbarController = self.tabBarController!
-        self.present(captureViewCon, animated: true, completion: nil)
+        
         //        self.addChild(headerView)
         //        self.view.addSubview(headerView.view)
         //        headerView.didMove(toParent: self)
@@ -37,18 +35,9 @@ class AddPostViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        
-        //        ref.queryOrdered(byChild: "1234556678").observe(.value, with: { snapshot in
-        //            for child in snapshot.children {
-        //                if let snapshot = child as? DataSnapshot,
-        //                    let item = User(snapshot: snapshot) {
-        //                    print("getUserInfoById")
-        //                    self.user = item
-        //
-        //
-        //                }
-        //            }
-        //        })
+        let captureViewCon = AddSimplePostViewController(nibName: "AddSimplePostViewController", bundle: nil)
+        captureViewCon.rootTabbarController = self.tabBarController!
+        self.present(captureViewCon, animated: true, completion: nil)
     }
 }
 

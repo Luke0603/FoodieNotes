@@ -17,7 +17,6 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var messageCountLB: UILabel!
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var userImg: UIImageView!
-    @IBOutlet weak var likeImg: UIImageView!
     @IBOutlet weak var messageImg: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     

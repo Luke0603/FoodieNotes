@@ -14,8 +14,10 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var userTypeLabel: UILabel!
+    @IBOutlet weak var nickNameTextField: UITextField!
     
     let usersRef = Database.database().reference(withPath: "users")
+    let storageRef = Storage.storage().reference(withPath: "users")
     let userTypeArray = ["請選擇角色", "店家", "吃貨"]
     var userType: String = ""
     var userType_UserDefault: String = ""
@@ -77,6 +79,15 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             return
         }
         
+        if self.nickNameTextField.text?.isEmpty == true {
+            
+            let controller = UIAlertController(title: "資料檢核", message: "暱稱忘記輸入了!!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            controller.addAction(okAction)
+            self.present(controller, animated: true, completion: nil)
+            return
+        }
+        
         if self.checkSelectRow == 0 {
             
             let controller = UIAlertController(title: "資料檢核", message: "還沒有選擇角色喔!!", preferredStyle: .alert)
@@ -96,21 +107,37 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                 // 成功註冊後登入
                 Auth.auth().signIn(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!)
                 
-                let user = User(UserType: self.userType_UserDefault, UserName: "", Birthday: "", Gender: "", Tel: "", Email: "", Website: "", Address: "", Price: 0, Summary: "", HeadShotUrl: "")
-                
-                let userref = self.usersRef.child(Auth.auth().currentUser!.uid)
-                userref.setValue(user.toAnyObject())
-                
-                UserDefaults.standard.set(self.userType_UserDefault, forKey: UserDefaultKeys.AccountInfo.userType)
-                UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
-                Analytics.logEvent("FoodieNotes_SignUp_OK", parameters: ["SignUp_OK_Email": self.emailTextField.text!])
-                // 登入成功,導回首頁
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
-
-                appDelegate.window?.rootViewController = initialViewController
-                appDelegate.window?.makeKeyAndVisible()
+                guard let data = UIImage(named: "Img_user")?.jpegData(compressionQuality: 1.0) else { return }
+                let metaData = StorageMetadata()
+                metaData.contentType = "image/jpg"
+                self.storageRef.child(Auth.auth().currentUser!.uid).putData(data, metadata: metaData) { (metadata, error) in
+                    if error != nil {
+                        print("!!!ERROR_HERE_[MaintainInfoViewController_MaintainSaveAction]: \(error!.localizedDescription)")
+                    }
+                    self.storageRef.child(Auth.auth().currentUser!.uid).downloadURL(completion: { (url, error) in
+                        if error != nil {
+                            print("!!!ERROR_HERE_[MaintainInfoViewController_MaintainSaveAction]: \(error!.localizedDescription)")
+                        } else {
+                            if url?.absoluteString != nil {
+                                let user = User(UserType: self.userType_UserDefault, UserName: self.nickNameTextField.text!, Birthday: "", Gender: "", Tel: "", Email: "", Website: "", Address: "", Price: 0, Summary: "", HeadShotUrl: url!.absoluteString)
+                                
+                                let userref = self.usersRef.child(Auth.auth().currentUser!.uid)
+                                userref.setValue(user.toAnyObject())
+                                
+                                UserDefaults.standard.set(self.userType_UserDefault, forKey: UserDefaultKeys.AccountInfo.userType)
+                                UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                                Analytics.logEvent("FoodieNotes_SignUp_OK", parameters: ["SignUp_OK_Email": self.emailTextField.text!])
+                                // 登入成功,導回首頁
+                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
+                                
+                                appDelegate.window?.rootViewController = initialViewController
+                                appDelegate.window?.makeKeyAndVisible()
+                            }
+                        }
+                    })
+                }
             } else {
                 // 顯示失敗訊息
                 let controller = UIAlertController(title: "註冊失敗", message: error?.localizedDescription, preferredStyle: .alert)

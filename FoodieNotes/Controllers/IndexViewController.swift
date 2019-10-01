@@ -15,7 +15,6 @@ class MyTapGesture: UITapGestureRecognizer {
 
 class IndexViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    //    var model: IndexTableViewModel?
     let storageRef_posts = Storage.storage().reference(withPath: "posts")
     let ref_posts = Database.database().reference(withPath: "posts")
     let ref_users = Database.database().reference(withPath: "users")
@@ -23,7 +22,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     var model: IndexTableViewModel!
     var postLives: [PostLive] = []
     var posts: [IndexPost] = []
-    //    let model = generateRandomData()
     
     @IBOutlet weak var indexTableView: UITableView!
     
@@ -35,8 +33,9 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.showSpinner(onView: self.view)
-        self.getModel()
+//        self.showSpinner(onView: self.view)
+//        self.posts.removeAll()
+//        self.getModel()
         print("============2===========")
         //        self.getModel()
         //        UserDefaults.standard.set("", forKey: UserDefaultKeys.AccountInfo.userType)
@@ -52,22 +51,21 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         indexTableView.contentInsetAdjustmentBehavior = .never
         
         Analytics.logEvent("FoodieNotes_IndexView_Start", parameters: nil)
-        
-        //        model = getModel()
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.showSpinner(onView: self.view)
+        self.posts.removeAll()
+        self.getModel()
     }
     
     func getModel() {
         
-        postLives.append(PostLive(PostAddUserId: "123", PostDate: "20190825"))
+//        postLives.append(PostLive(PostAddUserId: "123", PostDate: "20190825"))
         
         ref_posts.observe(.value, with: { snapshot in
             self.posts.removeAll()
-            //            print("=============self.view.subviews.count==========: \(self.view.subviews.count)")
-            //            if self.view.subviews.count == 1 {
-            //                self.showSpinner(onView: self.view)
-            //            }
-            
+            print("流程控制============> posts")
             for child in snapshot.children {
                 if let snapshot = child as? DataSnapshot,
                     let post = Post(snapshot: snapshot) {
@@ -83,7 +81,8 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                             }
                             postImg = UIImage(data: data!)
                             
-                            self.ref_users.child(post.postAddUserId).observe( .value, with: { snapshot in
+                            self.ref_users.child(post.postAddUserId).observeSingleEvent( of: .value, with: { snapshot in
+                                print("流程控制============> users")
                                 if let userData = User(snapshot: snapshot) {
                                     let url2 = URL(string: userData.headShotUrl)
                                     let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
@@ -126,7 +125,16 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count + 1
+        print("post.count=========>\(posts.count)")
+        var reCount: Int
+        
+        if posts.isEmpty {
+            reCount = 0
+        } else {
+            reCount = posts.count
+        }
+        
+        return reCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -137,36 +145,36 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         //            cell = liveCell
         //        }
         
-        if indexPath.item == 0 {
-            if let liveCell = indexTableView.dequeueReusableCell(withIdentifier: "LiveTableCell") as? LiveTableViewCell {
-                cell = liveCell
-            }
-        } else {
-            if let postCell = indexTableView.dequeueReusableCell(withIdentifier: "PostTableCell") as? PostTableViewCell {
-                let post = posts[indexPath.item - 1]
-                postCell.contentLB.text = post.postContent
-                postCell.stroeNameLB.text = post.storeName
-                postCell.postImg.image = post.postImg
-                postCell.likeCountLB.text = String(post.likeCount)
-                postCell.messageCountLB.text = String(post.messageCount)
-                postCell.userNameLB.text = post.userName
-                postCell.userImg.image = post.headShotImg
-                //                postCell.contentLB.text = "快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我\n快樂的一刻\n勝過永恆的難過\n黑夜過後就有日出和日落\n兩個人走不會寂寞\n幸有你愛我"
-                //                postCell.likeCountLB.text = "1000000000"
-                //                postCell.messageCountLB.text = "10000"
-                
-                let tap = MyTapGesture(target: self, action: #selector(IndexViewController.goToProfilePage(_:)))
-                //                tap.setValue(post, forKeyPath: "PostUser")
-                //                tap.setValue("", forKey: "PostUser")
-                tap.post = post
-                postCell.userNameLB.isUserInteractionEnabled = true
-                postCell.userNameLB.addGestureRecognizer(tap)
-                postCell.likeButton.tag = indexPath.item - 1
-                postCell.likeButton.addTarget(self, action: #selector(IndexViewController.didTouchLikeButton(_:)), for: .touchUpInside)
-                
-                cell = postCell
-            }
+        //        if indexPath.item == 0 {
+        //            if let liveCell = indexTableView.dequeueReusableCell(withIdentifier: "LiveTableCell") as? LiveTableViewCell {
+        //                cell = liveCell
+        //            }
+        //        } else {
+        if let postCell = indexTableView.dequeueReusableCell(withIdentifier: "PostTableCell") as? PostTableViewCell {
+            let post = posts[indexPath.item]
+            postCell.contentLB.text = post.postContent
+            postCell.stroeNameLB.text = post.storeName
+            postCell.postImg.image = post.postImg
+            postCell.likeCountLB.text = String(post.likeCount)
+            postCell.messageCountLB.text = String(post.messageCount)
+            postCell.userNameLB.text = post.userName
+            postCell.userImg.layer.cornerRadius = 25
+            postCell.userImg.image = post.headShotImg
+            
+            let tap = MyTapGesture(target: self, action: #selector(IndexViewController.goToProfilePage(_:)))
+            tap.post = post
+            postCell.userNameLB.isUserInteractionEnabled = true
+            postCell.userNameLB.addGestureRecognizer(tap)
+            postCell.likeButton.tag = indexPath.item - 1
+            postCell.likeButton.addTarget(self, action: #selector(IndexViewController.didTouchLikeButton(_:)), for: .touchUpInside)
+            
+            let tap2 = MyTapGesture(target: self, action: #selector(IndexViewController.didTouchCommentImg(_:)))
+            postCell.messageImg.isUserInteractionEnabled = true
+            postCell.messageImg.addGestureRecognizer(tap2)
+            
+            cell = postCell
         }
+        //        }
         
         return cell
     }
@@ -188,6 +196,13 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             sender.setImage(UIImage(named: "Img_unlike"), for: .normal)
         }
         //        self.indexTableView.reloadData()
+    }
+    
+    @IBAction func didTouchCommentImg(_ sender: MyTapGesture) {
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "CommentNGC") {
+            present(controller, animated: false, completion: nil)
+        }
     }
     
     @IBAction func goToProfilePage(_ sender: MyTapGesture) {

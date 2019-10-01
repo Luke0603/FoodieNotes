@@ -15,6 +15,7 @@ target 'FoodieNotes' do
   pod 'Crashlytics'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'MessageViewController'
 
   target 'FoodieNotesTests' do
     inherit! :search_paths
