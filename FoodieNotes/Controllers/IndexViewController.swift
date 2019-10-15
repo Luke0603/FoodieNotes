@@ -20,8 +20,11 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     let ref_users = Database.database().reference(withPath: "users")
     let storageRef_users = Storage.storage().reference(withPath: "users")
     var model: IndexTableViewModel!
+    var refreshControl: UIRefreshControl!
     var postLives: [PostLive] = []
     var posts: [IndexPost] = []
+    var postArray: [Post] = []
+    var userArray: [User] = []
     
     @IBOutlet weak var indexTableView: UITableView!
     
@@ -33,9 +36,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.showSpinner(onView: self.view)
-//        self.posts.removeAll()
-//        self.getModel()
         print("============2===========")
         //        self.getModel()
         //        UserDefaults.standard.set("", forKey: UserDefaultKeys.AccountInfo.userType)
@@ -50,20 +50,36 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         indexTableView.rowHeight = UITableView.automaticDimension
         indexTableView.contentInsetAdjustmentBehavior = .never
         
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "更新中...")
+        refreshControl.addTarget(self, action: #selector(loadData), for: UIControl.Event.valueChanged)
+        indexTableView.addSubview(refreshControl)
+        
+        self.showSpinner(onView: self.view)
+        self.getModel()
+        
         Analytics.logEvent("FoodieNotes_IndexView_Start", parameters: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.showSpinner(onView: self.view)
-        self.posts.removeAll()
-        self.getModel()
+        //        self.showSpinner(onView: self.view)
+        //        self.posts.removeAll()
+        //        self.getModel()
+        //        self.removeSpinner()
+    }
+    
+    @objc func loadData(){
+        //        refreshControl.beginRefreshing()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            self.getModel()
+            self.refreshControl.endRefreshing()
+        }
+        
     }
     
     func getModel() {
-        
-//        postLives.append(PostLive(PostAddUserId: "123", PostDate: "20190825"))
-        
-        ref_posts.observe(.value, with: { snapshot in
+        //        postLives.append(PostLive(PostAddUserId: "123", PostDate: "20190825"))
+        ref_posts.observeSingleEvent(of: .value, with: { snapshot in
             self.posts.removeAll()
             print("流程控制============> posts")
             for child in snapshot.children {
@@ -84,7 +100,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                             self.ref_users.child(post.postAddUserId).observeSingleEvent( of: .value, with: { snapshot in
                                 print("流程控制============> users")
                                 if let userData = User(snapshot: snapshot) {
-                                    let url2 = URL(string: userData.headShotUrl)
+                                    let url2 = URL(string: userData.headShotUrl!)
                                     let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
                                         if error != nil {
                                             print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
@@ -113,11 +129,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                     print("HERE_IndexViewController_posts: \(post.storeName)")
                 }
             }
-            //            self.model = IndexTableViewModel(PostLives: postLives, Posts: posts)
-            
         })
-        //        posts.append(Post(StoreName: "Luke", StoreAddress: "Taiwan", PostImg: [], PostContent: "TEST POST", PostTag: "Good Goods", PostDate: "20190825", PostAddUserId: "123", LikeCount: 1, MessageCount: 2))
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -165,10 +177,12 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             tap.post = post
             postCell.userNameLB.isUserInteractionEnabled = true
             postCell.userNameLB.addGestureRecognizer(tap)
-            postCell.likeButton.tag = indexPath.item - 1
+            
+            postCell.likeButton.tag = indexPath.item
             postCell.likeButton.addTarget(self, action: #selector(IndexViewController.didTouchLikeButton(_:)), for: .touchUpInside)
             
             let tap2 = MyTapGesture(target: self, action: #selector(IndexViewController.didTouchCommentImg(_:)))
+            tap2.post = post
             postCell.messageImg.isUserInteractionEnabled = true
             postCell.messageImg.addGestureRecognizer(tap2)
             
@@ -187,8 +201,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func didTouchLikeButton(_ sender: UIButton) {
-        let post = posts[sender.tag]
-        print("Button=======>this is \(post) =======!!!!!!!!")
+        _ = posts[sender.tag]
         
         if sender.imageView!.image!.isEqual(UIImage(named: "Img_unlike")) {
             sender.setImage(UIImage(named: "Img_like"), for: .normal)
@@ -199,9 +212,13 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func didTouchCommentImg(_ sender: MyTapGesture) {
+        let post = sender.post
         
         if let controller = storyboard?.instantiateViewController(withIdentifier: "CommentNGC") {
-            present(controller, animated: false, completion: nil)
+            if let commentViewController = controller.children[0] as? CommentViewController {
+                commentViewController.post = post
+                present(controller, animated: false, completion: nil)
+            }
         }
     }
     

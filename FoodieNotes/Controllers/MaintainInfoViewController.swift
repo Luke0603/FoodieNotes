@@ -36,12 +36,15 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
         //        setTextFieldLayer()
         setViewStyle()
         
-        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+        self.usersRef.child(Auth.auth().currentUser!.uid).observeSingleEvent( of: .value, with: { snapshot in
+            
             if let userData = User(snapshot: snapshot) {
                 self.user = userData
                 
-                if !userData.headShotUrl.isEmpty {
-                    let url = URL(string: userData.headShotUrl)
+                guard let userHeadShotUrl = userData.headShotUrl else { return }
+                
+                    let url = URL(string: userHeadShotUrl)
+                
                     let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                         if error != nil {
                             print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
@@ -53,7 +56,6 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
                         }
                     })
                     task.resume()
-                }
                 
                 self.userNickNameTextField.text = userData.userName
                 self.userSummaryTextView.text = userData.summary
@@ -66,7 +68,7 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
         
         userSummaryTextView.delegate = self
         userSummaryTextView.layer.cornerRadius = 10
-        userSummaryTextView.text = "Self introduction"
+        userSummaryTextView.text = "介紹自己吧..."
         userSummaryTextView.textColor = UIColor.lightGray
         
         userImg.layer.cornerRadius = 60
@@ -90,7 +92,7 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Self introduction"
+            textView.text = "介紹自己吧..."
             textView.textColor = UIColor.lightGray
         }
     }

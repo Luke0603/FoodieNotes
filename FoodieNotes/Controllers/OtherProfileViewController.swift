@@ -37,7 +37,7 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
         self.ref_users.child(post.postAddUserId).observe( .value, with: { snapshot in
             if let userData = User(snapshot: snapshot) {
                 var userImg: UIImage!
-                let url = URL(string: userData.headShotUrl)
+                let url = URL(string: userData.headShotUrl!)
                 let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                     if error != nil {
                         print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")

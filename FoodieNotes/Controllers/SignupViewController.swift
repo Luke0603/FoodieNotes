@@ -102,37 +102,55 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         }
         
         // 註冊帳號
-        Auth.auth().createUser(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!) { user, error in
+        Auth.auth().createUser(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!) { (result, error) in
             if error == nil {
+                
+                guard let resultUser = result?.user else { return }
+                
                 // 成功註冊後登入
-                Auth.auth().signIn(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!)
+                Auth.auth().signIn(withEmail: resultUser.uid, password: resultUser.email!)
                 
                 guard let data = UIImage(named: "Img_user")?.jpegData(compressionQuality: 1.0) else { return }
+                
                 let metaData = StorageMetadata()
+                
                 metaData.contentType = "image/jpg"
-                self.storageRef.child(Auth.auth().currentUser!.uid).putData(data, metadata: metaData) { (metadata, error) in
+                
+                self.storageRef.child(resultUser.uid).putData(data, metadata: metaData) { (metadata, error) in
                     if error != nil {
+                        
                         print("!!!ERROR_HERE_[MaintainInfoViewController_MaintainSaveAction]: \(error!.localizedDescription)")
                     }
                     self.storageRef.child(Auth.auth().currentUser!.uid).downloadURL(completion: { (url, error) in
                         if error != nil {
+                            
                             print("!!!ERROR_HERE_[MaintainInfoViewController_MaintainSaveAction]: \(error!.localizedDescription)")
                         } else {
+                            
                             if url?.absoluteString != nil {
-                                let user = User(UserType: self.userType_UserDefault, UserName: self.nickNameTextField.text!, Birthday: "", Gender: "", Tel: "", Email: "", Website: "", Address: "", Price: 0, Summary: "", HeadShotUrl: url!.absoluteString)
                                 
-                                let userref = self.usersRef.child(Auth.auth().currentUser!.uid)
+                                let userref = self.usersRef.child(resultUser.uid)
+                                
+                                let user = User.init(uid: resultUser.uid, email: resultUser.email!, userType: self.userType_UserDefault, userName: self.nickNameTextField.text!)
+                                
+                                user.headShotUrl = url?.absoluteString
+                                
                                 userref.setValue(user.toAnyObject())
                                 
-                                UserDefaults.standard.set(self.userType_UserDefault, forKey: UserDefaultKeys.AccountInfo.userType)
+                                UserDefaults.standard.set(user.userType, forKey: UserDefaultKeys.AccountInfo.userType)
+                                
                                 UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                                
                                 Analytics.logEvent("FoodieNotes_SignUp_OK", parameters: ["SignUp_OK_Email": self.emailTextField.text!])
                                 // 登入成功,導回首頁
                                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                
                                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                
                                 let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
                                 
                                 appDelegate.window?.rootViewController = initialViewController
+                                
                                 appDelegate.window?.makeKeyAndVisible()
                             }
                         }
@@ -141,9 +159,13 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             } else {
                 // 顯示失敗訊息
                 let controller = UIAlertController(title: "註冊失敗", message: error?.localizedDescription, preferredStyle: .alert)
+                
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                
                 controller.addAction(okAction)
+                
                 Analytics.logEvent("FoodieNotes_SignUp_Error", parameters: nil)
+                
                 self.present(controller, animated: true, completion: nil)
             }
         }

@@ -42,11 +42,13 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
         setViewStyle()
         
         self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+            
             if let userData = User(snapshot: snapshot) {
                 self.user = userData
                 
-                if !userData.headShotUrl.isEmpty {
-                    let url = URL(string: userData.headShotUrl)
+                guard let userHeadShotUrl = userData.headShotUrl else { return }
+                
+                    let url = URL(string: userHeadShotUrl)
                     let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                         if error != nil {
                             print("!!!ERROR_HERE_[StoreMaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
@@ -57,12 +59,12 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
                         }
                     })
                     task.resume()
-                }
+                    
                 self.storeNameTextField.text = userData.userName
                 self.telTextField.text = userData.tel
                 self.websiteTextField.text = userData.website
                 self.addressTextField.text = userData.address
-                self.priceTextField.text = String(userData.price)
+                self.priceTextField.text = userData.price != nil ? String(userData.price!) : ""
                 self.summaryTextField.text = userData.summary
                 self.summaryTextField.textColor = UIColor.black
             }

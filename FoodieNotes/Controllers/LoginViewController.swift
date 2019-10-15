@@ -37,35 +37,44 @@ class LoginViewController: UIViewController {
                 return
         }
         
-        Auth.auth().signIn(withEmail: email, password: password) { user, error in
-            if let error = error, user == nil {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                
                 let alert = UIAlertController(title: "登入失敗", message: error.localizedDescription, preferredStyle: .alert)
+                
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                
                 Analytics.logEvent("FoodieNotes_SignIn_Error", parameters: nil)
+                
                 self.present(alert, animated: true, completion: nil)
             } else {
-                var user: User!
-                var uid: String = ""
                 
-                if let user = Auth.auth().currentUser{
-                    uid = user.uid
-                    
+                guard let uid = result?.user.uid else {
+                    return
                 }
                 
-                self.usersRef.child(uid).observe( .value, with: { snapshot in
-                    if let userData = User(snapshot: snapshot) {
-                        user = userData
-                    }
+                self.usersRef.child(uid).observeSingleEvent( of: .value, with: { snapshot in
                     
-                    UserDefaults.standard.set(user.userType, forKey: UserDefaultKeys.AccountInfo.userType)
+                    guard
+                        let info = snapshot.value as? [String: Any],
+                        let userType = info["userType"] as? String
+                        else { return }
+                    
+                    UserDefaults.standard.set(userType, forKey: UserDefaultKeys.AccountInfo.userType)
+                    
                     UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                    
                     Analytics.logEvent("FoodieNotes_SignIn_OK", parameters: ["SignIn_OK_Email": email])
+                    
                     // 登入成功,導回首頁
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    
                     let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
                     
                     appDelegate.window?.rootViewController = initialViewController
+                    
                     appDelegate.window?.makeKeyAndVisible()
                 })
                 

@@ -44,12 +44,11 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
             userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
         }
         
-        print("uid==============>\(Auth.auth().currentUser!.uid)")
         if Auth.auth().currentUser != nil {
-            self.ref_users.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+            self.ref_users.child(Auth.auth().currentUser!.uid).observeSingleEvent( of: .value, with: { snapshot in
                 if let userData = User(snapshot: snapshot) {
                     var userImg: UIImage!
-                    let url = URL(string: userData.headShotUrl)
+                    let url = URL(string: userData.headShotUrl!)
                     let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                         if error != nil {
                             print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
@@ -63,7 +62,7 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
                             self.userTableView.reloadData()
                         }
                         
-                        self.ref_posts.queryOrdered(byChild: "postAddUserId").queryEqual(toValue: Auth.auth().currentUser!.uid).observe(.value, with: { snapshot in
+                        self.ref_posts.queryOrdered(byChild: "postAddUserId").queryEqual(toValue: Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
                             self.userPosts.removeAll()
                             for child in snapshot.children {
                                 if let snapshot = child as? DataSnapshot,
@@ -83,8 +82,9 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
                                                 let indexPost = IndexPost(StoreName: post.storeName, PostImg: postImg, PostContent: post.postContent, PostAddUserId: post.postAddUserId, LikeCount: post.likeCount, MessageCount: post.messageCount, UserName: userData.userName, UserType: userData.userType, HeadShotImg: userImg, PostDate: post.postDate)
                                                 
                                                 self.userPosts.append(indexPost)
-                                                self.userImg = userImg
-                                                self.user = userData
+                                                self.userPosts.sort(by: { (indexPost1, indexPost2) -> Bool in
+                                                    indexPost1.postDate > indexPost2.postDate
+                                                })
                                                 self.userTableView.reloadData()
                                             }
                                             

@@ -44,11 +44,17 @@ class SetUpViewController: UIViewController {
         do {
             // 登出,並導回首頁
             try Auth.auth().signOut()
+            
             Analytics.logEvent("FoodieNotes_SignOut", parameters: ["SignOut_OK": "OK"])
+            
             let userDefaults = UserDefaults.standard
+            
             userDefaults.set("", forKey: UserDefaultKeys.AccountInfo.userType)
+            
             userDefaults.set(false, forKey: UserDefaultKeys.LoginInfo.isLogin)
+            
             userDefaults.synchronize()
+            
             // 登入成功,導回首頁
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

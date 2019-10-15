@@ -11,45 +11,42 @@ import Firebase
 
 class User {
     
-    let ref: DatabaseReference?
-    var userType : String //0->店家, 1->一般用戶
-    var userName : String //店名 or 姓名
-    var birthday : String //生日
-    var gender : String //性別
-    var tel : String //電話
-    var email : String //Email
-    var website : String //網站
-    var address : String //地址
-    var price : Int //平均價位
-    var summary : String //簡介
-    var headShotUrl : String //Logo or 大頭貼儲存連結
+//    let ref: DatabaseReference? = nil
+    var uid: String
+    var email: String
+    var userType: String //0->店家, 1->一般用戶
+    var userName: String //店名 or 姓名
+    var tel: String? //電話
+    var website: String? //網站
+    var address: String? //地址
+    var price: Int? //平均價位
+    var summary: String? //簡介
+    var headShotUrl: String? //Logo or 大頭貼儲存連結
     
-    init(UserType userType : String, UserName userName : String, Birthday birthday : String, Gender gender : String, Tel tel : String, Email email : String, Website website : String, Address address : String, Price price : Int, Summary summary : String, HeadShotUrl headShotUrl : String) {
+//    init(authData: Firebase.User) {
+//        
+//        self.uid = authData.uid
+//        self.email = authData.email!
+//    }
+    
+    init(uid: String, email: String, userType: String, userName: String) {
         
-        self.ref = nil
+        self.uid = uid
+        self.email = email
         self.userType = userType
         self.userName = userName
-        self.birthday = birthday
-        self.gender = gender
-        self.tel = tel
-        self.email = email
-        self.website = website
-        self.address = address
-        self.price = price
-        self.summary = summary
-        self.headShotUrl = headShotUrl
     }
     
     init?(snapshot: DataSnapshot) {
+        
         guard
             let value = snapshot.value as? [String: AnyObject] else {
                 return nil
         }
         
+        let uid = value["uid"] as? String
         let userType = value["userType"] as? String
         let userName = value["userName"] as? String
-        let birthday = value["birthday"] as? String
-        let gender = value["gender"] as? String
         let tel = value["tel"] as? String
         let email = value["email"] as? String
         let website = value["website"] as? String
@@ -58,11 +55,9 @@ class User {
         let summary = value["summary"] as? String
         let headShotUrl = value["headShotUrl"] as? String
         
-        self.ref = snapshot.ref
+        self.uid = uid!
         self.userType = userType!
         self.userName = userName!
-        self.birthday = birthday!
-        self.gender = gender!
         self.tel = tel!
         self.email = email!
         self.website = website!
@@ -74,18 +69,42 @@ class User {
     }
     
     func toAnyObject() -> Any {
+        
+        let tel = self.tel != nil ? self.tel : ""
+        let website = self.website != nil ? self.website : ""
+        let address = self.address != nil ? self.address : ""
+        let price = self.price != nil ? self.price : 0
+        let summary = self.summary != nil ? self.summary : ""
+        let headShotUrl = self.headShotUrl != nil ? self.headShotUrl : ""
+        
         return [
+            "uid" : uid,
+            "email" : email,
             "userType" : userType,
             "userName" : userName,
-            "birthday" : birthday,
-            "gender" : gender,
-            "tel" : tel,
-            "email" : email,
-            "website" : website,
-            "address" : address,
-            "price" : price,
-            "summary" : summary,
-            "headShotUrl" : headShotUrl
+            "tel" : tel!,
+            "website" : website!,
+            "address" : address!,
+            "price" : price!,
+            "summary" : summary!,
+            "headShotUrl" : headShotUrl!
         ]
     }
+//    init(UserType userType : String, UserName userName : String, Birthday birthday : String, Gender gender : String, Tel tel : String, Email email : String, Website website : String, Address address : String, Price price : Int, Summary summary : String, HeadShotUrl headShotUrl : String) {
+//
+//        self.ref = nil
+//        self.userType = userType
+//        self.userName = userName
+//        self.birthday = birthday
+//        self.gender = gender
+//        self.tel = tel
+//        self.email = email
+//        self.website = website
+//        self.address = address
+//        self.price = price
+//        self.summary = summary
+//        self.headShotUrl = headShotUrl
+//    }
+    
+    
 }

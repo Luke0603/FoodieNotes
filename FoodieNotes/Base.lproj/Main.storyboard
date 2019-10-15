@@ -58,7 +58,7 @@
                         <viewLayoutGuide key="safeArea" id="zVb-fP-eaL"/>
                     </view>
                     <tabBarItem key="tabBarItem" tag="1" title="" image="Img_plus" id="g4T-yG-mld">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-20"/>
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="aej-HT-V7b">
                         <barButtonItem key="rightBarButtonItem" title="下一步" id="aC7-wZ-VvX">
@@ -449,7 +449,7 @@
                         <viewLayoutGuide key="safeArea" id="t6g-pR-DkL"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="Img_home" id="zTM-Wn-Esv">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-20"/>
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
                     </tabBarItem>
                     <connections>
                         <outlet property="indexTableView" destination="B70-gW-WIu" id="pWO-lX-SMx"/>
@@ -828,7 +828,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="j3d-ld-vm7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="2" title="" image="Img_user" id="aPN-3d-azo">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-20"/>
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UE9-Xv-Yp3">
