@@ -20,8 +20,9 @@ class Post {
     var postAddUserId: String //貼文User
     var likeCount: Int //like次數
     var messageCount: Int //留言次數
+    var likes: Dictionary<String, Any>
     
-    init(StoreName storeName: String, StoreAddress storeAddress: String, PostImg postImg: String, PostContent postContent: String, PostDate postDate: String, PostAddUserId postAddUserId: String, LikeCount likeCount: Int, MessageCount messageCount: Int) {
+    init(StoreName storeName: String, StoreAddress storeAddress: String, PostImg postImg: String, PostContent postContent: String, PostDate postDate: String, PostAddUserId postAddUserId: String, LikeCount likeCount: Int, MessageCount messageCount: Int, Liles likes: Dictionary<String, Any>) {
         
         self.ref = nil
         self.storeName = storeName
@@ -32,6 +33,7 @@ class Post {
         self.postAddUserId = postAddUserId
         self.likeCount = likeCount
         self.messageCount = messageCount
+        self.likes = likes
     }
     
     init?(snapshot: DataSnapshot) {
@@ -48,6 +50,7 @@ class Post {
         let postAddUserId = value["postAddUserId"] as? String
         let likeCount = value["likeCount"] as? Int
         let messageCount = value["messageCount"] as? Int
+        let likes = value["likes"] as? Dictionary<String, Any>
         
         self.ref = snapshot.ref
         self.storeName = storeName!
@@ -58,6 +61,7 @@ class Post {
         self.postAddUserId = postAddUserId!
         self.likeCount = likeCount!
         self.messageCount = messageCount!
+        self.likes = likes!
         
     }
     
@@ -70,7 +74,8 @@ class Post {
             "postDate" : postDate,
             "postAddUserId" : postAddUserId,
             "likeCount" : likeCount,
-            "messageCount" : messageCount
+            "messageCount" : messageCount,
+            "likes" : likes
         ]
     }
 }

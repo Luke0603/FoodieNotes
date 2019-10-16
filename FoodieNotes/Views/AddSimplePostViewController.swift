@@ -196,7 +196,7 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
                         img_url = url!.absoluteString
                     }
                     
-                    let newPost: Post = Post(StoreName: self.postStoreAddressTextField.text!, StoreAddress: "", PostImg: img_url, PostContent: self.postContentTextView.text!, PostDate: dateString, PostAddUserId: Auth.auth().currentUser!.uid, LikeCount: 0, MessageCount: 0)
+                    let newPost: Post = Post(StoreName: self.postStoreAddressTextField.text!, StoreAddress: "", PostImg: img_url, PostContent: self.postContentTextView.text!, PostDate: dateString, PostAddUserId: Auth.auth().currentUser!.uid, LikeCount: 0, MessageCount: 0, Liles: ["Init" : "Init"])
                     
                     self.postRef.child(uniqueString).setValue(newPost.toAnyObject())
                     self.rootTabbarController.selectedIndex = 0

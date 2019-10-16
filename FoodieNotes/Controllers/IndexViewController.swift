@@ -11,6 +11,9 @@ import Firebase
 
 class MyTapGesture: UITapGestureRecognizer {
     var post: IndexPost!
+    var likeCountLabel: UILabel!
+    var likeButton: UIButton!
+    var selectRowNumber: Int!
 }
 
 class IndexViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -68,6 +71,11 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         //        self.removeSpinner()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     @objc func loadData(){
         //        refreshControl.beginRefreshing()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
@@ -81,53 +89,63 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         //        postLives.append(PostLive(PostAddUserId: "123", PostDate: "20190825"))
         ref_posts.observeSingleEvent(of: .value, with: { snapshot in
             self.posts.removeAll()
+            self.postArray.removeAll()
             print("流程控制============> posts")
-            for child in snapshot.children {
-                if let snapshot = child as? DataSnapshot,
-                    let post = Post(snapshot: snapshot) {
-                    var postImg: UIImage!
-                    var userImg: UIImage!
-                    
-                    if !post.postImg.isEmpty {
-                        let url = URL(string: post.postImg)
-                        let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                            if error != nil {
-                                print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
-                                return
-                            }
-                            postImg = UIImage(data: data!)
-                            
-                            self.ref_users.child(post.postAddUserId).observeSingleEvent( of: .value, with: { snapshot in
-                                print("流程控制============> users")
-                                if let userData = User(snapshot: snapshot) {
-                                    let url2 = URL(string: userData.headShotUrl!)
-                                    let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
-                                        if error != nil {
-                                            print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
-                                            return
-                                        }
-                                        userImg = UIImage(data: data!)
-                                        
-                                        DispatchQueue.main.async {
-                                            let indexPost = IndexPost(StoreName: post.storeName, PostImg: postImg, PostContent: post.postContent, PostAddUserId: post.postAddUserId, LikeCount: post.likeCount, MessageCount: post.messageCount, UserName: userData.userName, UserType: userData.userType, HeadShotImg: userImg, PostDate: post.postDate)
-                                            
-                                            self.posts.append(indexPost)
-                                            self.posts.sort(by: { (indexPost1, indexPost2) -> Bool in
-                                                indexPost1.postDate > indexPost2.postDate
-                                            })
-                                            self.indexTableView.reloadData()
-                                            self.removeSpinner()
-                                        }
-                                    })
-                                    task2.resume()
+            if snapshot.childrenCount != 0 {
+                for child in snapshot.children {
+                    if let snapshot = child as? DataSnapshot,
+                        let post = Post(snapshot: snapshot) {
+                        var postImg: UIImage!
+                        var userImg: UIImage!
+                        
+                        if !post.postImg.isEmpty {
+                            let url = URL(string: post.postImg)
+                            let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                                if error != nil {
+                                    print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                                    return
                                 }
+                                postImg = UIImage(data: data!)
+                                
+                                self.ref_users.child(post.postAddUserId).observeSingleEvent( of: .value, with: { snapshot in
+                                    print("流程控制============> users")
+                                    if let userData = User(snapshot: snapshot) {
+                                        let url2 = URL(string: userData.headShotUrl!)
+                                        let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
+                                            if error != nil {
+                                                print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                                                return
+                                            }
+                                            userImg = UIImage(data: data!)
+                                            
+                                            DispatchQueue.main.async {
+                                                let indexPost = IndexPost(StoreName: post.storeName, PostImg: postImg, PostContent: post.postContent, PostAddUserId: post.postAddUserId, LikeCount: post.likes.count - 1, MessageCount: post.messageCount, UserName: userData.userName, UserType: userData.userType, HeadShotImg: userImg, PostDate: post.postDate)
+                                                
+                                                self.posts.append(indexPost)
+                                                self.posts.sort(by: { (indexPost1, indexPost2) -> Bool in
+                                                    indexPost1.postDate > indexPost2.postDate
+                                                })
+                                                self.postArray.append(post)
+                                                self.postArray.sort(by: { (indexPost1, indexPost2) -> Bool in
+                                                    indexPost1.postDate > indexPost2.postDate
+                                                })
+                                                self.userArray.append(userData)
+                                                self.indexTableView.reloadData()
+                                                self.removeSpinner()
+                                            }
+                                        })
+                                        task2.resume()
+                                    }
+                                })
                             })
-                        })
-                        task.resume()
+                            task.resume()
+                        }
+                        
+                        print("HERE_IndexViewController_posts: \(post.storeName)")
                     }
-                    
-                    print("HERE_IndexViewController_posts: \(post.storeName)")
                 }
+            } else {
+                self.removeSpinner()
             }
         })
     }
@@ -178,8 +196,16 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             postCell.userNameLB.isUserInteractionEnabled = true
             postCell.userNameLB.addGestureRecognizer(tap)
             
-            postCell.likeButton.tag = indexPath.item
-            postCell.likeButton.addTarget(self, action: #selector(IndexViewController.didTouchLikeButton(_:)), for: .touchUpInside)
+            let tap_button = MyTapGesture(target: self, action: #selector(IndexViewController.didTouchLikeButton(_:)))
+            tap_button.likeCountLabel = postCell.likeCountLB
+            tap_button.likeButton = postCell.likeButton
+            tap_button.selectRowNumber = indexPath.item
+            postCell.likeButton.isUserInteractionEnabled = true
+            postCell.likeButton.addGestureRecognizer(tap_button)
+            let post_org = postArray[indexPath.item]
+            if post_org.likes[Auth.auth().currentUser!.uid] != nil {
+                postCell.likeButton.setImage(UIImage(named: "Img_like"), for: .normal)
+            }
             
             let tap2 = MyTapGesture(target: self, action: #selector(IndexViewController.didTouchCommentImg(_:)))
             tap2.post = post
@@ -200,14 +226,71 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
     }
     
-    @IBAction func didTouchLikeButton(_ sender: UIButton) {
-        _ = posts[sender.tag]
+    @IBAction func didTouchLikeButton(_ sender: MyTapGesture) {
+        let likeButton = sender.likeButton!
+        let likeCountLabel = sender.likeCountLabel!
+        let post = postArray[sender.selectRowNumber]
+        let likeCount = Int(likeCountLabel.text!)
+//        var isAddCount: Bool = true
         
-        if sender.imageView!.image!.isEqual(UIImage(named: "Img_unlike")) {
-            sender.setImage(UIImage(named: "Img_like"), for: .normal)
+        
+        
+        if likeButton.imageView!.image!.isEqual(UIImage(named: "Img_unlike")) {
+            
+            likeButton.setImage(UIImage(named: "Img_like"), for: .normal)
+            likeCountLabel.text = String(likeCount! + 1)
+            
+            self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).setValue(Auth.auth().currentUser!.uid)
         } else {
-            sender.setImage(UIImage(named: "Img_unlike"), for: .normal)
+            
+            likeButton.setImage(UIImage(named: "Img_unlike"), for: .normal)
+            likeCountLabel.text = String(likeCount! - 1)
+            
+            self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).removeValue { error, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            }
         }
+        
+        
+        
+        
+        
+//        ref_posts.child((post.ref?.key)!).observeSingleEvent( of: .value, with: { (snapshot) in
+//
+//            if let value = snapshot.value as? [String: Any] {
+//                var nowPostLikes = value["likes"] as? [String] ?? []
+//                let nowPostLikeCount = value["likeCount"] as? Int ?? 0
+//                var newPostLikeCount: Int = 0
+//                var newPostLikes: [String]
+//
+//                if isAddCount {
+//
+//                    newPostLikeCount = nowPostLikeCount + 1
+//
+//                    self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).setValue(Auth.auth().currentUser!.uid)
+//
+//                    nowPostLikes.append(Auth.auth().currentUser!.uid)
+//                    newPostLikes = nowPostLikes
+//                } else {
+//
+//                    newPostLikeCount = nowPostLikeCount - 1
+//
+//                    self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).removeValue { error, _ in
+//                        if error != nil {
+//                            print(error!.localizedDescription)
+//                        }
+//                    }
+//
+//                    newPostLikes = nowPostLikes.filter{ $0 != Auth.auth().currentUser!.uid }
+//                }
+        
+//                self.ref_posts.child((post.ref?.key)!).updateChildValues(["likes": newPostLikes])
+//                self.ref_posts.child((post.ref?.key)!).updateChildValues(["likeCount": newPostLikeCount])
+                
+//            }
+//        })
         //        self.indexTableView.reloadData()
     }
     
