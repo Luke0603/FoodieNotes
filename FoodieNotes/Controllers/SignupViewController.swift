@@ -141,6 +141,10 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                                 
                                 UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
                                 
+                                UserDefaults.standard.set(data, forKey: UserDefaultKeys.AccountInfo.userImg)
+                                
+                                UserDefaults.standard.set(self.nickNameTextField.text!, forKey: UserDefaultKeys.AccountInfo.userName)
+                                
                                 Analytics.logEvent("FoodieNotes_SignUp_OK", parameters: ["SignUp_OK_Email": self.emailTextField.text!])
                                 // 登入成功,導回首頁
                                 let appDelegate = UIApplication.shared.delegate as! AppDelegate

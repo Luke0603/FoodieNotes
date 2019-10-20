@@ -11,6 +11,7 @@ import Firebase
 
 class MyTapGesture: UITapGestureRecognizer {
     var post: IndexPost!
+    var postId: String!
     var likeCountLabel: UILabel!
     var likeButton: UIButton!
     var selectRowNumber: Int!
@@ -209,6 +210,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             let tap2 = MyTapGesture(target: self, action: #selector(IndexViewController.didTouchCommentImg(_:)))
             tap2.post = post
+            tap2.postId = postArray[indexPath.item].ref!.key
             postCell.messageImg.isUserInteractionEnabled = true
             postCell.messageImg.addGestureRecognizer(tap2)
             
@@ -253,10 +255,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-        
-        
-        
-        
 //        ref_posts.child((post.ref?.key)!).observeSingleEvent( of: .value, with: { (snapshot) in
 //
 //            if let value = snapshot.value as? [String: Any] {
@@ -295,11 +293,10 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func didTouchCommentImg(_ sender: MyTapGesture) {
-        let post = sender.post
         
         if let controller = storyboard?.instantiateViewController(withIdentifier: "CommentNGC") {
             if let commentViewController = controller.children[0] as? CommentViewController {
-                commentViewController.post = post
+                commentViewController.postId = sender.postId
                 present(controller, animated: false, completion: nil)
             }
         }

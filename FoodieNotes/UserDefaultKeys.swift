@@ -14,6 +14,10 @@ struct UserDefaultKeys {
     struct AccountInfo {
     
         static let userType = "userType"
+        
+        static let userName = "userName"
+        
+        static let userImg = "userImg"
     }
     
     // 登入資料

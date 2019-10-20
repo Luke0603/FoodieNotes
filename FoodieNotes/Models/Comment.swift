@@ -7,17 +7,20 @@
 //
 
 import Foundation
+import UIKit
 
 class Comment {
-    var commentText: String?
-    var uid: String?
-}
-
-extension Comment {
-    static func transformComment(dict: [String: Any]) -> Comment {
-        let comment = Comment()
-        comment.commentText = dict["commentText"] as? String
-        comment.uid = dict["uid"] as? String
-        return comment
+    
+    var message: String
+    var userName: String
+    var userImg: UIImage
+    var createDate: String
+    
+    init(Message message: String, UserName userName: String, UserImg userImg: UIImage, CreateDate createDate: String) {
+        
+        self.message = message
+        self.userName = userName
+        self.userImg = userImg
+        self.createDate = createDate
     }
 }

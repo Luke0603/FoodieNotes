@@ -133,6 +133,8 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
                         self.user.userName = self.userNickNameTextField.text!
                         self.user.summary = self.userSummaryTextView.text!
                         self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
+                        UserDefaults.standard.set(data, forKey: UserDefaultKeys.AccountInfo.userImg)
+                        UserDefaults.standard.set(self.userNickNameTextField.text!, forKey: UserDefaultKeys.AccountInfo.userName)
                         self.dismiss(animated: false, completion: nil) // 返回前一頁
                     }
                 }

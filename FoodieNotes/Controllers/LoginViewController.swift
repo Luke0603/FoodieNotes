@@ -57,25 +57,45 @@ class LoginViewController: UIViewController {
                     
                     guard
                         let info = snapshot.value as? [String: Any],
-                        let userType = info["userType"] as? String
+                        let userType = info["userType"] as? String,
+                        let userName = info["userName"] as? String,
+                        let userImgUrl = info["headShotUrl"] as? String
                         else { return }
                     
-                    UserDefaults.standard.set(userType, forKey: UserDefaultKeys.AccountInfo.userType)
+                    let url2 = URL(string: userImgUrl)
+                    let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
+                        if error != nil {
+                            print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            
+                            UserDefaults.standard.set(userType, forKey: UserDefaultKeys.AccountInfo.userType)
+                            
+                            UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
+                            
+                            UserDefaults.standard.set(UIImage(data: data!)!.jpegData(compressionQuality: 1.0), forKey: UserDefaultKeys.AccountInfo.userImg)
+                            
+                            UserDefaults.standard.set(userName, forKey: UserDefaultKeys.AccountInfo.userName)
+                            
+                            Analytics.logEvent("FoodieNotes_SignIn_OK", parameters: ["SignIn_OK_Email": email])
+                            
+                            // 登入成功,導回首頁
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            
+                            let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
+                            
+                            appDelegate.window?.rootViewController = initialViewController
+                            
+                            appDelegate.window?.makeKeyAndVisible()
+                        }
+                    })
+                    task2.resume()
                     
-                    UserDefaults.standard.set(true, forKey: UserDefaultKeys.LoginInfo.isLogin)
                     
-                    Analytics.logEvent("FoodieNotes_SignIn_OK", parameters: ["SignIn_OK_Email": email])
-                    
-                    // 登入成功,導回首頁
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    
-                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
-                    
-                    appDelegate.window?.rootViewController = initialViewController
-                    
-                    appDelegate.window?.makeKeyAndVisible()
                 })
                 
                 
