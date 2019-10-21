@@ -112,9 +112,10 @@ class CommentViewController: MessageViewController, UITableViewDataSource, UITab
                                 let comment = Comment.init(Message: message, UserName: userData.userName, UserImg: userImg, CreateDate: createDate)
                                 
                                 self.comments.append(comment)
+                                self.comments.sort(by: { (indexPost1, indexPost2) -> Bool in
+                                    indexPost1.createDate < indexPost2.createDate
+                                })
                                 self.commentTabelView.reloadData()
-                                
-                                print("Comments ==================> \(self.comments)")
                             }
                         })
                         task.resume()

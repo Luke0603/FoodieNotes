@@ -57,6 +57,8 @@ class SetUpViewController: UIViewController {
             
             userDefaults.removeObject(forKey: UserDefaultKeys.AccountInfo.userName)
             
+            userDefaults.removeObject(forKey: UserDefaultKeys.AccountInfo.userBlackList)
+            
             userDefaults.synchronize()
             
             // 登入成功,導回首頁

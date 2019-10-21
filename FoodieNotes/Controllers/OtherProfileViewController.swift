@@ -174,8 +174,20 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBAction func addBlacklistDidTouch(_ sender: Any) {
         
-        addBlacklistButton.setTitle("已封鎖",for: .normal)
-        addBlacklistButton.setTitleColor(UIColor.red, for: .normal)
+        if addBlacklistButton.titleLabel?.text != "已封鎖" {
+            
+            addBlacklistButton.setTitle("已封鎖",for: .normal)
+            addBlacklistButton.setTitleColor(UIColor.red, for: .normal)
+            
+            if var blackListArray = UserDefaults.standard.array(forKey: UserDefaultKeys.AccountInfo.userBlackList) as? [String] {
+                
+                blackListArray.append(post.postAddUserId)
+                UserDefaults.standard.set(blackListArray, forKey: UserDefaultKeys.AccountInfo.userBlackList)
+            } else {
+                
+                let newBlackListArray = [post.postAddUserId]
+                UserDefaults.standard.set(newBlackListArray, forKey: UserDefaultKeys.AccountInfo.userBlackList)
+            }
+        }
     }
-    
 }

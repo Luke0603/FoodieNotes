@@ -18,6 +18,8 @@ struct UserDefaultKeys {
         static let userName = "userName"
         
         static let userImg = "userImg"
+        
+        static let userBlackList = "userBlackList"
     }
     
     // 登入資料

@@ -23,6 +23,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     let ref_posts = Database.database().reference(withPath: "posts")
     let ref_users = Database.database().reference(withPath: "users")
     let storageRef_users = Storage.storage().reference(withPath: "users")
+    var blackListArray: [String] = []
     var model: IndexTableViewModel!
     var refreshControl: UIRefreshControl!
     var postLives: [PostLive] = []
@@ -41,6 +42,9 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         print("============2===========")
+        if let array = UserDefaults.standard.array(forKey: UserDefaultKeys.AccountInfo.userBlackList) as? [String] {
+            blackListArray = array
+        }
         //        self.getModel()
         //        UserDefaults.standard.set("", forKey: UserDefaultKeys.AccountInfo.userType)
         //        UserDefaults.standard.set(false, forKey: UserDefaultKeys.LoginInfo.isLogin)
@@ -81,6 +85,9 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         //        refreshControl.beginRefreshing()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
             self.getModel()
+            if let array = UserDefaults.standard.array(forKey: UserDefaultKeys.AccountInfo.userBlackList) as? [String] {
+                self.blackListArray = array
+            }
             self.refreshControl.endRefreshing()
         }
         
@@ -96,55 +103,59 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                 for child in snapshot.children {
                     if let snapshot = child as? DataSnapshot,
                         let post = Post(snapshot: snapshot) {
-                        var postImg: UIImage!
-                        var userImg: UIImage!
                         
-                        if !post.postImg.isEmpty {
-                            let url = URL(string: post.postImg)
-                            let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                                if error != nil {
-                                    print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
-                                    return
-                                }
-                                postImg = UIImage(data: data!)
-                                
-                                self.ref_users.child(post.postAddUserId).observeSingleEvent( of: .value, with: { snapshot in
-                                    print("流程控制============> users")
-                                    if let userData = User(snapshot: snapshot) {
-                                        let url2 = URL(string: userData.headShotUrl!)
-                                        let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
-                                            if error != nil {
-                                                print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
-                                                return
-                                            }
-                                            userImg = UIImage(data: data!)
-                                            
-                                            DispatchQueue.main.async {
-                                                let indexPost = IndexPost(StoreName: post.storeName, PostImg: postImg, PostContent: post.postContent, PostAddUserId: post.postAddUserId, LikeCount: post.likes.count - 1, MessageCount: post.messageCount, UserName: userData.userName, UserType: userData.userType, HeadShotImg: userImg, PostDate: post.postDate)
-                                                
-                                                self.posts.append(indexPost)
-                                                self.posts.sort(by: { (indexPost1, indexPost2) -> Bool in
-                                                    indexPost1.postDate > indexPost2.postDate
-                                                })
-                                                self.postArray.append(post)
-                                                self.postArray.sort(by: { (indexPost1, indexPost2) -> Bool in
-                                                    indexPost1.postDate > indexPost2.postDate
-                                                })
-                                                self.userArray.append(userData)
-                                                self.indexTableView.reloadData()
-                                                self.removeSpinner()
-                                            }
-                                        })
-                                        task2.resume()
-                                    }
-                                })
-                            })
-                            task.resume()
+                        if self.blackListArray.contains(post.postAddUserId) {
+                            continue
                         }
-                        
-                        print("HERE_IndexViewController_posts: \(post.storeName)")
+                            var postImg: UIImage!
+                            var userImg: UIImage!
+                            
+                            if !post.postImg.isEmpty {
+                                let url = URL(string: post.postImg)
+                                let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                                    if error != nil {
+                                        print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                                        return
+                                    }
+                                    postImg = UIImage(data: data!)
+                                    
+                                    self.ref_users.child(post.postAddUserId).observeSingleEvent( of: .value, with: { snapshot in
+                                        print("流程控制============> users")
+                                        if let userData = User(snapshot: snapshot) {
+                                            let url2 = URL(string: userData.headShotUrl!)
+                                            let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
+                                                if error != nil {
+                                                    print("!!!ERROR_HERE_[MaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                                                    return
+                                                }
+                                                userImg = UIImage(data: data!)
+                                                
+                                                DispatchQueue.main.async {
+                                                    let indexPost = IndexPost(StoreName: post.storeName, PostImg: postImg, PostContent: post.postContent, PostAddUserId: post.postAddUserId, LikeCount: post.likes.count - 1, MessageCount: post.messageCount, UserName: userData.userName, UserType: userData.userType, HeadShotImg: userImg, PostDate: post.postDate)
+                                                    
+                                                    self.posts.append(indexPost)
+                                                    self.posts.sort(by: { (indexPost1, indexPost2) -> Bool in
+                                                        indexPost1.postDate > indexPost2.postDate
+                                                    })
+                                                    self.postArray.append(post)
+                                                    self.postArray.sort(by: { (indexPost1, indexPost2) -> Bool in
+                                                        indexPost1.postDate > indexPost2.postDate
+                                                    })
+                                                    self.userArray.append(userData)
+                                                    self.indexTableView.reloadData()
+                                                    self.removeSpinner()
+                                                }
+                                            })
+                                            task2.resume()
+                                        }
+                                    })
+                                })
+                                task.resume()
+                            }
+                            
+                            print("HERE_IndexViewController_posts: \(post.storeName)")
+                        }
                     }
-                }
             } else {
                 self.removeSpinner()
             }
@@ -206,6 +217,8 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             let post_org = postArray[indexPath.item]
             if post_org.likes[Auth.auth().currentUser!.uid] != nil {
                 postCell.likeButton.setImage(UIImage(named: "Img_like"), for: .normal)
+            } else {
+                postCell.likeButton.setImage(UIImage(named: "Img_unlike"), for: .normal)
             }
             
             let tap2 = MyTapGesture(target: self, action: #selector(IndexViewController.didTouchCommentImg(_:)))
@@ -233,7 +246,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         let likeCountLabel = sender.likeCountLabel!
         let post = postArray[sender.selectRowNumber]
         let likeCount = Int(likeCountLabel.text!)
-//        var isAddCount: Bool = true
+        //        var isAddCount: Bool = true
         
         
         
@@ -255,40 +268,40 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-//        ref_posts.child((post.ref?.key)!).observeSingleEvent( of: .value, with: { (snapshot) in
-//
-//            if let value = snapshot.value as? [String: Any] {
-//                var nowPostLikes = value["likes"] as? [String] ?? []
-//                let nowPostLikeCount = value["likeCount"] as? Int ?? 0
-//                var newPostLikeCount: Int = 0
-//                var newPostLikes: [String]
-//
-//                if isAddCount {
-//
-//                    newPostLikeCount = nowPostLikeCount + 1
-//
-//                    self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).setValue(Auth.auth().currentUser!.uid)
-//
-//                    nowPostLikes.append(Auth.auth().currentUser!.uid)
-//                    newPostLikes = nowPostLikes
-//                } else {
-//
-//                    newPostLikeCount = nowPostLikeCount - 1
-//
-//                    self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).removeValue { error, _ in
-//                        if error != nil {
-//                            print(error!.localizedDescription)
-//                        }
-//                    }
-//
-//                    newPostLikes = nowPostLikes.filter{ $0 != Auth.auth().currentUser!.uid }
-//                }
+        //        ref_posts.child((post.ref?.key)!).observeSingleEvent( of: .value, with: { (snapshot) in
+        //
+        //            if let value = snapshot.value as? [String: Any] {
+        //                var nowPostLikes = value["likes"] as? [String] ?? []
+        //                let nowPostLikeCount = value["likeCount"] as? Int ?? 0
+        //                var newPostLikeCount: Int = 0
+        //                var newPostLikes: [String]
+        //
+        //                if isAddCount {
+        //
+        //                    newPostLikeCount = nowPostLikeCount + 1
+        //
+        //                    self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).setValue(Auth.auth().currentUser!.uid)
+        //
+        //                    nowPostLikes.append(Auth.auth().currentUser!.uid)
+        //                    newPostLikes = nowPostLikes
+        //                } else {
+        //
+        //                    newPostLikeCount = nowPostLikeCount - 1
+        //
+        //                    self.ref_posts.child((post.ref?.key)!).child("likes").child(Auth.auth().currentUser!.uid).removeValue { error, _ in
+        //                        if error != nil {
+        //                            print(error!.localizedDescription)
+        //                        }
+        //                    }
+        //
+        //                    newPostLikes = nowPostLikes.filter{ $0 != Auth.auth().currentUser!.uid }
+        //                }
         
-//                self.ref_posts.child((post.ref?.key)!).updateChildValues(["likes": newPostLikes])
-//                self.ref_posts.child((post.ref?.key)!).updateChildValues(["likeCount": newPostLikeCount])
-                
-//            }
-//        })
+        //                self.ref_posts.child((post.ref?.key)!).updateChildValues(["likes": newPostLikes])
+        //                self.ref_posts.child((post.ref?.key)!).updateChildValues(["likeCount": newPostLikeCount])
+        
+        //            }
+        //        })
         //        self.indexTableView.reloadData()
     }
     
