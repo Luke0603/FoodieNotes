@@ -13,16 +13,22 @@ import Firebase
 class OtherProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var addBlacklistButton: UIButton!
+    @IBOutlet weak var addFollowButton: UIButton!
     @IBOutlet weak var userTableView: UITableView!
+    
     
     var post: IndexPost!
     var userImg: UIImage!
     var user: User!
     var userPosts: [IndexPost] = []
+    var userFansCount: Int = 0
+    var userFollowsCount: Int = 0
     let ref_users = Database.database().reference(withPath: "users")
     let storageRef_users = Storage.storage().reference(withPath: "users")
     let storageRef_posts = Storage.storage().reference(withPath: "posts")
     let ref_posts = Database.database().reference(withPath: "posts")
+    let ref_fans = Database.database().reference(withPath: "fans")
+    let ref_follows = Database.database().reference(withPath: "follows")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +40,20 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
         userTableView.rowHeight = UITableView.automaticDimension
         userTableView.contentInsetAdjustmentBehavior = .never
         
-        self.ref_users.child(post.postAddUserId).observe( .value, with: { snapshot in
+        if post.userType == Constant.UserType.store {
+            userTableView.register(UINib(nibName:"StoreTableViewCell", bundle:nil),forCellReuseIdentifier:"StoreTableViewCell")
+        } else if post.userType == Constant.UserType.user {
+            userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
+        }
+        
+        loadData()
+        loadCountData()
+        // Do any additional setup after loading the view.
+    }
+    
+    func loadData() {
+        
+        ref_users.child(post.postAddUserId).observeSingleEvent(of: .value, with: { snapshot in
             if let userData = User(snapshot: snapshot) {
                 var userImg: UIImage!
                 let url = URL(string: userData.headShotUrl!)
@@ -80,14 +99,30 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
                 task.resume()
             }
         })
+    }
+    
+    func loadCountData() {
         
-        if post.userType == Constant.UserType.store {
-            userTableView.register(UINib(nibName:"StoreTableViewCell", bundle:nil),forCellReuseIdentifier:"StoreTableViewCell")
-        } else if post.userType == Constant.UserType.user {
-            userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
-        }
+        ref_fans.child(post.postAddUserId).observeSingleEvent(of: .value, with: { snapshot in
+            
+            if snapshot.hasChild(Auth.auth().currentUser!.uid) {
+                self.addFollowButton.setTitle("已追蹤", for: .normal)
+            }
+            
+            self.userFansCount = Int(snapshot.childrenCount) - 1
+            
+            DispatchQueue.main.async {
+                self.userTableView.reloadData()
+            }
+        })
         
-        // Do any additional setup after loading the view.
+        ref_follows.child(post.postAddUserId).observeSingleEvent(of: .value, with: { snapshot in
+            
+            self.userFollowsCount = Int(snapshot.childrenCount) - 1
+            DispatchQueue.main.async {
+                self.userTableView.reloadData()
+            }
+        })
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -142,9 +177,10 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
         if let userTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "UserTableViewCell") as? UserTableViewCell {
             
             userTableViewCell.userImg.image = self.userImg
+            userTableViewCell.userImg.layer.cornerRadius = userTableViewCell.userImg.frame.width / 2
             userTableViewCell.userNameLabel.text = self.user.userName
-            userTableViewCell.userFansCountLabel.text = "10000"
-            userTableViewCell.userFollowCountLabel.text = "20000"
+            userTableViewCell.userFansCountLabel.text = String(self.userFansCount)
+            userTableViewCell.userFollowCountLabel.text = String(self.userFollowsCount)
             userTableViewCell.userSummaryLabel.text = self.user.summary
             userTableViewCell.userPosts = self.userPosts
             
@@ -188,6 +224,42 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
                 let newBlackListArray = [post.postAddUserId]
                 UserDefaults.standard.set(newBlackListArray, forKey: UserDefaultKeys.AccountInfo.userBlackList)
             }
+            
+            if addFollowButton.titleLabel?.text != "已追蹤" {
+                
+                ref_fans.child(post.postAddUserId).child(Auth.auth().currentUser!.uid).removeValue { error, _ in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    }
+                }
+            }
         }
+    }
+    
+    @IBAction func addFollow(_ sender: Any) {
+        
+        if addFollowButton.titleLabel?.text != "已追蹤" {
+            
+            ref_fans.child(post.postAddUserId).child(Auth.auth().currentUser!.uid).setValue(Auth.auth().currentUser!.uid)
+            ref_follows.child(Auth.auth().currentUser!.uid).child(post.postAddUserId).setValue(post.postAddUserId)
+            addFollowButton.setTitle("已追蹤", for: .normal)
+        } else {
+            
+            ref_fans.child(post.postAddUserId).child(Auth.auth().currentUser!.uid).removeValue { error, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            }
+            
+            ref_follows.child(Auth.auth().currentUser!.uid).child(post.postAddUserId).removeValue { error, _ in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            }
+            
+            addFollowButton.setTitle("+追蹤", for: .normal)
+        }
+        
+        loadCountData()
     }
 }

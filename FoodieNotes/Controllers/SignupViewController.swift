@@ -18,6 +18,8 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     let usersRef = Database.database().reference(withPath: "users")
     let storageRef = Storage.storage().reference(withPath: "users")
+    let fansRef = Database.database().reference(withPath: "fans")
+    let followsRef = Database.database().reference(withPath: "follows")
     let userTypeArray = ["請選擇角色", "店家", "吃貨"]
     var userType: String = ""
     var userType_UserDefault: String = ""
@@ -136,6 +138,10 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                                 user.headShotUrl = url?.absoluteString
                                 
                                 userref.setValue(user.toAnyObject())
+                                
+                                self.fansRef.child(resultUser.uid).child("Init").setValue("Init")
+                                
+                                self.followsRef.child(resultUser.uid).child("Init").setValue("Init")
                                 
                                 UserDefaults.standard.set(user.userType, forKey: UserDefaultKeys.AccountInfo.userType)
                                 

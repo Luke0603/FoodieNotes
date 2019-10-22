@@ -15,10 +15,14 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
     var userImg: UIImage!
     var user: User!
     var userPosts: [IndexPost] = []
+    var userFansCount: Int = 0
+    var userFollowsCount: Int = 0
     let ref_users = Database.database().reference(withPath: "users")
     let storageRef_users = Storage.storage().reference(withPath: "users")
     let storageRef_posts = Storage.storage().reference(withPath: "posts")
     let ref_posts = Database.database().reference(withPath: "posts")
+    let ref_fans = Database.database().reference(withPath: "fans")
+    let ref_follows = Database.database().reference(withPath: "follows")
     
     @IBOutlet weak var userTableView: UITableView!
     
@@ -43,6 +47,12 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         } else if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
             userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
         }
+        
+        loadData()
+        loadCountData()
+    }
+    
+    func loadData() {
         
         if Auth.auth().currentUser != nil {
             self.ref_users.child(Auth.auth().currentUser!.uid).observeSingleEvent( of: .value, with: { snapshot in
@@ -102,6 +112,26 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
+    func loadCountData() {
+        
+        ref_fans.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
+            
+            self.userFansCount = Int(snapshot.childrenCount) - 1
+            
+            DispatchQueue.main.async {
+                self.userTableView.reloadData()
+            }
+        })
+        
+        ref_follows.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
+            
+            self.userFollowsCount = Int(snapshot.childrenCount) - 1
+            DispatchQueue.main.async {
+                self.userTableView.reloadData()
+            }
+        })
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -156,10 +186,10 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
             if let userTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "UserTableViewCell") as? UserTableViewCell {
                 
                 userTableViewCell.userImg.image = self.userImg
-                userTableViewCell.userImg.layer.cornerRadius = userTableViewCell.userImg.frame.width/2
+                userTableViewCell.userImg.layer.cornerRadius = userTableViewCell.userImg.frame.width / 2
                 userTableViewCell.userNameLabel.text = self.user.userName
-                userTableViewCell.userFansCountLabel.text = "0"
-                userTableViewCell.userFollowCountLabel.text = "0"
+                userTableViewCell.userFansCountLabel.text = String(self.userFansCount)
+                userTableViewCell.userFollowCountLabel.text = String(self.userFollowsCount)
                 userTableViewCell.userSummaryLabel.text = self.user.summary
                 userTableViewCell.userPosts = self.userPosts
                 
@@ -182,37 +212,4 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
             present(controller, animated: false, completion: nil)
         }
     }
-    
-    //    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    //
-    //        print("forRowAt!!!!")
-    //
-    //        guard let userPostsTableViewCell = cell as? UserTableViewCell else { return }
-    //
-    //        userPostsTableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-    //
-    //        userPostsTableViewCell.frame = tableView.bounds
-    //
-    //        userPostsTableViewCell.layoutIfNeeded()
-    //    }
 }
-
-//extension UserProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        print("model[collectionView.tag].count: \(model[collectionView.tag].count)")
-//        return model[collectionView.tag].count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        
-//        var cell: UICollectionViewCell = UICollectionViewCell()
-//        
-//        if let userPostsCollectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserPostsCollectionViewCell", for: indexPath) as? UserPostsCollectionViewCell {
-//            cell = userPostsCollectionCell
-//        }
-//        
-//        return cell
-//    }
-//}
-
