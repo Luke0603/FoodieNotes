@@ -14,11 +14,11 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLB: UILabel!
     @IBOutlet weak var contentLB: UILabel!
     @IBOutlet weak var likeCountLB: UILabel!
-    @IBOutlet weak var messageCountLB: UILabel!
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var userImg: UIImageView!
     @IBOutlet weak var messageImg: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var reportImgView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

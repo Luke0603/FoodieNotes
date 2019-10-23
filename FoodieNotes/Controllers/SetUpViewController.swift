@@ -49,9 +49,9 @@ class SetUpViewController: UIViewController {
             
             let userDefaults = UserDefaults.standard
             
-            userDefaults.removeObject(forKey: UserDefaultKeys.AccountInfo.userType)
+            userDefaults.set(false, forKey: UserDefaultKeys.LoginInfo.isLogin)
             
-            userDefaults.removeObject(forKey: UserDefaultKeys.LoginInfo.isLogin)
+            userDefaults.removeObject(forKey: UserDefaultKeys.AccountInfo.userType)
             
             userDefaults.removeObject(forKey: UserDefaultKeys.AccountInfo.userImg)
             

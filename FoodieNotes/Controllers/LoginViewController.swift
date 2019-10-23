@@ -12,10 +12,10 @@ import Firebase
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var textFieldLoginEmail: UITextField!
-    
     @IBOutlet weak var textFieldLoginPassword: UITextField!
     
     let usersRef = Database.database().reference(withPath: "users")
+    var mainTabbarViewController = UITabBarController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,15 +112,15 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func backDidTouch(_ sender: Any) {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let indexViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
-        
-        indexViewController.selectedIndex = 0
-        
-        present(indexViewController, animated: false, completion: nil)
-        
-        //        dismiss(animated: false, completion: nil) // 返回前一頁
+        //
+        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //
+        //        let indexViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
+        //
+        //        indexViewController.selectedIndex = 0
+        //
+        //        present(indexViewController, animated: false, completion: nil)
+        mainTabbarViewController.selectedIndex = 0
+        dismiss(animated: false, completion: nil) // 返回前一頁
     }
 }

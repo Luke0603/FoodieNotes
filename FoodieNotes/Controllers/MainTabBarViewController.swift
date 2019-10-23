@@ -22,17 +22,10 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
             if !UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                
                 let loginViewController = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
                 
+                loginViewController.mainTabbarViewController = self
                 self.present(loginViewController, animated: false, completion: nil)
-                
-                self.selectedIndex = 0
-            } else {
-//                if item.tag == 1 {
-//                    let controller = self.viewControllers![item.tag] as! AddPostViewController
-//                    controller.viewDidLoad()
-//                }
             }
             print("=============Here============")
         } else {

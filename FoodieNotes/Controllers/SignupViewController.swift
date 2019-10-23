@@ -20,7 +20,8 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     let storageRef = Storage.storage().reference(withPath: "users")
     let fansRef = Database.database().reference(withPath: "fans")
     let followsRef = Database.database().reference(withPath: "follows")
-    let userTypeArray = ["請選擇角色", "店家", "吃貨"]
+    let userTypeArray = ["請選擇角色", "吃貨"]
+//    let userTypeArray = ["請選擇角色", "店家", "吃貨"]
     var userType: String = ""
     var userType_UserDefault: String = ""
     var checkSelectRow: Int = 0
@@ -48,12 +49,12 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         myPickerView.dataSource = self
         alert.view.addSubview(myPickerView)
         
-        let saveAction = UIAlertAction(title: "OK", style: .default) { _ in
+        let saveAction = UIAlertAction(title: "確定", style: .default) { _ in
             self.userTypeLabel.text = self.userType
             self.checkSelectRow = self.selectRow
         }
         
-        let cancelAction = UIAlertAction(title: "BACK", style: .cancel)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
         
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
@@ -90,17 +91,22 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             return
         }
         
-        if self.checkSelectRow == 0 {
+        if self.userType == "請選擇角色" {
             
             let controller = UIAlertController(title: "資料檢核", message: "還沒有選擇角色喔!!", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             controller.addAction(okAction)
             self.present(controller, animated: true, completion: nil)
             return
-        } else if self.checkSelectRow == 1 {
+            
+        } else if self.userType == "店家" {
+            
             userType_UserDefault = Constant.UserType.store
-        } else if self.checkSelectRow == 2 {
+            
+        } else if self.userType == "吃貨" {
+            
             userType_UserDefault = Constant.UserType.user
+            
         }
         
         // 註冊帳號
@@ -202,7 +208,19 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         self.userType = userTypeArray[row]
         self.selectRow = row
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
-        print("pickerView -> userType: \(userType)")
+        var title = UILabel()
+        if let titleView = view {
+            title = titleView as! UILabel
+        }
+        title.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
+        title.textColor = UIColor.red
+        title.text = userTypeArray[row]
+        title.textAlignment = .center
+        
+        return title
     }
 }
