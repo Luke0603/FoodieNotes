@@ -41,9 +41,17 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
         userTableView.contentInsetAdjustmentBehavior = .never
         
         if post.userType == Constant.UserType.store {
+            
             userTableView.register(UINib(nibName:"StoreTableViewCell", bundle:nil),forCellReuseIdentifier:"StoreTableViewCell")
         } else if post.userType == Constant.UserType.user {
+            
             userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
+        }
+        
+        if !UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
+           
+            addFollowButton.isHidden = true
+            addBlacklistButton.isHidden = true
         }
         
         loadData()
@@ -105,8 +113,10 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
         
         ref_fans.child(post.postAddUserId).observeSingleEvent(of: .value, with: { snapshot in
             
-            if snapshot.hasChild(Auth.auth().currentUser!.uid) {
-                self.addFollowButton.setTitle("已追蹤", for: .normal)
+            if UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
+                if snapshot.hasChild(Auth.auth().currentUser!.uid) {
+                    self.addFollowButton.setTitle("已追蹤", for: .normal)
+                }
             }
             
             self.userFansCount = Int(snapshot.childrenCount) - 1

@@ -248,35 +248,37 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @IBAction func didTouchReportImg(_ sender: MyTapGesture) {
         
-        let post = postArray[sender.selectRowNumber]
-        let alert = UIAlertController(title: "檢舉", message: nil, preferredStyle: .actionSheet)
-        let titleString = NSMutableAttributedString(string: "檢舉")
-        let titleRange = NSRange(location: 0, length: titleString.length)
-        titleString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Georgia", size: 15.0)!, range: titleRange)
-        titleString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: titleRange)
-        alert.setValue(titleString, forKey: "attributedTitle")
-        
-        let spamAction = UIAlertAction(title: "這是垃圾訊息", style: .default) { _ in
-            self.ref_reports.child((post.ref?.key)!).child("reportMessage").setValue("這是垃圾訊息")
-            self.ref_reports.child((post.ref?.key)!).child("reportUser").setValue(Auth.auth().currentUser!.uid)
-            self.ref_reports.child((post.ref?.key)!).child("reportPost").setValue((post.ref?.key)!)
+        if UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
+            let post = postArray[sender.selectRowNumber]
+            let alert = UIAlertController(title: "檢舉", message: nil, preferredStyle: .actionSheet)
+            let titleString = NSMutableAttributedString(string: "檢舉")
+            let titleRange = NSRange(location: 0, length: titleString.length)
+            titleString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Georgia", size: 15.0)!, range: titleRange)
+            titleString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: titleRange)
+            alert.setValue(titleString, forKey: "attributedTitle")
+            
+            let spamAction = UIAlertAction(title: "這是垃圾訊息", style: .default) { _ in
+                self.ref_reports.child((post.ref?.key)!).child("reportMessage").setValue("這是垃圾訊息")
+                self.ref_reports.child((post.ref?.key)!).child("reportUser").setValue(Auth.auth().currentUser!.uid)
+                self.ref_reports.child((post.ref?.key)!).child("reportPost").setValue((post.ref?.key)!)
+            }
+            spamAction.setValue(UIColor.black, forKey: "titleTextColor")
+            
+            let discomfortAction = UIAlertAction(title: "內容不適當", style: .default) { _ in
+                self.ref_reports.child((post.ref?.key)!).child("reportMessage").setValue("內容不適當")
+                self.ref_reports.child((post.ref?.key)!).child("reportUser").setValue(Auth.auth().currentUser!.uid)
+                self.ref_reports.child((post.ref?.key)!).child("reportPost").setValue((post.ref?.key)!)
+            }
+            discomfortAction.setValue(UIColor.black, forKey: "titleTextColor")
+            
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel)
+            
+            alert.addAction(spamAction)
+            alert.addAction(discomfortAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
         }
-        spamAction.setValue(UIColor.black, forKey: "titleTextColor")
-        
-        let discomfortAction = UIAlertAction(title: "內容不適當", style: .default) { _ in
-            self.ref_reports.child((post.ref?.key)!).child("reportMessage").setValue("內容不適當")
-            self.ref_reports.child((post.ref?.key)!).child("reportUser").setValue(Auth.auth().currentUser!.uid)
-            self.ref_reports.child((post.ref?.key)!).child("reportPost").setValue((post.ref?.key)!)
-        }
-        discomfortAction.setValue(UIColor.black, forKey: "titleTextColor")
-        
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel)
-        
-        alert.addAction(spamAction)
-        alert.addAction(discomfortAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func didTouchLikeButton(_ sender: MyTapGesture) {
@@ -320,7 +322,8 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func goToProfilePage(_ sender: MyTapGesture) {
         let post = sender.post
         
-        if post?.postAddUserId != Auth.auth().currentUser?.uid {
+        if !UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) || post?.postAddUserId != Auth.auth().currentUser?.uid {
+            
             if let controller = storyboard?.instantiateViewController(withIdentifier: "OtherUserProfileNGC") {
                 if let otherProfileViewController = controller.children[0] as? OtherProfileViewController {
                     otherProfileViewController.post = post
@@ -328,6 +331,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
         } else {
+            
             self.tabBarController!.selectedIndex = 2
         }
     }
