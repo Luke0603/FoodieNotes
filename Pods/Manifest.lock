@@ -93,6 +93,7 @@ PODS:
   - GoogleUtilities/UserDefaults (6.3.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
+  - IQKeyboardManagerSwift (6.5.1)
   - leveldb-library (1.22)
   - MessageViewController (0.2.1)
   - nanopb (0.3.901):
@@ -111,6 +112,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - GoogleMaps
   - GooglePlaces
+  - IQKeyboardManagerSwift
   - MessageViewController
 
 SPEC REPOS:
@@ -134,6 +136,7 @@ SPEC REPOS:
     - GooglePlaces
     - GoogleUtilities
     - GTMSessionFetcher
+    - IQKeyboardManagerSwift
     - leveldb-library
     - MessageViewController
     - nanopb
@@ -158,10 +161,11 @@ SPEC CHECKSUMS:
   GooglePlaces: 7547289e3fffc8980f4a027be99888e29d59b15d
   GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
+  IQKeyboardManagerSwift: 9ac7524fad9f9fe9a3b98c927e7772471ca546d2
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MessageViewController: 63ef2719d82c91d949ad52e101f049028a5a0611
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: fcd825df648fb223a6d19e394520d24953fb56bd
+PODFILE CHECKSUM: 38d6dd589a80ae2c60caa0bd0685127777803258
 
 COCOAPODS: 1.7.5

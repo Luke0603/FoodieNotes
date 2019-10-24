@@ -16,6 +16,7 @@ target 'FoodieNotes' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'MessageViewController'
+  pod 'IQKeyboardManagerSwift'
 
   target 'FoodieNotesTests' do
     inherit! :search_paths

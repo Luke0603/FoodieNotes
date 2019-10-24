@@ -12,6 +12,7 @@ import Firebase
 import Fabric
 import GoogleMaps
 import GooglePlaces
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyBidg33gYFYS2TUTliVN8LxRB-akvvd6CM")
         GMSPlacesClient.provideAPIKey("AIzaSyBidg33gYFYS2TUTliVN8LxRB-akvvd6CM")
+        
+        IQKeyboardManager.shared.enable = true
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         

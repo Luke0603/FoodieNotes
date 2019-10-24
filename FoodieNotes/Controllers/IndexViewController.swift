@@ -85,10 +85,10 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func loadData(){
         //        refreshControl.beginRefreshing()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
-            self.getModel()
             if let array = UserDefaults.standard.array(forKey: UserDefaultKeys.AccountInfo.userBlackList) as? [String] {
                 self.blackListArray = array
             }
+            self.getModel()
             self.refreshControl.endRefreshing()
         }
         
