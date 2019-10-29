@@ -157,21 +157,44 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
             if let storeTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "StoreTableViewCell") as? StoreTableViewCell {
                 
-                storeTableViewCell.storeNameLabel.text = "Luke Chen"
-                storeTableViewCell.storeFansCountLabel.text = "0"
-                storeTableViewCell.storeFollowCountLabel.text = "0"
-                storeTableViewCell.storeSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
-                storeTableViewCell.storePriceLabel.text = "平均價位:1000"
+                storeTableViewCell.storeImg.image = self.userImg
+                storeTableViewCell.storeImg.layer.cornerRadius = storeTableViewCell.storeImg.frame.width / 2
+                storeTableViewCell.storeNameLabel.text = self.user.userName
+                storeTableViewCell.storeFansCountLabel.text = String(self.userFansCount)
+                storeTableViewCell.storeFollowCountLabel.text = String(self.userFollowsCount)
+                storeTableViewCell.storeSummaryLabel.text = self.user.summary
+                storeTableViewCell.storePosts = self.userPosts
+                storeTableViewCell.storePriceLabel.text = "平均價位：\(self.user.price!)"
+                
+//                storeTableViewCell.storeNameLabel.text = "Luke Chen"
+//                storeTableViewCell.storeFansCountLabel.text = "0"
+//                storeTableViewCell.storeFollowCountLabel.text = "0"
+//                storeTableViewCell.storeSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
+//                storeTableViewCell.storePriceLabel.text = "平均價位:1000"
                 
                 print("GMSCameraPosition<============ Start!!!!!")
                 // 將視角切換至台北 101
-                let camera = GMSCameraPosition.camera(withLatitude: 25.033671, longitude: 121.564427, zoom: 15.0)
-                storeTableViewCell.storeMapView.camera = camera
-                let marker = GMSMarker()
-                marker.position = CLLocationCoordinate2D(latitude: 25.033671, longitude: 121.564427)
-                marker.title = "Taiwan"
-                marker.snippet = "Taipei101"
-                marker.map = storeTableViewCell.storeMapView
+                if self.user.latitude != 0 && self.user.longitude != 0 {
+                    
+                    let camera = GMSCameraPosition.camera(withLatitude: self.user.latitude!, longitude: self.user.longitude!, zoom: 15.0)
+                    storeTableViewCell.storeMapView.camera = camera
+                    let marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: self.user.latitude!, longitude: self.user.longitude!)
+                    marker.title = self.user.address
+                    marker.snippet = self.user.address
+                    marker.map = storeTableViewCell.storeMapView
+                } else {
+                    
+                    let camera = GMSCameraPosition.camera(withLatitude: 25.0602993, longitude: 121.5210402, zoom: 15.0)
+                    storeTableViewCell.storeMapView.camera = camera
+                    let marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: 25.0602993, longitude: 121.5210402)
+                    marker.title = "Taiwan"
+                    marker.snippet = "Taipei101"
+                    marker.map = storeTableViewCell.storeMapView
+                }
+                
+                
                 print("GMSCameraPosition<============ End!!!!!")
                 
                 storeTableViewCell.frame = tableView.bounds

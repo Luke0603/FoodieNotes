@@ -10,6 +10,7 @@
 		9900AC41323FF685AECD046F /* Pods_FoodieNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54744744738DB838253E685E /* Pods_FoodieNotes.framework */; };
 		AE4C506A35A2AB4F0CA6D66C /* Pods_FoodieNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C80A1B919C89B99E2724AFD /* Pods_FoodieNotesTests.framework */; };
 		D9D02BFFBCD1D199EC3A928E /* Pods_FoodieNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C2DD96A6421E8104EC9BB71 /* Pods_FoodieNotesUITests.framework */; };
+		E40416402362FBA100FE4DF5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E404163F2362FBA100FE4DF5 /* SearchViewController.swift */; };
 		E42326F42350AD4C000ECA59 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42326F32350AD4C000ECA59 /* Comment.swift */; };
 		E42326F823545038000ECA59 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42326F723545038000ECA59 /* CurrentUser.swift */; };
 		E44576D7233F62370089BB03 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44576D6233F62370089BB03 /* CommentViewController.swift */; };
@@ -88,6 +89,7 @@
 		BAC2DEB11C839030D23CA17E /* Pods-FoodieNotesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodieNotesTests.release.xcconfig"; path = "Target Support Files/Pods-FoodieNotesTests/Pods-FoodieNotesTests.release.xcconfig"; sourceTree = "<group>"; };
 		D03EAEE9ABD026C924204465 /* Pods-FoodieNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodieNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-FoodieNotesUITests/Pods-FoodieNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D5D90F47DA23D669611BEDB1 /* Pods-FoodieNotesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodieNotesTests.debug.xcconfig"; path = "Target Support Files/Pods-FoodieNotesTests/Pods-FoodieNotesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E404163F2362FBA100FE4DF5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		E42326F32350AD4C000ECA59 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		E42326F723545038000ECA59 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		E44576D6233F62370089BB03 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				E4AC288B2327B756002E4910 /* OtherProfileViewController.swift */,
 				E44A770F2330C80E00DC6C0C /* SignupViewController.swift */,
 				E44576D6233F62370089BB03 /* CommentViewController.swift */,
+				E404163F2362FBA100FE4DF5 /* SearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -647,6 +650,7 @@
 				E4AC287F2326CB98002E4910 /* BlacklistTableViewCell.swift in Sources */,
 				E44576DB233F62B30089BB03 /* CommentTableViewCell.swift in Sources */,
 				E4B0CB3823130BF40090BA3C /* Helpers.swift in Sources */,
+				E40416402362FBA100FE4DF5 /* SearchViewController.swift in Sources */,
 				E4AC287923226EC3002E4910 /* MaintainInfoViewController.swift in Sources */,
 				E44A77122334DD4B00DC6C0C /* UIView_Extention.swift in Sources */,
 				E4B0CB342313042C0090BA3C /* PostLiveCollectionViewCell.swift in Sources */,
@@ -844,7 +848,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -865,7 +869,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

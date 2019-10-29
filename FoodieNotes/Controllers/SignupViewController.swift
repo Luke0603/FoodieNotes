@@ -20,8 +20,8 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     let storageRef = Storage.storage().reference(withPath: "users")
     let fansRef = Database.database().reference(withPath: "fans")
     let followsRef = Database.database().reference(withPath: "follows")
-    let userTypeArray = ["請選擇角色", "吃貨"]
-//    let userTypeArray = ["請選擇角色", "店家", "吃貨"]
+//    let userTypeArray = ["請選擇角色", "吃貨"]
+    let userTypeArray = ["請選擇角色", "店家", "吃貨"]
     var userType: String = ""
     var userType_UserDefault: String = ""
     var checkSelectRow: Int = 0

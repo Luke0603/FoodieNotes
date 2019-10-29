@@ -23,12 +23,11 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var cancelButton: UIButton!
     
     let imgPicker = UIImagePickerController()
-    
     let usersRef = Database.database().reference(withPath: "users")
-    
     let storageRef = Storage.storage().reference(withPath: "users")
-    
     var user: User!
+    var latitude: Double!
+    var longitude: Double!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,25 +40,25 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
         //        setTextFieldLayer()
         setViewStyle()
         
-        self.usersRef.child(Auth.auth().currentUser!.uid).observe( .value, with: { snapshot in
+        self.usersRef.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
             
             if let userData = User(snapshot: snapshot) {
                 self.user = userData
                 
                 guard let userHeadShotUrl = userData.headShotUrl else { return }
                 
-                    let url = URL(string: userHeadShotUrl)
-                    let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                        if error != nil {
-                            print("!!!ERROR_HERE_[StoreMaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
-                            return
-                        }
-                        DispatchQueue.main.async {
-                            self.storeImg.image = UIImage(data: data!)
-                        }
-                    })
-                    task.resume()
-                    
+                let url = URL(string: userHeadShotUrl)
+                let task = URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                    if error != nil {
+                        print("!!!ERROR_HERE_[StoreMaintainInfoViewController_ViewDidLoad]: \(error!.localizedDescription)")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.storeImg.image = UIImage(data: data!)
+                    }
+                })
+                task.resume()
+                
                 self.storeNameTextField.text = userData.userName
                 self.telTextField.text = userData.tel
                 self.websiteTextField.text = userData.website
@@ -150,10 +149,16 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
     
     @IBAction func setAddressInfo(_ sender: Any) {
         print("=================Address=================")
-        addressTextField.resignFirstResponder()
-        let acController = GMSAutocompleteViewController()
-        acController.delegate = self
-        present(acController, animated: true, completion: nil)
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "SearchViewControllerNGC") as? UINavigationController {
+            if let serchViewController = controller.children[0] as? SearchViewController {
+                serchViewController.uiViewController = self
+                present(controller, animated: false, completion: nil)
+            }
+        }
+        //        addressTextField.resignFirstResponder()
+        //        let acController = GMSAutocompleteViewController()
+        //        acController.delegate = self
+        //        present(acController, animated: true, completion: nil)
     }
     
     @IBAction func maintainSaveAction(_ sender: Any) {
@@ -187,6 +192,8 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
                     self.user.address = self.addressTextField.text!
                     self.user.price = Int(self.priceTextField.text!)!
                     self.user.summary = self.summaryTextField.text!
+                    self.user.latitude = self.latitude
+                    self.user.longitude = self.longitude
                     self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
                 }
             })

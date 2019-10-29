@@ -14,11 +14,14 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     
     let imgPicker = UIImagePickerController()
     var rootTabbarController = UITabBarController()
+    var mainStoryboard: UIStoryboard?
     let storageRef = Storage.storage().reference(withPath: "posts")
     let postRef = Database.database().reference(withPath: "posts")
     var keyboardHeight: CGFloat = CGFloat()
     var selectedEditTextField: UITextField?
     var selectedEditTextView: UITextView?
+    var latitude: Double!
+    var longitude: Double!
     
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var postStoreAddressTextField: UITextField!
@@ -196,7 +199,7 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
                         img_url = url!.absoluteString
                     }
                     
-                    let newPost: Post = Post(StoreName: self.postStoreAddressTextField.text!, StoreAddress: "", PostImg: img_url, PostContent: self.postContentTextView.text!, PostDate: dateString, PostAddUserId: Auth.auth().currentUser!.uid, LikeCount: 0, MessageCount: 0, Liles: ["Init" : "Init"])
+                    let newPost: Post = Post(StoreName: self.postStoreAddressTextField.text!, StoreAddress: "", PostImg: img_url, PostContent: self.postContentTextView.text!, PostDate: dateString, PostAddUserId: Auth.auth().currentUser!.uid, LikeCount: 0, MessageCount: 0, Liles: ["Init" : "Init"], Latitude: self.latitude, Longitude: self.longitude)
                     
                     self.postRef.child(uniqueString).setValue(newPost.toAnyObject())
                     self.rootTabbarController.selectedIndex = 0
@@ -211,6 +214,16 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     @IBAction func cancelPostButton(_ sender: Any) {
         self.rootTabbarController.selectedIndex = 0
         dismiss(animated: false, completion: nil) // 返回前一頁
+    }
+    
+    @IBAction func editingDidBeginStoreName(_ sender: Any) {
+        
+        if let controller = mainStoryboard!.instantiateViewController(withIdentifier: "SearchViewControllerNGC") as? UINavigationController {
+            if let serchViewController = controller.children[0] as? SearchViewController {
+                serchViewController.uiViewController = self
+                present(controller, animated: false, completion: nil)
+            }
+        }
     }
 }
 

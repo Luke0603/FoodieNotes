@@ -21,6 +21,8 @@ class StoreTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectio
     @IBOutlet weak var storePostsCollectionView: UICollectionView!
     @IBOutlet weak var storePostsCollectionViewHeight: NSLayoutConstraint!
     
+    var storePosts: [IndexPost] = []
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -50,7 +52,7 @@ class StoreTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 60
+        return storePosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -58,6 +60,9 @@ class StoreTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectio
         var cell: UICollectionViewCell = UICollectionViewCell()
         
         if let userPostsCollectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserPostsCollectionViewCell", for: indexPath) as? UserPostsCollectionViewCell {
+            let post = storePosts[indexPath.item]
+            userPostsCollectionCell.userPostImg.image = post.postImg
+            
             cell = userPostsCollectionCell
         }
         

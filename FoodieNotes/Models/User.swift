@@ -22,6 +22,8 @@ class User {
     var price: Int? //平均價位
     var summary: String? //簡介
     var headShotUrl: String? //Logo or 大頭貼儲存連結
+    var latitude: Double? //緯度
+    var longitude: Double? //經度
     
 //    init(authData: Firebase.User) {
 //        
@@ -54,6 +56,8 @@ class User {
         let price = value["price"] as? Int
         let summary = value["summary"] as? String
         let headShotUrl = value["headShotUrl"] as? String
+        let latitude = value["latitude"] as? Double
+        let longitude = value["longitude"] as? Double
         
         self.uid = uid!
         self.userType = userType!
@@ -65,6 +69,8 @@ class User {
         self.price = price!
         self.summary = summary!
         self.headShotUrl = headShotUrl!
+        self.latitude = latitude
+        self.longitude = longitude
         
     }
     
@@ -76,6 +82,8 @@ class User {
         let price = self.price != nil ? self.price : 0
         let summary = self.summary != nil ? self.summary : ""
         let headShotUrl = self.headShotUrl != nil ? self.headShotUrl : ""
+        let latitude = self.latitude != nil ? self.latitude : 0
+        let longitude = self.longitude != nil ? self.longitude : 0
         
         return [
             "uid" : uid,
@@ -87,7 +95,9 @@ class User {
             "address" : address!,
             "price" : price!,
             "summary" : summary!,
-            "headShotUrl" : headShotUrl!
+            "headShotUrl" : headShotUrl!,
+            "latitude" : latitude!,
+            "longitude" : longitude!
         ]
     }
 //    init(UserType userType : String, UserName userName : String, Birthday birthday : String, Gender gender : String, Tel tel : String, Email email : String, Website website : String, Address address : String, Price price : Int, Summary summary : String, HeadShotUrl headShotUrl : String) {

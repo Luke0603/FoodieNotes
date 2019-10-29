@@ -20,9 +20,11 @@ class Post {
     var postAddUserId: String //貼文User
     var likeCount: Int //like次數
     var messageCount: Int //留言次數
+    var latitude: Double //緯度
+    var longitude: Double //經度
     var likes: Dictionary<String, Any>
     
-    init(StoreName storeName: String, StoreAddress storeAddress: String, PostImg postImg: String, PostContent postContent: String, PostDate postDate: String, PostAddUserId postAddUserId: String, LikeCount likeCount: Int, MessageCount messageCount: Int, Liles likes: Dictionary<String, Any>) {
+    init(StoreName storeName: String, StoreAddress storeAddress: String, PostImg postImg: String, PostContent postContent: String, PostDate postDate: String, PostAddUserId postAddUserId: String, LikeCount likeCount: Int, MessageCount messageCount: Int, Liles likes: Dictionary<String, Any>, Latitude latitude: Double, Longitude longitude: Double) {
         
         self.ref = nil
         self.storeName = storeName
@@ -34,6 +36,8 @@ class Post {
         self.likeCount = likeCount
         self.messageCount = messageCount
         self.likes = likes
+        self.latitude = latitude
+        self.longitude = longitude
     }
     
     init?(snapshot: DataSnapshot) {
@@ -51,6 +55,8 @@ class Post {
         let likeCount = value["likeCount"] as? Int
         let messageCount = value["messageCount"] as? Int
         let likes = value["likes"] as? Dictionary<String, Any>
+        let latitude = value["latitude"] as? Double
+        let longitude = value["longitude"] as? Double
         
         self.ref = snapshot.ref
         self.storeName = storeName!
@@ -62,10 +68,13 @@ class Post {
         self.likeCount = likeCount!
         self.messageCount = messageCount!
         self.likes = likes!
+        self.latitude = latitude!
+        self.longitude = longitude!
         
     }
     
     func toAnyObject() -> Any {
+        
         return [
             "storeName" : storeName,
             "storeAddress" : storeAddress,
@@ -75,7 +84,9 @@ class Post {
             "postAddUserId" : postAddUserId,
             "likeCount" : likeCount,
             "messageCount" : messageCount,
-            "likes" : likes
+            "likes" : likes,
+            "latitude" : latitude,
+            "longitude" : longitude
         ]
     }
 }
