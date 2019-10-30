@@ -41,12 +41,10 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        print("============1===========")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("============2===========")
         if let array = UserDefaults.standard.array(forKey: UserDefaultKeys.AccountInfo.userBlackList) as? [String] {
             blackListArray = array
         }
@@ -90,7 +88,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         ref_posts.observeSingleEvent(of: .value, with: { snapshot in
             self.posts.removeAll()
             self.postArray.removeAll()
-            print("流程控制============> posts")
+            
             if snapshot.childrenCount != 0 {
                 for child in snapshot.children {
                     if let snapshot = child as? DataSnapshot,
@@ -112,7 +110,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                                 postImg = UIImage(data: data!)
                                 
                                 self.ref_users.child(post.postAddUserId).observeSingleEvent( of: .value, with: { snapshot in
-                                    print("流程控制============> users")
                                     if let userData = User(snapshot: snapshot) {
                                         let url2 = URL(string: userData.headShotUrl!)
                                         let task2 = URLSession.shared.dataTask(with: url2!, completionHandler: { (data, response, error) in
@@ -144,8 +141,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
                             })
                             task.resume()
                         }
-                        
-                        print("HERE_IndexViewController_posts: \(post.storeName)")
                     }
                 }
             } else {
