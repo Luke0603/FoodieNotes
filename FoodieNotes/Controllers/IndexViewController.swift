@@ -16,8 +16,8 @@ class MyTapGesture: UITapGestureRecognizer {
     var likeCountLabel: UILabel!
     var likeButton: UIButton!
     var selectRowNumber: Int!
-    var latitude: Double! //緯度
-    var longitude: Double! //經度
+    var latitude: Double = 0 //緯度
+    var longitude: Double = 0 //經度
     var placeName: String!
 }
 
@@ -195,7 +195,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             postCell.userImg.image = post.headShotImg
             
             let tap_storeNameLB = MyTapGesture(target: self, action: #selector(IndexViewController.goToGoogleMapPage(_:)))
-            tap_storeNameLB.placeName = post.storeName
+            tap_storeNameLB.placeName = postArray[indexPath.item].storeAddress
             tap_storeNameLB.latitude = postArray[indexPath.item].latitude
             tap_storeNameLB.longitude = postArray[indexPath.item].longitude
             postCell.stroeNameLB.isUserInteractionEnabled = true
@@ -246,24 +246,26 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @IBAction func goToGoogleMapPage(_ sender: MyTapGesture) {
         
-        // 終點座標
-        let targetCoordinate = CLLocationCoordinate2D(latitude: sender.latitude, longitude: sender.longitude)
-        // 初始化 MKPlacemark
-        let targetPlacemark = MKPlacemark(coordinate: targetCoordinate)
-        // 透過 targetPlacemark 初始化一個 MKMapItem
-        let targetItem = MKMapItem(placemark: targetPlacemark)
-        targetItem.name = sender.placeName
-        // 使用當前使用者當前座標初始化 MKMapItem
-        let userMapItem = MKMapItem.forCurrentLocation()
-        // 建立導航路線的起點及終點 MKMapItem
-        let routes = [userMapItem,targetItem]
-        // 我們可以透過 launchOptions 選擇我們的導航模式，例如：開車、走路等等...
-        let dic: [String : Any] = [
-            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
-            MKLaunchOptionsMapTypeKey: MKMapType.standard.rawValue,
-            MKLaunchOptionsShowsTrafficKey: true
-        ]
-        MKMapItem.openMaps(with: routes, launchOptions: dic)
+        if sender.latitude != 0 && sender.longitude != 0 {
+            // 終點座標
+            let targetCoordinate = CLLocationCoordinate2D(latitude: sender.latitude, longitude: sender.longitude)
+            // 初始化 MKPlacemark
+            let targetPlacemark = MKPlacemark(coordinate: targetCoordinate)
+            // 透過 targetPlacemark 初始化一個 MKMapItem
+            let targetItem = MKMapItem(placemark: targetPlacemark)
+            targetItem.name = sender.placeName
+            // 使用當前使用者當前座標初始化 MKMapItem
+            let userMapItem = MKMapItem.forCurrentLocation()
+            // 建立導航路線的起點及終點 MKMapItem
+            let routes = [userMapItem,targetItem]
+            // 我們可以透過 launchOptions 選擇我們的導航模式，例如：開車、走路等等...
+            let dic: [String : Any] = [
+                MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
+                MKLaunchOptionsMapTypeKey: MKMapType.standard.rawValue,
+                MKLaunchOptionsShowsTrafficKey: true
+            ]
+            MKMapItem.openMaps(with: routes, launchOptions: dic)
+        }
     }
     
     @IBAction func didTouchReportImg(_ sender: MyTapGesture) {

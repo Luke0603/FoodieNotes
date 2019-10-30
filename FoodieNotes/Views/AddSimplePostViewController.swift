@@ -23,6 +23,7 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     var latitude: Double!
     var longitude: Double!
     
+    @IBOutlet weak var postStoreNameTextField: UITextField!
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var postStoreAddressTextField: UITextField!
     @IBOutlet weak var postContentTextView: UITextView!
@@ -94,8 +95,17 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     
     @IBAction func savePostButton(_ sender: Any) {
         
-        if self.postStoreAddressTextField.text?.isEmpty == true {
+        if self.postStoreNameTextField.text?.isEmpty == true {
             let controller = UIAlertController(title: "資料檢核", message: "麻煩請輸入「店名」,謝謝", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            controller.addAction(okAction)
+            
+            self.present(controller, animated: true, completion: nil)
+            return
+        }
+        
+        if self.postStoreAddressTextField.text?.isEmpty == true {
+            let controller = UIAlertController(title: "資料檢核", message: "麻煩請輸入「地址」,謝謝", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             controller.addAction(okAction)
             
@@ -134,7 +144,7 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
                         img_url = url!.absoluteString
                     }
                     
-                    let newPost: Post = Post(StoreName: self.postStoreAddressTextField.text!, StoreAddress: "", PostImg: img_url, PostContent: self.postContentTextView.text!, PostDate: dateString, PostAddUserId: Auth.auth().currentUser!.uid, LikeCount: 0, MessageCount: 0, Liles: ["Init" : "Init"], Latitude: self.latitude, Longitude: self.longitude)
+                    let newPost: Post = Post(StoreName: self.postStoreNameTextField.text!, StoreAddress: self.postStoreAddressTextField.text!, PostImg: img_url, PostContent: self.postContentTextView.text!, PostDate: dateString, PostAddUserId: Auth.auth().currentUser!.uid, LikeCount: 0, MessageCount: 0, Liles: ["Init" : "Init"], Latitude: self.latitude, Longitude: self.longitude)
                     
                     self.postRef.child(uniqueString).setValue(newPost.toAnyObject())
                     self.rootTabbarController.selectedIndex = 0
