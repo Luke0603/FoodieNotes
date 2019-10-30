@@ -40,16 +40,16 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
         userTableView.rowHeight = UITableView.automaticDimension
         userTableView.contentInsetAdjustmentBehavior = .never
         
-        if post.userType == Constant.UserType.store {
+        if Constant.UserType.store == post.userType {
             
             userTableView.register(UINib(nibName:"StoreTableViewCell", bundle:nil),forCellReuseIdentifier:"StoreTableViewCell")
-        } else if post.userType == Constant.UserType.user {
+        } else if Constant.UserType.user == post.userType {
             
             userTableView.register(UINib(nibName:"UserTableViewCell", bundle:nil),forCellReuseIdentifier:"UserTableViewCell")
         }
         
         if !UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
-           
+            
             addFollowButton.isHidden = true
             addBlacklistButton.isHidden = true
         }
@@ -155,62 +155,66 @@ class OtherProfileViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell = UITableViewCell()
         
-        //        if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
-        if let storeTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "StoreTableViewCell") as? StoreTableViewCell {
-            
-            storeTableViewCell.storeNameLabel.text = "Luke Chen"
-            storeTableViewCell.storeFansCountLabel.text = "10000"
-            storeTableViewCell.storeFollowCountLabel.text = "20000"
-            storeTableViewCell.storeSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
-            storeTableViewCell.storePriceLabel.text = "平均價位:1000"
-            
-            print("GMSCameraPosition<============ Start!!!!!")
-            // 將視角切換至台北 101
-            let camera = GMSCameraPosition.camera(withLatitude: 25.033671, longitude: 121.564427, zoom: 15.0)
-            storeTableViewCell.storeMapView.camera = camera
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: 25.033671, longitude: 121.564427)
-            marker.title = "Taiwan"
-            marker.snippet = "Taipei101"
-            marker.map = storeTableViewCell.storeMapView
-            print("GMSCameraPosition<============ End!!!!!")
-            
-            storeTableViewCell.frame = tableView.bounds
-            storeTableViewCell.layoutIfNeeded()
-            
-            //重新加载单元格数据
-            storeTableViewCell.reloadData()
-            
-            cell = storeTableViewCell
+        if Constant.UserType.store == post.userType {
+            if let storeTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "StoreTableViewCell") as? StoreTableViewCell {
+                
+                storeTableViewCell.storeImg.image = self.userImg
+                storeTableViewCell.storeImg.layer.cornerRadius = storeTableViewCell.storeImg.frame.width / 2
+                storeTableViewCell.storeNameLabel.text = self.user.userName
+                storeTableViewCell.storeFansCountLabel.text = String(self.userFansCount)
+                storeTableViewCell.storeFollowCountLabel.text = String(self.userFollowsCount)
+                storeTableViewCell.storeSummaryLabel.text = self.user.summary
+                storeTableViewCell.storePosts = self.userPosts
+                storeTableViewCell.storePriceLabel.text = "\n平均價位：\(self.user.price!)"
+                
+                if self.user.latitude != 0 && self.user.longitude != 0 {
+                    
+                    let camera = GMSCameraPosition.camera(withLatitude: self.user.latitude!, longitude: self.user.longitude!, zoom: 15.0)
+                    storeTableViewCell.storeMapView.camera = camera
+                    let marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: self.user.latitude!, longitude: self.user.longitude!)
+                    marker.title = self.user.address
+                    marker.snippet = self.user.address
+                    marker.map = storeTableViewCell.storeMapView
+                } else {
+                    
+                    let camera = GMSCameraPosition.camera(withLatitude: 25.0602993, longitude: 121.5210402, zoom: 15.0)
+                    storeTableViewCell.storeMapView.camera = camera
+                    let marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: 25.0602993, longitude: 121.5210402)
+                    marker.title = "Taiwan"
+                    marker.snippet = "Taipei101"
+                    marker.map = storeTableViewCell.storeMapView
+                }
+                
+                storeTableViewCell.frame = tableView.bounds
+                storeTableViewCell.layoutIfNeeded()
+                
+                //重新加载单元格数据
+                storeTableViewCell.reloadData()
+                
+                cell = storeTableViewCell
+            }
+        } else if Constant.UserType.user == post.userType {
+            if let userTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "UserTableViewCell") as? UserTableViewCell {
+                
+                userTableViewCell.userImg.image = self.userImg
+                userTableViewCell.userImg.layer.cornerRadius = userTableViewCell.userImg.frame.width / 2
+                userTableViewCell.userNameLabel.text = self.user.userName
+                userTableViewCell.userFansCountLabel.text = String(self.userFansCount)
+                userTableViewCell.userFollowCountLabel.text = String(self.userFollowsCount)
+                userTableViewCell.userSummaryLabel.text = self.user.summary
+                userTableViewCell.userPosts = self.userPosts
+                
+                userTableViewCell.frame = tableView.bounds
+                userTableViewCell.layoutIfNeeded()
+                
+                //重新加载单元格数据
+                userTableViewCell.reloadData()
+                
+                cell = userTableViewCell
+            }
         }
-        //        } else if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
-        if let userTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "UserTableViewCell") as? UserTableViewCell {
-            
-            userTableViewCell.userImg.image = self.userImg
-            userTableViewCell.userImg.layer.cornerRadius = userTableViewCell.userImg.frame.width / 2
-            userTableViewCell.userNameLabel.text = self.user.userName
-            userTableViewCell.userFansCountLabel.text = String(self.userFansCount)
-            userTableViewCell.userFollowCountLabel.text = String(self.userFollowsCount)
-            userTableViewCell.userSummaryLabel.text = self.user.summary
-            userTableViewCell.userPosts = self.userPosts
-            
-            userTableViewCell.frame = tableView.bounds
-            userTableViewCell.layoutIfNeeded()
-            
-            //            userTableViewCell.userNameLabel.text = "Luke Chen"
-            //            userTableViewCell.userFansCountLabel.text = "10000"
-            //            userTableViewCell.userFollowCountLabel.text = "20000"
-            //            userTableViewCell.userSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
-            //
-            //            userTableViewCell.frame = tableView.bounds
-            //            userTableViewCell.layoutIfNeeded()
-            
-            //重新加载单元格数据
-            userTableViewCell.reloadData()
-            
-            cell = userTableViewCell
-        }
-        //        }
         return cell
     }
     

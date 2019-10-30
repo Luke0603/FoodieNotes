@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import MapKit
 
 class MyTapGesture: UITapGestureRecognizer {
     var post: IndexPost!
@@ -15,6 +16,9 @@ class MyTapGesture: UITapGestureRecognizer {
     var likeCountLabel: UILabel!
     var likeButton: UIButton!
     var selectRowNumber: Int!
+    var latitude: Double! //緯度
+    var longitude: Double! //經度
+    var placeName: String!
 }
 
 class IndexViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -46,12 +50,6 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let array = UserDefaults.standard.array(forKey: UserDefaultKeys.AccountInfo.userBlackList) as? [String] {
             blackListArray = array
         }
-        //        self.getModel()
-        //        UserDefaults.standard.set("", forKey: UserDefaultKeys.AccountInfo.userType)
-        //        UserDefaults.standard.set(false, forKey: UserDefaultKeys.LoginInfo.isLogin)
-        //        print("======>UserType:\(String(describing: UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType)))")
-        //        print("======>UserType:\(UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType)!)")
-        //        print("======>UserType:\(UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin))")
         
         indexTableView.delegate = self
         indexTableView.dataSource = self
@@ -70,20 +68,13 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         Analytics.logEvent("FoodieNotes_IndexView_Start", parameters: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        //        self.showSpinner(onView: self.view)
-        //        self.posts.removeAll()
-        //        self.getModel()
-        //        self.removeSpinner()
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @objc func loadData(){
-        //        refreshControl.beginRefreshing()
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
             if let array = UserDefaults.standard.array(forKey: UserDefaultKeys.AccountInfo.userBlackList) as? [String] {
                 self.blackListArray = array
@@ -95,7 +86,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func getModel() {
-        //        postLives.append(PostLive(PostAddUserId: "123", PostDate: "20190825"))
+        
         ref_posts.observeSingleEvent(of: .value, with: { snapshot in
             self.posts.removeAll()
             self.postArray.removeAll()
@@ -168,7 +159,7 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("post.count=========>\(posts.count)")
+        
         var reCount: Int
         
         if posts.isEmpty {
@@ -202,6 +193,13 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
             postCell.userNameLB.text = post.userName
             postCell.userImg.layer.cornerRadius = 25
             postCell.userImg.image = post.headShotImg
+            
+            let tap_storeNameLB = MyTapGesture(target: self, action: #selector(IndexViewController.goToGoogleMapPage(_:)))
+            tap_storeNameLB.placeName = post.storeName
+            tap_storeNameLB.latitude = postArray[indexPath.item].latitude
+            tap_storeNameLB.longitude = postArray[indexPath.item].longitude
+            postCell.stroeNameLB.isUserInteractionEnabled = true
+            postCell.stroeNameLB.addGestureRecognizer(tap_storeNameLB)
             
             let tap_userNameLB = MyTapGesture(target: self, action: #selector(IndexViewController.goToProfilePage(_:)))
             tap_userNameLB.post = post
@@ -244,6 +242,28 @@ class IndexViewController: UIViewController, UITableViewDataSource, UITableViewD
         guard let tableViewCell = cell as? LiveTableViewCell else { return }
         
         tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+    }
+    
+    @IBAction func goToGoogleMapPage(_ sender: MyTapGesture) {
+        
+        // 終點座標
+        let targetCoordinate = CLLocationCoordinate2D(latitude: sender.latitude, longitude: sender.longitude)
+        // 初始化 MKPlacemark
+        let targetPlacemark = MKPlacemark(coordinate: targetCoordinate)
+        // 透過 targetPlacemark 初始化一個 MKMapItem
+        let targetItem = MKMapItem(placemark: targetPlacemark)
+        targetItem.name = sender.placeName
+        // 使用當前使用者當前座標初始化 MKMapItem
+        let userMapItem = MKMapItem.forCurrentLocation()
+        // 建立導航路線的起點及終點 MKMapItem
+        let routes = [userMapItem,targetItem]
+        // 我們可以透過 launchOptions 選擇我們的導航模式，例如：開車、走路等等...
+        let dic: [String : Any] = [
+            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
+            MKLaunchOptionsMapTypeKey: MKMapType.standard.rawValue,
+            MKLaunchOptionsShowsTrafficKey: true
+        ]
+        MKMapItem.openMaps(with: routes, launchOptions: dic)
     }
     
     @IBAction func didTouchReportImg(_ sender: MyTapGesture) {
@@ -341,7 +361,6 @@ extension IndexViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return postLives.count
-        //        return model[collectionView.tag].count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

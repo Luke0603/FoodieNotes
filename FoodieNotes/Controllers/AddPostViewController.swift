@@ -23,18 +23,11 @@ class AddPostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        //        self.addChild(headerView)
-        //        self.view.addSubview(headerView.view)
-        //        headerView.didMove(toParent: self)
-        //        headerView.view.frame = CGRect(x:0, y: 0, width: view.frame.width, height: view.frame.height)
-        
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        //目前只提供一般貼文,等之後新增直播
         let captureViewCon = AddSimplePostViewController(nibName: "AddSimplePostViewController", bundle: nil)
         captureViewCon.rootTabbarController = self.tabBarController!
         captureViewCon.mainStoryboard = self.storyboard!

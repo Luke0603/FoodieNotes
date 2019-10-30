@@ -37,7 +37,6 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
         storeImg.isUserInteractionEnabled = true
         storeImg.addGestureRecognizer(tap)
         
-        //        setTextFieldLayer()
         setViewStyle()
         
         self.usersRef.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
@@ -90,14 +89,6 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
         
         saveButton.layer.cornerRadius = 5
         cancelButton.layer.cornerRadius = 5
-    }
-    
-    func setTextFieldLayer() {
-        storeNameTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 1.0)
-        telTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 1.0)
-        websiteTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 1.0)
-        addressTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 1.0)
-        priceTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 1.0)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -196,10 +187,9 @@ class StoreMaintainInfoViewController: UIViewController, UITextFieldDelegate, UI
                     self.user.longitude = self.longitude
                     self.usersRef.child(Auth.auth().currentUser!.uid).setValue(self.user.toAnyObject())
                 }
+                self.dismiss(animated: false, completion: nil) // 返回前一頁
             })
         }
-        
-        dismiss(animated: false, completion: nil) // 返回前一頁
     }
     
     @IBAction func backToSetUpPage(_ sender: Any) {
@@ -252,22 +242,3 @@ extension StoreMaintainInfoViewController: UIImagePickerControllerDelegate & UIN
         picker.dismiss(animated: false, completion: nil)
     }
 }
-
-extension StoreMaintainInfoViewController: GMSAutocompleteViewControllerDelegate {
-    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        // Get the place name from 'GMSAutocompleteViewController'
-        // Then display the name in textField
-        addressTextField.text = place.name
-        // Dismiss the GMSAutocompleteViewController when something is selected
-        dismiss(animated: true, completion: nil)
-    }
-    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        // Handle the error
-        print("Error: ", error.localizedDescription)
-    }
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        // Dismiss when the user canceled the action
-        dismiss(animated: true, completion: nil)
-    }
-}
-

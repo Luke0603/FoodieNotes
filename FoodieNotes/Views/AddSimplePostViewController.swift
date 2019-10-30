@@ -37,20 +37,6 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
         postImg.isUserInteractionEnabled = true
         postImg.addGestureRecognizer(tap)
         
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(keyboardWillShow),
-//            name: UIResponder.keyboardWillShowNotification,
-//            object: nil
-//        )
-//
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(keyboardDidHide),
-//            name: UIResponder.keyboardDidHideNotification,
-//            object: nil
-//        )
-        
         setViewStyle()
         
     }
@@ -60,10 +46,6 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     }
     
     func setViewStyle() {
-//
-//        postContentTextView.delegate = self
-//        postStoreAddressTextField.delegate = self
-//
         postStoreAddressTextField.layer.cornerRadius = 5
         postContentTextView.layer.cornerRadius = 5
         saveButton.layer.cornerRadius = 5
@@ -76,51 +58,6 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
         imgPicker.sourceType = .photoLibrary
         imgPicker.allowsEditing = true
         self.present(imgPicker, animated: true)
-    }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            keyboardHeight = keyboardRectangle.height
-        }
-        
-        print("keyboard============>show")
-//        animaiteViewMoving(up: true, moveValue: keyboardHeight)
-        
-        if selectedEditTextView != nil {
-            let frame = selectedEditTextView!.frame
-            let offset = frame.origin.y + self.view.frame.origin.y + 200
-                - (self.view.frame.size.height - keyboardHeight)
-            
-            UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                if (offset > 0) {
-                    self.view.frame.origin.y -= offset
-                } else {
-                    self.view.frame.origin.y = 0
-                }
-            })
-        } else if selectedEditTextField != nil {
-            let frame = selectedEditTextField!.frame
-            let offset = frame.origin.y + self.view.frame.origin.y + 30
-                - (self.view.frame.size.height - keyboardHeight)
-            
-            UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                if (offset > 0) {
-                    self.view.frame.origin.y -= offset
-                } else {
-                    self.view.frame.origin.y = 0
-                }
-            })
-        }
-    }
-    
-    @objc func keyboardDidHide(_ notification: Notification) {
-        print("keyboard============>hide")
-        //        animaiteViewMoving(up: false, moveValue: keyboardHeight)
-        
-        UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            self.view.frame.origin.y = 0
-        })
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -153,8 +90,6 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         ///關閉ImagePickerController
         picker.dismiss(animated: false, completion: nil)
-        //        self.rootTabbarController.selectedIndex = 0
-        //        dismiss(animated: false, completion: nil) // 返回前一頁
     }
     
     @IBAction func savePostButton(_ sender: Any) {
@@ -226,40 +161,3 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
         }
     }
 }
-
-//extension AddSimplePostViewController: UITextFieldDelegate {
-//
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        print("Field============>show")
-//        selectedEditTextView = nil
-//        selectedEditTextField = textField
-//    }
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        print("Field============>End")
-//        selectedEditTextField = nil
-//        keyboardDidHide(Notification(name: UIResponder.keyboardWillShowNotification))
-//    }
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
-//}
-//
-//extension AddSimplePostViewController: UITextViewDelegate {
-//
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        print("View============>show")
-//        selectedEditTextField = nil
-//        selectedEditTextView = textView
-//        keyboardWillShow(Notification(name: UIResponder.keyboardWillShowNotification))
-//        //        animaiteViewMoving(up: true, moveValuse: keyboardHeight)
-//    }
-//
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        print("View============>End")
-//        selectedEditTextView = nil
-//        //        animaiteViewMoving(up: false, moveValue: keyboardHeight)
-//    }
-//}

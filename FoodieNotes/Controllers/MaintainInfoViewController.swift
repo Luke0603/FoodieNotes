@@ -33,7 +33,6 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
         userImg.isUserInteractionEnabled = true
         userImg.addGestureRecognizer(tap)
         
-        //        setTextFieldLayer()
         setViewStyle()
         
         self.usersRef.child(Auth.auth().currentUser!.uid).observeSingleEvent( of: .value, with: { snapshot in
@@ -77,10 +76,6 @@ class MaintainInfoViewController: UIViewController, UITextFieldDelegate, UITextV
         
         saveButton.layer.cornerRadius = 10
         cancelButton.layer.cornerRadius = 10
-    }
-    
-    func setTextFieldLayer() {
-        userNickNameTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .darkGray, width: 1.0)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {

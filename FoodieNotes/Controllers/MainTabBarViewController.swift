@@ -18,7 +18,7 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item.tag == 1 || item.tag == 2 {
-            print("isLogin========================\(UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin))")
+            
             if !UserDefaults.standard.bool(forKey: UserDefaultKeys.LoginInfo.isLogin) {
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -28,11 +28,6 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 self.present(loginViewController, animated: false, completion: nil)
             }
             print("=============Here============")
-        } else {
-//            if item.tag == 0 {
-//                let controller = self.viewControllers![item.tag] as! IndexViewController
-//                controller.viewDidLoad()
-//            }
         }
     }
 }

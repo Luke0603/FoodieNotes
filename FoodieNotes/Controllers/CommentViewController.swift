@@ -21,8 +21,6 @@ class CommentViewController: MessageViewController, UITableViewDataSource, UITab
     let ref_users = Database.database().reference(withPath: "users")
     let storageRef_users = Storage.storage().reference(withPath: "users")
     var post: IndexPost!
-    var data = "Lorem ipsum dolor sit amet|consectetur adipiscing elit|sed do eiusmod|tempor incididunt|ut labore et dolore|magna aliqua| Ut enim ad minim|veniam, quis nostrud|exercitation ullamco|laboris nisi ut aliquip|ex ea commodo consequat|Duis aute|irure dolor in reprehenderit|in voluptate|velit esse cillum|dolore eu|fugiat nulla pariatur|Excepteur sint occaecat|cupidatat non proident|sunt in culpa|qui officia|deserunt|mollit anim id est laborum"
-        .components(separatedBy: "|")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,35 +147,6 @@ class CommentViewController: MessageViewController, UITableViewDataSource, UITab
             print(error.localizedDescription)
         }
     }
-    //
-    //    func observeComments(withPostId id: String, completion: @escaping (Comment) -> Void) {
-    //        ref_comments.child(id).observeSingleEvent(of: .value, with: {
-    //            snapshot in
-    //            if let dict = snapshot.value as? [String: Any] {
-    //                let newComment = Comment.transformComment(dict: dict)
-    //                completion(newComment)
-    //            }
-    //        })
-    //    }
-    //
-    //    func fetchUser(uid: String, completed:  @escaping () -> Void ) {
-    //
-    //        self.observeUser(withId: uid, completion: {
-    //            user in
-    //            self.users.append(user)
-    //            completed()
-    //        })
-    //    }
-    //
-    //    func observeUser(withId uid: String, completion: @escaping (User) -> Void) {
-    //        ref_users.child(uid).observeSingleEvent(of: .value, with: {
-    //            snapshot in
-    //            if (snapshot.value as? [String: Any]) != nil {
-    //                let user = User.init(snapshot: <#T##DataSnapshot#>)
-    //                completion(user!)
-    //            }
-    //        })
-    //    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -185,7 +154,6 @@ class CommentViewController: MessageViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count
-        //        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -203,11 +171,6 @@ class CommentViewController: MessageViewController, UITableViewDataSource, UITab
             
             cell = commentTableViewCell
         }
-        //        cell.selectionStyle = .none
-        //        cell.imageView?.image = UIImage(named: "Img_cancel")
-        //        cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.width)!/2
-        //        cell.textLabel?.text = "test\(indexPath.row)\n\(data[indexPath.row])"
-        //        cell.textLabel?.numberOfLines = 0
         
         return cell
     }

@@ -41,7 +41,6 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         userTableView.rowHeight = UITableView.automaticDimension
         userTableView.contentInsetAdjustmentBehavior = .never
         
-        print("userType=============>\(String(describing: UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType)))")
         if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
             userTableView.register(UINib(nibName:"StoreTableViewCell", bundle:nil),forCellReuseIdentifier:"StoreTableViewCell")
         } else if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.user {
@@ -152,8 +151,6 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
         
         var cell: UITableViewCell = UITableViewCell()
         
-        print("cellForRowAt!!!!")
-        
         if UserDefaults.standard.string(forKey: UserDefaultKeys.AccountInfo.userType) == Constant.UserType.store {
             if let storeTableViewCell = userTableView.dequeueReusableCell(withIdentifier: "StoreTableViewCell") as? StoreTableViewCell {
                 
@@ -166,14 +163,6 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 storeTableViewCell.storePosts = self.userPosts
                 storeTableViewCell.storePriceLabel.text = "平均價位：\(self.user.price!)"
                 
-//                storeTableViewCell.storeNameLabel.text = "Luke Chen"
-//                storeTableViewCell.storeFansCountLabel.text = "0"
-//                storeTableViewCell.storeFollowCountLabel.text = "0"
-//                storeTableViewCell.storeSummaryLabel.text = "hello everyone my name is XXX\n i like XXX\n i want be a XXX\n nice to meet you!!!!!!!!!!!!!!!!!!!!!\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX\n i like XXX\n i want be a XXX!!!!!!!!!!!!!"
-//                storeTableViewCell.storePriceLabel.text = "平均價位:1000"
-                
-                print("GMSCameraPosition<============ Start!!!!!")
-                // 將視角切換至台北 101
                 if self.user.latitude != 0 && self.user.longitude != 0 {
                     
                     let camera = GMSCameraPosition.camera(withLatitude: self.user.latitude!, longitude: self.user.longitude!, zoom: 15.0)
@@ -193,9 +182,6 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
                     marker.snippet = "Taipei101"
                     marker.map = storeTableViewCell.storeMapView
                 }
-                
-                
-                print("GMSCameraPosition<============ End!!!!!")
                 
                 storeTableViewCell.frame = tableView.bounds
                 storeTableViewCell.layoutIfNeeded()

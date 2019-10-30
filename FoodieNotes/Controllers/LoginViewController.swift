@@ -112,14 +112,7 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func backDidTouch(_ sender: Any) {
-        //
-        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //
-        //        let indexViewController = storyboard.instantiateViewController(withIdentifier: "indexTB") as! MainTabBarViewController
-        //
-        //        indexViewController.selectedIndex = 0
-        //
-        //        present(indexViewController, animated: false, completion: nil)
+        
         mainTabbarViewController.selectedIndex = 0
         dismiss(animated: false, completion: nil) // 返回前一頁
     }
