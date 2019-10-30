@@ -161,7 +161,7 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 storeTableViewCell.storeFollowCountLabel.text = String(self.userFollowsCount)
                 storeTableViewCell.storeSummaryLabel.text = self.user.summary
                 storeTableViewCell.storePosts = self.userPosts
-                storeTableViewCell.storePriceLabel.text = "平均價位：\(self.user.price!)"
+                storeTableViewCell.storePriceLabel.text = "\n平均價位：\(self.user.price!)"
                 
                 if self.user.latitude != 0 && self.user.longitude != 0 {
                     
