@@ -28,7 +28,7 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
     }
     
@@ -113,22 +113,25 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
     
     func loadCountData() {
         
-        ref_fans.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
+        if Auth.auth().currentUser != nil {
             
-            self.userFansCount = Int(snapshot.childrenCount) - 1
+            ref_fans.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
+                
+                self.userFansCount = Int(snapshot.childrenCount) - 1
+                
+                DispatchQueue.main.async {
+                    self.userTableView.reloadData()
+                }
+            })
             
-            DispatchQueue.main.async {
-                self.userTableView.reloadData()
-            }
-        })
-        
-        ref_follows.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
-            
-            self.userFollowsCount = Int(snapshot.childrenCount) - 1
-            DispatchQueue.main.async {
-                self.userTableView.reloadData()
-            }
-        })
+            ref_follows.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value, with: { snapshot in
+                
+                self.userFollowsCount = Int(snapshot.childrenCount) - 1
+                DispatchQueue.main.async {
+                    self.userTableView.reloadData()
+                }
+            })
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -218,6 +221,7 @@ class UserProfileViewController: UIViewController, UITableViewDataSource, UITabl
     
     @IBAction func goToSetUpPage(_ sender: Any) {
         if let controller = storyboard?.instantiateViewController(withIdentifier: "SetUpPageNGC") {
+            controller.modalPresentationStyle = .fullScreen
             present(controller, animated: false, completion: nil)
         }
     }

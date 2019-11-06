@@ -31,6 +31,7 @@ class AddPostViewController: UIViewController {
         let captureViewCon = AddSimplePostViewController(nibName: "AddSimplePostViewController", bundle: nil)
         captureViewCon.rootTabbarController = self.tabBarController!
         captureViewCon.mainStoryboard = self.storyboard!
+        captureViewCon.modalPresentationStyle = .fullScreen
         self.present(captureViewCon, animated: true, completion: nil)
     }
 }

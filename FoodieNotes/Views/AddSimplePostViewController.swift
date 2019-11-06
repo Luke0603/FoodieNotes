@@ -66,16 +66,6 @@ class AddSimplePostViewController: UIViewController, UIImagePickerControllerDele
         self.view.endEditing(true)
     }
     
-    func animaiteViewMoving (up:Bool, moveValue: CGFloat) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: UInt64(0.1))) {
-            let movement: CGFloat = (up ? -moveValue : moveValue)
-            UIView.beginAnimations("animateView", context: nil)
-            UIView.setAnimationBeginsFromCurrentState(true)
-            self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-            UIView.commitAnimations()
-        }
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         self.dismiss(animated: true, completion: {
